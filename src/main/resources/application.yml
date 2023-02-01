@@ -1,0 +1,28 @@
+server:
+  port: 8089
+spring:
+  datasource:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://139.224.1.155:3306/todo?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&autoReconnect=true&failOverReadOnly=false&testOnBorrow=true&validationQuery=select 1
+      username: comma-admin
+      password: qloofwYNZGnttbse
+      min-idle: 20
+      max-active: 2000
+  profiles:
+    include: redis
+#  kafka:
+#    consumer:
+#      enable-auto-commit: false
+#      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      properties:
+#    listener:
+#      ack-mode: manual_immediate
+
+mybatis:
+  #配置日志实现
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+
