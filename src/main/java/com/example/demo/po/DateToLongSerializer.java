@@ -9,6 +9,6 @@ import java.io.IOException;
 public class DateToLongSerializer extends JsonSerializer {
     @Override
     public void serialize(Object o, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-
+        System.out.println("aa");
     }
 }

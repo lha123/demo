@@ -1,13 +1,14 @@
 package com.example.demo.po;
 
 
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.example.demo.annotation.Switch;
 import lombok.Data;
 
 
 
 @Data
-public class UserInfo {
+public class UserInfo extends Model<UserInfo> {
 
 
     private Long id;
@@ -18,7 +19,7 @@ public class UserInfo {
 
     private String email;
 
-    private Long aaT;
+    private Integer aaT;
 
 
 

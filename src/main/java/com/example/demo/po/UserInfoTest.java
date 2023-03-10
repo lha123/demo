@@ -1,20 +1,22 @@
 package com.example.demo.po;
 
-import com.example.demo.annotation.JoinInfo;
-import com.example.demo.annotation.OrderByIsAsc;
-import com.example.demo.annotation.OrderGroup;
+import com.example.demo.annotation.ChooseMapper;
 import com.example.demo.annotation.QueryMatching;
 import com.example.demo.enums.TypeEnums;
-import com.github.yulichang.toolkit.Constant;
-import lombok.Data;
+import com.example.demo.mapper.UserInfoMapper;
+import lombok.*;
 
-import java.io.Serializable;
 import java.util.List;
 
+
 @Data
-@OrderGroup(groupBy = {"t.age","t.name"}, orderBys = {@OrderByIsAsc(column = "t.age"),
-                @OrderByIsAsc(column = "t.name",isAsc = false)})
-public class UserInfoTest implements Serializable {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
+@ToString(callSuper = true)
+@ChooseMapper(mapperClass = UserInfoMapper.class,selectAsClass = UserInfoRolesVo.class)
+public class UserInfoTest {
 
     @QueryMatching(type = TypeEnums.eq)
     private String name;

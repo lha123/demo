@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 /**
  * @author liuhonger
  */
-@Target({ElementType.FIELD})
+@Target({ElementType.FIELD,ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Switch {
 

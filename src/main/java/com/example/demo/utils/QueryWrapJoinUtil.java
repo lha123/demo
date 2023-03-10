@@ -1,12 +1,9 @@
 package com.example.demo.utils;
 
-import cn.hutool.core.collection.CollStreamUtil;
+import cn.hutool.core.annotation.AnnotationUtil;
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.ReflectUtil;
-import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import cn.hutool.core.util.*;
+import cn.hutool.extra.spring.SpringUtil;
 import com.example.demo.annotation.*;
 import com.github.yulichang.base.MPJBaseMapper;
 import com.github.yulichang.toolkit.MPJWrappers;
@@ -16,10 +13,7 @@ import com.google.common.collect.Lists;
 import lombok.SneakyThrows;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -53,57 +47,55 @@ public class QueryWrapJoinUtil  {
 
 
     //---------数据转换-------------
-    public static <T,R,E,K,V> Map<K,V> toMapWithObj(T paramClass,Class<R> returnClass, MPJBaseMapper<E> baseMapper, Function<R,K> keyFunc, Function<R,V> valueFunc){
-        List<R> list = selectJoinList(paramClass,returnClass, baseMapper);
-        return CollStreamUtil.toMap(list,keyFunc, valueFunc);
-    }
-
-    public static<T,R,E,K,V> Map<K, List<V>> toMapWithGroup(T paramClass,Class<R> returnClass,MPJBaseMapper<E> baseMapper,Function<R,K> keyFunc,Function<R,V> valueFunc){
-        List<R> list = selectJoinList(paramClass,returnClass, baseMapper);
-        return CollStreamUtil.groupKeyValue(list,keyFunc, valueFunc);
-    }
-
-    public static <T,R,E,M> Set<M> toSet(T paramClass,Class<R> returnClass, MPJBaseMapper<E> baseMapper, Function<R, M> setKey){
-        List<R> list = selectJoinList(paramClass,returnClass, baseMapper);
-        return CollStreamUtil.toSet(list,setKey);
-    }
-
-    public static <T,R,E,M> List<M> toList(T paramClass,Class<R> returnClass, MPJBaseMapper<E> baseMapper, Function<R, M> listKey,boolean... distinct){
-        List<M> eList = CollStreamUtil.toList(selectJoinList(paramClass,returnClass, baseMapper), listKey);
-        return distinct.length == 0 || !distinct[0] ? eList.stream().distinct().collect(Collectors.toList()) : eList;
-    }
+//    public static <T,R,E,K,V> Map<K,V> toMapWithObj(T paramClass,Class<R> returnClass, MPJBaseMapper<E> baseMapper, Function<R,K> keyFunc, Function<R,V> valueFunc){
+//        List<R> list = selectJoinList(paramClass,returnClass, baseMapper);
+//        return CollStreamUtil.toMap(list,keyFunc, valueFunc);
+//    }
+//
+//    public static<T,R,E,K,V> Map<K, List<V>> toMapWithGroup(T paramClass,Class<R> returnClass,MPJBaseMapper<E> baseMapper,Function<R,K> keyFunc,Function<R,V> valueFunc){
+//        List<R> list = selectJoinList(paramClass,returnClass, baseMapper);
+//        return CollStreamUtil.groupKeyValue(list,keyFunc, valueFunc);
+//    }
+//
+//    public static <T,R,E,M> Set<M> toSet(T paramClass,Class<R> returnClass, MPJBaseMapper<E> baseMapper, Function<R, M> setKey){
+//        List<R> list = selectJoinList(paramClass,returnClass, baseMapper);
+//        return CollStreamUtil.toSet(list,setKey);
+//    }
+//
+//    public static <T,R,E,M> List<M> toList(T paramClass,Class<R> returnClass, MPJBaseMapper<E> baseMapper, Function<R, M> listKey,boolean... distinct){
+//        List<M> eList = CollStreamUtil.toList(selectJoinList(paramClass,returnClass, baseMapper), listKey);
+//        return distinct.length == 0 || !distinct[0] ? eList.stream().distinct().collect(Collectors.toList()) : eList;
+//    }
 
 
     //------------查询数据-----------
-    public static <T,R,E> List<R> selectJoinList(T paramClass,Class<R> returnClass, MPJBaseMapper<E> baseMapper){
-        List<R> selectJoinList = baseMapper.selectJoinList(returnClass, getJoinPredicate(paramClass, baseMapper, returnClass));
-        converSwitchList(selectJoinList,returnClass);
+    public static <R> List<R> selectJoinList(Object paramClass){
+        ChooseMapper annotation = AnnotationUtil.getAnnotation(paramClass.getClass(), ChooseMapper.class);
+        Class<R> selectAsClass = (Class<R>) annotation.selectAsClass();
+        MPJBaseMapper<?> baseMapper = (MPJBaseMapper)SpringUtil.getBean(annotation.mapperClass());
+        List<R> selectJoinList = baseMapper.selectJoinList(selectAsClass, getJoinPredicate(paramClass, ClassUtil.getTypeArgument(annotation.mapperClass()), selectAsClass));
         return selectJoinList;
     }
 
-    public static <T,R,E> R selectJoinOne(T paramClass,Class<R> returnClass, MPJBaseMapper<E> baseMapper){
-        R joinOne = baseMapper.selectJoinOne(returnClass, getJoinPredicate(paramClass, baseMapper, returnClass));
-        converSwitchList(Lists.newArrayList(joinOne),returnClass);
-        return joinOne;
-    }
+//    public static <T,R,E> R selectJoinOne(T paramClass,Class<R> returnClass, MPJBaseMapper<E> baseMapper){
+//        R joinOne = baseMapper.selectJoinOne(returnClass, getJoinPredicate(paramClass, baseMapper, returnClass));
+//        converSwitchList(Lists.newArrayList(joinOne),returnClass);
+//        return joinOne;
+//    }
+//
+//    public static <T,R,E,P extends IPage<R>> IPage<R> selectJoinPage(P page, T paramClass,Class<R> returnClass, MPJBaseMapper<E> baseMapper){
+//        IPage<R> riPage = baseMapper.selectJoinPage(page, returnClass, getJoinPredicate(paramClass, baseMapper, returnClass));
+//        converSwitchList(riPage.getRecords(),returnClass);
+//        return riPage;
+//    }
 
-    public static <T,R,E,P extends IPage<R>> IPage<R> selectJoinPage(P page, T paramClass,Class<R> returnClass, MPJBaseMapper<E> baseMapper){
-        IPage<R> riPage = baseMapper.selectJoinPage(page, returnClass, getJoinPredicate(paramClass, baseMapper, returnClass));
-        converSwitchList(riPage.getRecords(),returnClass);
-        return riPage;
-    }
 
-
-    private static <T,R> MPJLambdaWrapper<R> getJoinPredicate(T paramClass,MPJBaseMapper<R> baseMapper,Class<?> returnClass) {
+    private static <T,R> MPJLambdaWrapper<R> getJoinPredicate(T paramClass,Class<?> sourceClass,Class<?> returnClass) {
         MPJLambdaWrapper<R> wrapper = MPJWrappers.lambdaJoin();
         List<Field> fieldList = getFields(paramClass.getClass());
         if(!CollUtil.isEmpty(fieldList)){
             //selectAll
-            Class clazz = baseMapper.getClass();
-            Type[] types = clazz.getGenericInterfaces();
-            Type[] interfaces = ((Class) types[0]).getGenericInterfaces();
-            Type typeArgument = ((ParameterizedType) interfaces[0]).getActualTypeArguments()[0];
-            wrapper.selectAsClass((Class<R>) typeArgument,returnClass);
+            wrapper.selectAsClass(sourceClass,returnClass);
             for (Field field : fieldList) {
                 field.setAccessible(true);
                 Object fieldValue = ReflectUtil.getFieldValue(paramClass, field.getName());

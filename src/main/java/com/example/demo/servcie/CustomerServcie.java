@@ -6,4 +6,6 @@ import com.example.demo.po.UserInfo;
 
 public interface CustomerServcie extends IService<UserInfo> {
 
+    Integer show(String aa);
+
 }
