@@ -1,15 +1,13 @@
 package com.example.demo.po;
 
 
+import com.example.demo.conf.Date2LongSerializer;
 import com.example.demo.conf.EnumsObject;
-import com.example.demo.conf.SerializerCase;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 
-import java.io.Serializable;
-
 @Data
-public class UserInfoRolesVo implements Serializable {
+public class UserInfoRolesVo  {
 
     private Long id;
 
@@ -21,7 +19,7 @@ public class UserInfoRolesVo implements Serializable {
 
     private Integer aaT;
 
-    @JsonSerialize(converter = SerializerCase.class)
+    @JsonSerialize(using = Date2LongSerializer.class)
     private EnumsObject aaTs ;
 
     private Long roleId;

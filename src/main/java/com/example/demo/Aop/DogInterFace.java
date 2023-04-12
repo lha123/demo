@@ -1,16 +1,18 @@
-package com.example.demo.rest;
+package com.example.demo.Aop;
 
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public interface MarketRest {
+public interface DogInterFace {
 
 
-    @GetMapping("/testRest")
-    default Object test(){
+    @GetMapping("/dog")
+    default String show(){
         System.out.println("sdf");
-        return "df";
+        return "sdf";
     }
+
+
 }
