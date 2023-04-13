@@ -1,6 +1,5 @@
-package com.example.demo.annotation;
+package com.im;
 
-import com.example.demo.conf.NettyWebSocketSelector;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.ElementType;

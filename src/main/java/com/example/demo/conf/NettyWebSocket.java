@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.Map;
 
 @ServerEndpoint(path = "/myWs",host = "${ws.host}",port = "${ws.port}")
-public class MyWebSocket {
+public class NettyWebSocket {
 
     /**
      *建立ws连接前的配置
