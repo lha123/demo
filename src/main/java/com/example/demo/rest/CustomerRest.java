@@ -36,30 +36,30 @@ public class CustomerRest {
     @SneakyThrows
     @GetMapping("/test")
     public void test(Integer a) throws InterruptedException {
-        testSingleton.show();
-
-        customerImplTest.show("adsf");
-        String tt = "id int PRIMARY KEY NOT NULL AUTO_INCREMENT," +
-        " title varchar(20) DEFAULT NULL,"+
-        " name varchar(20) DEFAULT NULL,"+
-        " age int(11) DEFAULT NULL";
-        objectMapper.createTable("aa",tt);
-        TestAa testAa = new TestAa();
-        testAa.setName("张工");
-        testAa.setTitle("eee");
-        testAa.setAge(12);
-        Map<String, Object> stringObjectMap = BeanUtil.beanToMap(testAa);
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("(");
-        //Set<String> keys = this.sqlMap.keySet().stream().map(s -> "`"+s+"`").distinct().collect(Collectors.toSet());
-        stringBuilder.append(String.join(Constants.COMMA, stringObjectMap.keySet().stream().map(s -> "`"+s+"`").collect(Collectors.toList())));
-        stringBuilder.append(")");
-        stringBuilder.append("values");
-        stringBuilder.append("(");
-        //Set<String> values = this.sqlMap.values().stream().map(s -> "\""+s+"\"").distinct().collect(Collectors.toSet());
-        stringBuilder.append(String.join(Constants.COMMA, stringObjectMap.values().stream().map(e->StrUtil.toString(e)).map(e->"\'"+e+"\'").collect(Collectors.toList())));
-        stringBuilder.append(")");
-        objectMapper.insert("aa",stringBuilder.toString());
+//        testSingleton.show();
+//
+//        customerImplTest.show("adsf");
+//        String tt = "id int PRIMARY KEY NOT NULL AUTO_INCREMENT," +
+//        " title varchar(20) DEFAULT NULL,"+
+//        " name varchar(20) DEFAULT NULL,"+
+//        " age int(11) DEFAULT NULL";
+//        objectMapper.createTable("aa",tt);
+//        TestAa testAa = new TestAa();
+//        testAa.setName("张工");
+//        testAa.setTitle("eee");
+//        testAa.setAge(12);
+//        Map<String, Object> stringObjectMap = BeanUtil.beanToMap(testAa);
+//        StringBuilder stringBuilder = new StringBuilder();
+//        stringBuilder.append("(");
+//        //Set<String> keys = this.sqlMap.keySet().stream().map(s -> "`"+s+"`").distinct().collect(Collectors.toSet());
+//        stringBuilder.append(String.join(Constants.COMMA, stringObjectMap.keySet().stream().map(s -> "`"+s+"`").collect(Collectors.toList())));
+//        stringBuilder.append(")");
+//        stringBuilder.append("values");
+//        stringBuilder.append("(");
+//        //Set<String> values = this.sqlMap.values().stream().map(s -> "\""+s+"\"").distinct().collect(Collectors.toSet());
+//        stringBuilder.append(String.join(Constants.COMMA, stringObjectMap.values().stream().map(e->StrUtil.toString(e)).map(e->"\'"+e+"\'").collect(Collectors.toList())));
+//        stringBuilder.append(")");
+//        objectMapper.insert("aa",stringBuilder.toString());
         System.out.println("sdf");
     }
 

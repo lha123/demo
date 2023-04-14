@@ -99,6 +99,7 @@
 <!--            <artifactId>spring-security-oauth2-authorization-server</artifactId>-->
 <!--            <version>1.0.0</version>-->
 <!--        </dependency>-->
+
         <dependency>
             <groupId>org.yeauty</groupId>
             <artifactId>netty-websocket-spring-boot-starter</artifactId>
