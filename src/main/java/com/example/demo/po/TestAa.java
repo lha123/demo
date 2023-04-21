@@ -2,8 +2,8 @@ package com.example.demo.po;
 
 
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import javax.validation.constraints.NotNull;
 
 
 @Data
