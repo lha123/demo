@@ -40,8 +40,7 @@ public class BizProxy<T> implements InvocationHandler {
                 List<String> uris = include.getUris();
             }
         } else */
-        Class<?> declaringClass = method.getDeclaringClass();
-        BizImplements annotation1 = declaringClass.getAnnotation(BizImplements.class);
+        BizImplements annotation1 = interfaceType.getAnnotation(BizImplements.class);
         if (annotation1 != null) {
             Class value = annotation1.value();
             Object bean = applicationContext.getBean(value);

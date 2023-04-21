@@ -15,6 +15,6 @@
 //    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 //        System.out.println("sdf");
 //        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-//        return new User("user",encoder.encode("654321"), Lists.newArrayList());
+//        return new User("user",encoder.encode("321"), Lists.newArrayList());
 //    }
 //}

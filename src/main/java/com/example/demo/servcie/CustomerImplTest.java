@@ -8,6 +8,8 @@ import com.example.demo.po.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class CustomerImplTest extends ServiceImpl<CustomerMapper, UserInfo> implements CustomerServcie{
 
@@ -18,6 +20,7 @@ public class CustomerImplTest extends ServiceImpl<CustomerMapper, UserInfo> impl
     public Integer show(String aa) {
         System.out.println("aa");
         System.out.println(customerMapper);
+        List<UserInfo> userInfos = customerMapper.selectList(null);
         return null;
     }
 }

@@ -8,7 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @EnableSpringUtil
 @SpringBootApplication
-@EnableBizMapping(bizPackages = {"com.example.demo.Aop"})
+//@EnableAspectJAutoProxy(proxyTargetClass = true,exposeProxy = true)
+//@EnableBizMapping(bizPackages = {"com.example.demo.Aop"})
 public class DemoApplication {
 
     public static void main(String[] args) {

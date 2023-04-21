@@ -1,25 +1,21 @@
 package com.example.demo.rest;
 
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.map.MapUtil;
-import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.example.demo.component.TestSingleton;
 import com.example.demo.mapper.ObjectMapper;
 import com.example.demo.po.TestAa;
 import com.example.demo.servcie.CustomerServcie;
+import jakarta.validation.Valid;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.lang.reflect.Method;
-import java.util.Map;
+
 import java.util.StringJoiner;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -34,9 +30,10 @@ public class CustomerRest {
     private TestSingleton testSingleton;
 
     @SneakyThrows
-    @GetMapping("/test")
-    public void test(Integer a) throws InterruptedException {
-//        testSingleton.show();
+    @PostMapping("/test")
+    public void test(@Valid @RequestBody TestAa a) throws InterruptedException {
+
+        customerImplTest.show("啊");
 //
 //        customerImplTest.show("adsf");
 //        String tt = "id int PRIMARY KEY NOT NULL AUTO_INCREMENT," +
