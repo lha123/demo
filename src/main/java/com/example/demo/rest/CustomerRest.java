@@ -5,7 +5,6 @@ import com.example.demo.component.TestSingleton;
 import com.example.demo.mapper.ObjectMapper;
 import com.example.demo.po.TestAa;
 import com.example.demo.servcie.CustomerServcie;
-import jakarta.validation.Valid;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 
+import javax.validation.Valid;
 import java.util.StringJoiner;
 
 @Slf4j
