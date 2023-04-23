@@ -5,7 +5,9 @@ import com.example.demo.component.TestSingleton;
 import com.example.demo.mapper.ObjectMapper;
 import com.example.demo.po.TestAa;
 import com.example.demo.servcie.CustomerServcie;
-import jakarta.validation.Valid;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +17,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 
-
+import javax.validation.Valid;
 import java.util.StringJoiner;
 
 @Slf4j
 @RestController
+@Api(value = "公告模块1", description = "公告模块1", tags = {"公告模块1"})
 public class CustomerRest {
 
     @Autowired
@@ -31,6 +34,7 @@ public class CustomerRest {
     private TestSingleton testSingleton;
 
     @SneakyThrows
+    @ApiOperation(value = "添加修改公告1",notes = "添加修改公告1")
     @PostMapping("/test")
     public void test(@Valid @RequestBody TestAa a) throws InterruptedException {
 

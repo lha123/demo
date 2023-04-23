@@ -8,8 +8,8 @@ public class Dog implements DogApi{
 
 
     @Override
-    public String show(TestAa a) {
-        return "123";
+    public TestAa show(TestAa a) {
+        return new TestAa();
     }
 
     @Override
