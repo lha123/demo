@@ -63,7 +63,7 @@ public class QueryWrapUtil {
     }
 
     public static <T,R> Long selectCount(T clazz,BaseMapper<R> baseMapper){
-        return baseMapper.selectCount(getPredicate(clazz));
+        return Long.valueOf(baseMapper.selectCount(getPredicate(clazz)));
     }
 
     public static <T,R,P extends IPage<R>> P selectPage(P page,T clazz, BaseMapper<R> baseMapper){

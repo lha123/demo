@@ -68,12 +68,6 @@ public class SwaggerConfig {
         return parameters;
     }
 
-    //生成通用响应信息
-    private List<Response> getGlobalResonseMessage() {
-        List<Response> responseList = new ArrayList<>();
-        responseList.add(new ResponseBuilder().code("404").description("找不到资源").build());
-        return responseList;
-    }
 
 
 

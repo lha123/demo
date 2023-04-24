@@ -1,10 +1,15 @@
 package com.example.demo.Aop;
 
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ClassUtil;
+import cn.hutool.core.util.ReflectUtil;
 import com.example.demo.annotation.BizImplements;
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
 
+import java.lang.invoke.MethodHandle;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -20,6 +25,9 @@ public class BizProxy<T> implements InvocationHandler {
     private BeanFactory applicationContext;
 
     private Map<String, Map<String, String>> mockMap = new ConcurrentHashMap<>();
+
+
+    private ConcurrentHashMap<Method, MethodHandle> methodHandleMap = new ConcurrentHashMap<>();
 
     private Random random = new Random(9000);
 
@@ -49,6 +57,14 @@ public class BizProxy<T> implements InvocationHandler {
                 if (beanMethod != null) {
                     beanMethod.setAccessible(true);
                     return ReflectionUtils.invokeMethod(beanMethod, bean, args);
+                }else{
+                    if (method.isDefault()) {
+                        MethodHandle defaultMethodHandle = methodHandleMap.computeIfAbsent(method, key -> {
+                            MethodHandle methodHandle = MethodHandlesUtil.getSpecialMethodHandle(method);
+                            return methodHandle.bindTo(proxy);
+                        });
+                        return defaultMethodHandle.invokeWithArguments(args);
+                    }
                 }
             }
         }

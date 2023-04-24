@@ -1,14 +1,8 @@
 package com.example.demo;
 
-
-
-
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.extension.toolkit.ChainWrappers;
-import com.baomidou.mybatisplus.generator.FastAutoGenerator;
-import com.example.demo.DemoApplication;
 import com.example.demo.conf.SwitchAspect;
 import com.example.demo.mapper.CustomerMapper;
 import com.example.demo.mapper.MarketMapper;
