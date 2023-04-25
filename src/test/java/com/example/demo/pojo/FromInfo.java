@@ -6,11 +6,9 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class TableInfo {
+public class FromInfo {
 
     private String title;
-
     private String fieldType;
-
     private String field;
 }

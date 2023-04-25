@@ -2,12 +2,13 @@ package com.example.demo.Aop;
 
 
 import com.example.demo.annotation.BizImplements;
+import com.example.demo.po.TestAa;
+import com.example.demo.po.UserInfo;
 import com.google.common.collect.Lists;
 import io.swagger.annotations.Api;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -31,6 +32,11 @@ public interface DogRest extends DogApi{
     default List<String> show4(@PathVariable Integer userId){
         System.out.println(userId);
         return Lists.newArrayList("aaa","bbb");
+    }
+
+    @PostMapping("/test1")
+   default UserInfo test(@Valid @RequestBody TestAa a){
+        return new UserInfo();
     }
 
 

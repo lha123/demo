@@ -12,8 +12,9 @@ import java.util.Date;
  */
 @Data
 @ApiModel(value = "创建模型")
-public class ${pojoName}  {
-#foreach($field in ${table})
+public class ${className}  {
+#foreach($field in ${fields})
+
     @ApiModelProperty(value = "$!field.title")
     private ${field.fieldType} ${field.field};
 #end
