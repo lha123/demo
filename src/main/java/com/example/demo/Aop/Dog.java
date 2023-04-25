@@ -1,5 +1,6 @@
 package com.example.demo.Aop;
 
+import com.example.demo.po.DogShow1;
 import com.example.demo.po.TestAa;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,7 @@ public class Dog implements DogApi{
     }
 
     @Override
-    public Integer show1(String a) {
-        return 321;
+    public DogShow1 show1(String a) {
+        return new DogShow1();
     }
 }

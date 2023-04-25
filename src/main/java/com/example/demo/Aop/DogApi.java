@@ -1,5 +1,6 @@
 package com.example.demo.Aop;
 
+import com.example.demo.po.DogShow1;
 import com.example.demo.po.TestAa;
 
 
@@ -15,8 +16,8 @@ public interface DogApi {
 
 
     @PostMapping("/show")
-    @ApiOperation(value = "添加修改公告",notes = "添加修改公告")
+    @ApiOperation(value = "添加修改公告",notes = "添加修改公告",httpMethod = "")
     TestAa show(@Valid @RequestBody TestAa a);
     @GetMapping("/show1")
-     Integer show1(String a);
+    DogShow1 show1(String a);
 }

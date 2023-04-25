@@ -2,9 +2,13 @@ package com.example.demo.Aop;
 
 
 import com.example.demo.annotation.BizImplements;
+import com.google.common.collect.Lists;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @BizImplements(Dog.class)
@@ -15,6 +19,18 @@ public interface DogRest extends DogApi{
     default Integer show2(String a){
         System.out.println("default");
         return 1;
+    }
+
+    @GetMapping("/show3")
+    default List<String> show3(String a){
+        System.out.println("default");
+        return Lists.newArrayList("aaa","bbb");
+    }
+
+    @GetMapping("/show4/{userId}")
+    default List<String> show4(@PathVariable Integer userId){
+        System.out.println(userId);
+        return Lists.newArrayList("aaa","bbb");
     }
 
 

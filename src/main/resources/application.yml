@@ -27,7 +27,9 @@ ws:
   host: 0.0.0.0
   port: 9994
 driverClassName: asdf
-
+mock:
+  enable: true
+  url: https://mock.apifox.cn/m1/2279271-0-default
 
 
 
