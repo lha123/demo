@@ -14,7 +14,7 @@ import javax.validation.Valid;
  */
 @RestController
 @BizImplements(Dog.class)
-@Api(value = "公告模块2", description = "公告模块2", tags = {"公告模块2"})
+@Api(value = "公告模块3", description = "公告模块3", tags = {"公告模块3"})
 public interface ${className}  {
 #foreach($service in ${services})
     #if($service.isGet)
