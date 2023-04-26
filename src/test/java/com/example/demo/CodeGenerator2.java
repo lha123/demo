@@ -1,8 +1,10 @@
 package com.example.demo;
 
 import cn.hutool.core.util.StrUtil;
+import com.example.demo.pojo.ApiInfo;
 import com.example.demo.pojo.FromInfo;
 import com.example.demo.pojo.ServiceInfo;
+import org.assertj.core.util.Lists;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -13,22 +15,30 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CodeGenerator2  extends BaseCode{
 
     public static void main(String[] args) {
+        ApiInfo info = new ApiInfo();
+        info.setFromClass("AaFrom");
+        info.setVoClass("AaVo");
+        info.setServiceClass("AaService");
+        info.setFromList(Lists.newArrayList(new FromInfo("客户信息","Integer","name","客户不能为空!")));
+        info.setVoList(Lists.newArrayList(new FromInfo("年龄","Integer","age")));
+        info.setServiceInfo(new ServiceInfo("获取信息","show555"));
+        executeOneApi(info);
 
-        List<FromInfo> aa = new ArrayList<>();
-        aa.add(new FromInfo("客户名称","String","name"));
-        executeFrom("From.java.vm","AaFrom",aa);
-        executeFrom("Vo.java.vm","AaVo",aa);
+    }
+
+
+    public static void executeOneApi(ApiInfo info){
+        executeFrom("From.java.vm",info.getFromClass(),info.getFromList());
+        executeFrom("Vo.java.vm",info.getVoClass(),info.getVoList());
         List<ServiceInfo> serviceInfos = new ArrayList<>();
-        ServiceInfo build = ServiceInfo.builder()
-                .mappingName("show")
-                .title("查询用户信息")
-                .fromUpperCase("AaFrom")
-                .fromLowerCase(StrUtil.lowerFirst("AaFrom"))
-                .vo("AaVo").method("show").build();
-        serviceInfos.add(build);
-        executeService("Service.java.vm","AaService",serviceInfos);
-
-
+        ServiceInfo serviceInfo = info.getServiceInfo();
+        serviceInfo.setIsGet(false);
+        serviceInfo.setIsValid(true);
+        serviceInfo.setFromUpperCase(info.getFromClass());
+        serviceInfo.setFromLowerCase(StrUtil.lowerFirst(info.getFromClass()));
+        serviceInfo.setVo(info.getVoClass());
+        serviceInfos.add(serviceInfo);
+        executeService("Service.java.vm",info.getServiceClass(),serviceInfos);
     }
 
 

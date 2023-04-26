@@ -13,7 +13,7 @@ import java.lang.reflect.Proxy;
 /**
  * 接口实例工厂，这里主要是用于提供接口的实例对象
  */
-@Component
+//@Component //做实验用的
 public class BizFactoryDog implements FactoryBean<DogRest>, BeanFactoryAware {
 
     private AbstractBeanFactory beanFactory;
