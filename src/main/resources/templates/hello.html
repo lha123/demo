@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="http://cdn.bootcss.com/jquery/1.12.2/jquery.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery.serializeJSON/2.9.0/jquery.serializejson.js"></script>
+</head>
+<body>
+<h3 style="color: red">java-Api生成</h3>
+<form id="app">
+    <h1>入参->类名称:<input type="text" name="fromClass"/></h1>
+    <dev id="ru">
+        字段说明:<input type="text" name="voClass"/>
+        字段类型:<select name="cars">
+                    <option value="String">String</option>
+                    <option value="Integer">Integer</option>
+                    <option value="Long">Long</option>
+                    <option value="Date">Date</option>
+                    <option value="BigDecimal">BigDecimal</option>
+                </select>
+        字段名称:<input type="text" name="voClass"/><input type="checkbox" name="vehicle" checked="checked" value="Bike">必填 校验内容:<input type="text",name="biaot"><button id="ruBu">+</button><br>
+    </dev>
+    <br><h1>出参->类名称:<input type="text" name="voClass"/></h1>
+    <dev id="chu">
+        字段说明:<input type="text" name="name"/>
+        字段类型:<select name="cars">
+                    <option value="String">String</option>
+                    <option value="Integer">Integer</option>
+                    <option value="Long">Long</option>
+                    <option value="Date">Date</option>
+                    <option value="BigDecimal">BigDecimal</option>
+                </select>
+        字段名称:<input type="text" name="name"/><button id="chuBu">+</button><br>
+    </dev>
+    <br><h1>方法信息</h1>
+    方法说明:<input type="text" name="serviceInfo.title"/>
+    方法名称:<input type="text" name="serviceInfo.method"/>
+    是否验证:<input type="checkbox" checked="checked" name="serviceInfo.isValid"/>
+    请求方式:<select name="serviceInfo.requestMode">
+                <option value="GET">GET</option>
+                <option value="POST">POST</option>
+            </select>
+    <br><br><br><p>
+        <input type="submit" name="" onclick="oncli()" value="提交">
+        <input type="reset" name="" value="重置">
+    </p>
+</form>
+<script type="text/javascript">
+    function oncli() {
+        $(function(){
+            var jQuery = $("#app").serializeJSON();
+            var stringify = JSON.stringify(jQuery);
+            alert(stringify)
+            // $.ajax({
+            //     type: "post",
+            //     url:"/addInfo",
+            //     data:stringify,
+            //     contentType: "application/json",
+            //     dataType: "json",
+            //     success:function(result){
+            //         alert(result);
+            // }});
+        });
+    }
+
+
+    $("#ruBu").off().on("click",function (e){
+        e.preventDefault();
+        var b = "  字段说明:<input type=\"text\" name=\"voClass\"/>\n" +
+            "        字段类型:<select name=\"cars\">\n" +
+            "                    <option value=\"String\">String</option>\n" +
+            "                    <option value=\"Integer\">Integer</option>\n" +
+            "                    <option value=\"Long\">Long</option>\n" +
+            "                    <option value=\"Date\">Date</option>\n" +
+            "                    <option value=\"BigDecimal\">BigDecimal</option>\n" +
+            "                </select>\n" +
+            "        字段名称:<input type=\"text\" name=\"voClass\"/><input type=\"checkbox\" checked=\"checked\" name=\"vehicle\" value=\"Bike\">必填 校验内容:<input type=\"text\",name=\"biaot\"><br>"
+        $("#ru").append(b);
+    });
+
+    $("#chuBu").off().on("click",function (e){
+        e.preventDefault();
+        var a = "字段说明:<input type=\"text\" name=\"name\"/>\n" +
+            "        字段类型:<select name=\"cars\">\n" +
+            "                    <option value=\"String\">String</option>\n" +
+            "                    <option value=\"Integer\">Integer</option>\n" +
+            "                    <option value=\"Long\">Long</option>\n" +
+            "                    <option value=\"Date\">Date</option>\n" +
+            "                    <option value=\"BigDecimal\">BigDecimal</option>\n" +
+            "                </select>\n" +
+            "        字段名称:<input type=\"text\" name=\"name\"/><br>"
+        $("#chu").append(a);
+    });
+</script>
+</body>
+</html>

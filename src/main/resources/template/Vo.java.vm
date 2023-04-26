@@ -1,0 +1,21 @@
+package ${package};
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import java.math.BigDecimal;
+import java.util.Date;
+
+/**
+ * @author ${author}
+ * @since ${date}
+ */
+@Data
+@ApiModel(value = "创建模型")
+public class ${className}  {
+#foreach($field in ${fields})
+    @ApiModelProperty(value = "$!field.title")
+    private ${field.fieldType} ${field.field};
+#end
+}

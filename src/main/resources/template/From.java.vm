@@ -1,0 +1,31 @@
+package ${package};
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
+import java.util.Date;
+
+
+/**
+ * @author ${author}
+ * @since ${date}
+ */
+@Data
+@ApiModel(value = "创建模型")
+public class ${className}  {
+#foreach($field in ${fields})
+
+    #if(${field.vailMessage} != "null")
+    #if($field.fieldType == "String")
+    @NotBlank(message = "${field.vailMessage}")
+    #else
+    @NotNull(message = "${field.vailMessage}")
+    #end
+    #end
+    @ApiModelProperty(value = "$!field.title")
+    private ${field.fieldType} ${field.field};
+#end
+}

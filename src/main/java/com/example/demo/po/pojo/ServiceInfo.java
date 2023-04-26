@@ -1,4 +1,4 @@
-package com.example.demo.pojo;
+package com.example.demo.po.pojo;
 
 import lombok.Data;
 
@@ -12,8 +12,4 @@ public class ServiceInfo {
     private String vo;
     private String method;
 
-    public ServiceInfo(String title, String method) {
-        this.title = title;
-        this.method = method;
-    }
 }

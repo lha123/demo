@@ -10,6 +10,13 @@ spring:
       max-active: 2000
   profiles:
     include: redis
+  thymeleaf:
+    cache: false
+    mode: HTML5
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    prefix: classpath:/templates/
 #  kafka:
 #    consumer:
 #      enable-auto-commit: false

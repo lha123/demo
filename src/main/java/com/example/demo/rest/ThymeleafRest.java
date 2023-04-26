@@ -1,44 +1,33 @@
-package com.example.demo;
+package com.example.demo.rest;
 
-import cn.hutool.core.util.StrUtil;
-import com.example.demo.pojo.ApiInfo;
-import com.example.demo.pojo.FromInfo;
-import com.example.demo.pojo.ServiceInfo;
-import org.assertj.core.util.Lists;
+import com.example.demo.po.pojo.ApiInfo;
+import com.example.demo.po.pojo.FromInfo;
+import com.example.demo.po.pojo.ServiceInfo;
+import com.google.common.collect.Lists;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class CodeGenerator2  extends BaseCode{
+@RestController
+public class ThymeleafRest extends BaseCode{
 
-    public static void main(String[] args) {
-        ApiInfo info = new ApiInfo();
-        info.setFromClass("AaFrom");
-        info.setVoClass("AaVo");
-        info.setServiceClass("AaService");
-        info.setFromList(Lists.newArrayList(new FromInfo("客户信息","Integer","name","客户不能为空!")));
-        info.setVoList(Lists.newArrayList(new FromInfo("年龄","Integer","age")));
-        List<ServiceInfo> serviceInfos = new ArrayList<>();
-        ServiceInfo serviceInfo = new ServiceInfo("获取信息1","show5551");
-        serviceInfo.setRequestMode("POST");
-        serviceInfo.setIsValid(true);
-        serviceInfo.setFromUpperCase(info.getFromClass());
-        serviceInfo.setFromLowerCase(StrUtil.lowerFirst(info.getFromClass()));
-        serviceInfo.setVo(info.getVoClass());
-        serviceInfos.add(serviceInfo);
-        info.setServiceInfoList(serviceInfos);
-        executeOneApi(info);
 
+    @PostMapping(value = {"/addInfo"})
+    public boolean index(@RequestBody ApiInfo apiInfo){
+        //executeOneApi(apiInfo);
+        System.out.println(apiInfo);
+        return true;
     }
-
 
     public static void executeOneApi(ApiInfo info){
         executeFrom("From.java.vm",info.getFromClass(),info.getFromList());
         executeFrom("Vo.java.vm",info.getVoClass(),info.getVoList());
-        executeService("Service.java.vm",info.getServiceClass(),info.getServiceInfoList());
+        executeService("Service.java.vm",info.getServiceClass(), Lists.newArrayList(info.getServiceInfo()));
     }
 
 
@@ -61,10 +50,6 @@ public class CodeGenerator2  extends BaseCode{
         map.put("services",list);
         outputFile(file,map, "template/"+templatePath,false);
     }
-
-
-
-
 
 
 }

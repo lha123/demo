@@ -1,4 +1,4 @@
-package com.example.demo.pojo;
+package com.example.demo.po.pojo;
 
 
 import lombok.Data;
@@ -13,5 +13,5 @@ public class ApiInfo {
     private String serviceClass;
     private List<FromInfo> fromList;
     private List<FromInfo> voList;
-    private List<ServiceInfo> serviceInfoList;
+    private ServiceInfo serviceInfo;
 }
