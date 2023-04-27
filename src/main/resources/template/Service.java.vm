@@ -1,6 +1,6 @@
 package ${package};
 
-import com.example.demo.Aop.Dog;
+import com.example.demo.Aop.DogService;
 import com.example.demo.annotation.BizImplements;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -13,7 +13,7 @@ import javax.validation.Valid;
  * @since ${date}
  */
 @RestController
-@BizImplements(Dog.class)
+@BizImplements(DogService.class)
 @Api(value = "公告模块3", description = "公告模块3", tags = {"公告模块3"})
 public interface ${className}  {
 #foreach($service in ${services})

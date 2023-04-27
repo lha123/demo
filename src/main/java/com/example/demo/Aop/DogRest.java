@@ -12,7 +12,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@BizImplements(Dog.class)
+@BizImplements(DogService.class)
 @Api(value = "公告模块2", description = "公告模块2", tags = {"公告模块2"})
 public interface DogRest extends DogApi{
 

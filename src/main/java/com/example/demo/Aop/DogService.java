@@ -5,7 +5,7 @@ import com.example.demo.po.TestAa;
 import org.springframework.stereotype.Service;
 
 @Service
-public class Dog implements DogApi{
+public class DogService implements DogApi{
 
 
     @Override

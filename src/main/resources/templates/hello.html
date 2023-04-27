@@ -25,6 +25,7 @@
                 </select>
             <input autocomplete="off" type="text" name="field" placeholder="字段名称"/>
             <input autocomplete="off" type="text" name="vailMessage" placeholder="校验内容">
+            <button class="rujian">-</button>
         </dev>
     </dev>
     <button id="ruBu">+</button>
@@ -40,6 +41,7 @@
                 <option value="BigDecimal">BigDecimal</option>
             </select>
             <input autocomplete="off" type="text" name="field" placeholder="字段名称"/>
+            <button class="chujian">-</button>
         </dev>
     </dev>
     <button id="chuBu">+</button>
@@ -113,7 +115,9 @@
             "                    <option value=\"BigDecimal\">BigDecimal</option>\n" +
             "                </select>\n" +
             "       <input autocomplete=\"off\" type=\"text\" name=\"field\" placeholder='字段名称'/>" +
-            "       <input autocomplete=\"off\" type=\"text\" name=\"vailMessage\" placeholder='校验内容'></dev>"
+            "       <input autocomplete=\"off\" type=\"text\" name=\"vailMessage\" placeholder='校验内容'>" +
+            "&nbsp<button class=\"rujian\">-</button>" +
+            "</dev>"
         $("#ru").append(b);
     });
 
@@ -127,9 +131,23 @@
             "                    <option value=\"Date\">Date</option>\n" +
             "                    <option value=\"BigDecimal\">BigDecimal</option>\n" +
             "                </select>\n" +
-            "           <input autocomplete=\"off\" type=\"text\" name=\"field\" placeholder='字段名称'/></dev>"
+            "           <input autocomplete=\"off\" type=\"text\" name=\"field\" placeholder='字段名称'/>" +
+            "&nbsp<button class=\"chujian\">-</button>" +
+            "</dev>"
         $("#chu").append(a);
+
     });
+
+    $("body").on("click",".chujian", function(e){
+        e.preventDefault();
+        $(this).parent().remove();
+    });
+    $("body").on("click",".rujian", function(e){
+        e.preventDefault();
+        $(this).parent().remove();
+    });
+
+
 </script>
 </body>
 </html>
