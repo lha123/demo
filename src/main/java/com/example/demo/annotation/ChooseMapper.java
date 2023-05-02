@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ChooseMapper {
 
-    Class<?> mapperClass() default Object.class;
+    Class<?> mapperClass() default Void.class;
 
-    Class<?> selectAsClass() default Object.class;
+    Class<?> selectAsClass() default Void.class;
 }

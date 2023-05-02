@@ -1,6 +1,7 @@
 package com.example.demo.annotation;
 
 import com.example.demo.enums.TypeEnums;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -17,7 +18,7 @@ public @interface QueryMatching {
 
     String matching() default "";
 
-    TypeEnums type() default TypeEnums.no;
+    TypeEnums type() default TypeEnums.eq;
 
     JoinInfo join() default @JoinInfo;
 
