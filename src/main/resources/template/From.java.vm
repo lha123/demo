@@ -14,7 +14,7 @@ import java.util.Date;
  * @since ${date}
  */
 @Data
-@ApiModel(value = "创建模型")
+@ApiModel(value="${className}对象")
 public class ${className}  {
 #foreach($field in ${fields})
 

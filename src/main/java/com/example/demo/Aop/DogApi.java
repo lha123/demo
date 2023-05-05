@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.List;
 
 
 public interface DogApi {
@@ -19,5 +23,6 @@ public interface DogApi {
     @ApiOperation(value = "添加修改公告",notes = "添加修改公告",httpMethod = "")
     TestAa show(@Valid @RequestBody TestAa a);
     @GetMapping("/show1")
-    DogShow1 show1(String a);
+    DogShow1 show1(@NotNull @Size(min = 1) List<String> a);
+
 }

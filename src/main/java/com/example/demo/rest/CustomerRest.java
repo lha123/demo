@@ -1,23 +1,20 @@
 package com.example.demo.rest;
 
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.toolkit.Db;
 import com.example.demo.component.TestSingleton;
 import com.example.demo.mapper.ObjectMapper;
-import com.example.demo.po.TestAa;
 import com.example.demo.servcie.CustomerServcie;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
-import javax.validation.Valid;
 import java.util.StringJoiner;
 
 @Slf4j
@@ -35,10 +32,10 @@ public class CustomerRest {
 
     @SneakyThrows
     @ApiOperation(value = "添加修改公告1",notes = "添加修改公告1")
-    @PostMapping("/test")
-    public void test(@Valid @RequestBody TestAa a) throws InterruptedException {
-
+    @GetMapping("/test")
+    public void test() throws InterruptedException {
         customerImplTest.show("啊");
+        Db.list(Wrappers.lambdaQuery());
 //
 //        customerImplTest.show("adsf");
 //        String tt = "id int PRIMARY KEY NOT NULL AUTO_INCREMENT," +

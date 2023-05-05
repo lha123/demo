@@ -2,6 +2,7 @@ package com.example.demo.Aop;
 
 
 import com.example.demo.annotation.BizImplements;
+import com.example.demo.po.DogShow1;
 import com.example.demo.po.TestAa;
 import com.example.demo.po.UserInfo;
 import com.google.common.collect.Lists;
@@ -37,6 +38,12 @@ public interface DogRest extends DogApi{
     @PostMapping("/test1")
    default UserInfo test(@Valid @RequestBody TestAa a){
         return new UserInfo();
+    }
+
+    @GetMapping("/show55")
+    default DogShow1 show55(Integer a){
+        return show1(Lists.newArrayList("22"));
+
     }
 
 

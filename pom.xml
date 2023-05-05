@@ -16,7 +16,7 @@
     <description>Demo project for Spring Boot</description>
 
     <properties>
-        <java.version>17</java.version>
+        <java.version>8</java.version>
         <wechat.version>4.0.0</wechat.version>
         <spring.cloud-version>Hoxton.SR8</spring.cloud-version>
     </properties>
@@ -112,6 +112,11 @@
 
 
 
+<!--        <dependency>-->
+<!--            <groupId>com.github.lianjiatech</groupId>-->
+<!--            <artifactId>retrofit-spring-boot-starter</artifactId>-->
+<!--            <version>3.0.2</version>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>com.alibaba.nacos</groupId>
