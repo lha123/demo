@@ -1,10 +1,9 @@
 package com.example.demo.rest;
 
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.toolkit.Db;
 import com.example.demo.component.TestSingleton;
 import com.example.demo.mapper.ObjectMapper;
+import com.example.demo.po.TestAa;
 import com.example.demo.servcie.CustomerServcie;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,10 +32,12 @@ public class CustomerRest {
     @SneakyThrows
     @ApiOperation(value = "添加修改公告1",notes = "添加修改公告1")
     @GetMapping("/test")
-    public void test() throws InterruptedException {
-        customerImplTest.show("啊");
-        Db.list(Wrappers.lambdaQuery());
-//
+    public TestAa test() throws InterruptedException {
+        TestAa aa = new TestAa();
+        aa.setCode(123);
+        aa.setCode1(321);
+        return aa;
+//        customerImplTest.show("啊");
 //        customerImplTest.show("adsf");
 //        String tt = "id int PRIMARY KEY NOT NULL AUTO_INCREMENT," +
 //        " title varchar(20) DEFAULT NULL,"+
@@ -59,7 +60,6 @@ public class CustomerRest {
 //        stringBuilder.append(String.join(Constants.COMMA, stringObjectMap.values().stream().map(e->StrUtil.toString(e)).map(e->"\'"+e+"\'").collect(Collectors.toList())));
 //        stringBuilder.append(")");
 //        objectMapper.insert("aa",stringBuilder.toString());
-        System.out.println("sdf");
     }
 
     public static void main(String[] args) {

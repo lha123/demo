@@ -1,8 +1,7 @@
 package com.example.demo.po;
 
 
-
-
+import com.example.demo.annotation.SerizlizerDict;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -21,4 +20,10 @@ public class TestAa {
     private String name;
     @NotNull
     private Integer age;
+
+    @SerizlizerDict(value = "aaaa")
+    private Integer code;
+
+    @SerizlizerDict(value = "aaaabbb")
+    private Integer code1;
 }
