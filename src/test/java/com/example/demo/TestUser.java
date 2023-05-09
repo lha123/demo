@@ -13,6 +13,7 @@ import com.example.demo.servcie.CustomerFactory;
 import com.example.demo.servcie.CustomerServcie;
 import com.example.demo.utils.QueryWrapJoinUtil;
 
+import com.example.demo.utils.QueryWrapUtil;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -100,19 +101,17 @@ public class TestUser {
 
         String sqlSet = wrapper.getSqlSet();
         System.out.println(sqlSet);
+        System.out.println("sdf");
+//        cn.hutool.json.JSONObject user_info = marketMapper.selectById("user_info", 81);
 //        System.out.println("sdf");
-//        JSONObject jsonObject = marketMapper.selectById("user_info", 81);
-//        System.out.println("sdf");
-//        customerServcie.show("sdf");
-
         UserInfoTest userInfo = new UserInfoTest();
         userInfo.setName("a");
-//        //userInfo.setRoleId(234L);
-//        //userInfo.setAge(12);
-////        userInfo.setEmail("l12773141269@163.com");
-//        //userInfo.setNames(Lists.newArrayList("a", "b"));
-//        List<UserInfo> userInfos = QueryWrapUtil.selectList(userInfo, customerMapper);
-//        System.out.println(userInfos);
+        //userInfo.setRoleId(234L);
+        //userInfo.setAge(12);
+//        userInfo.setEmail("l12773141269@163.com");
+        //userInfo.setNames(Lists.newArrayList("a", "b"));
+        List<UserInfo> userInfos = QueryWrapUtil.selectList(userInfo, customerMapper);
+        System.out.println(userInfos);
 
     }
 
