@@ -3,6 +3,7 @@ package com.example.demo;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.example.demo.component.TestSingleton;
 import com.example.demo.conf.SwitchAspect;
 import com.example.demo.mapper.CustomerMapper;
 import com.example.demo.mapper.MarketMapper;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ClassUtils;
 
 import java.util.ArrayList;
@@ -47,7 +49,7 @@ public class TestUser {
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
-    private ApplicationContext context;
+    private TestSingleton testSingleton;
 
 
 
@@ -73,9 +75,8 @@ public class TestUser {
     @Test
     public void ObjectyMapper() {
         // 初始化数据库脚本
-        List<Object> objects = Lists.newArrayList();
-        Object obj = new Object();
-        obj.getClass().getName();
+        System.out.println(Thread.currentThread().getName());
+        testSingleton.show();
 
 
 

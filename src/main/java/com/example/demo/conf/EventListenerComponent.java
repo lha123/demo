@@ -10,14 +10,20 @@ import org.springframework.transaction.event.TransactionalEventListener;
 public class EventListenerComponent {
 
 
-    @EventListener
-    public void processUserTest(UserInfoTest test){
+//    @EventListener
+//    public void processUserTest(UserInfoTest test){
+//        System.out.println(test);
+//        System.out.println(Thread.currentThread().getName());
+//    }
+
+    @TransactionalEventListener
+    public void processUserTesta(UserInfoTest test){
         System.out.println(test);
         System.out.println(Thread.currentThread().getName());
     }
 
     @TransactionalEventListener
-    public void processUserTesta(UserInfoTest test){
+    public void processUserTestaaa(UserInfoTest test){
         System.out.println(test);
         System.out.println(Thread.currentThread().getName());
     }
