@@ -1,12 +1,10 @@
 package com.example.demo.polling;
 
-import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.AsyncContext;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.concurrent.Future;
@@ -41,14 +39,8 @@ public class LongPolling implements Runnable{
         LongPollingQueueUtil.pollingMap.put(orderId,this);
     }
 
-    public void sendResponse(String orderId) {
-        if(future != null){
-            future.cancel(false);
-        }
-        getGenerateResponse(orderId);
-    }
 
-    private void getGenerateResponse(String orderId) {
+    public void sendResponse(String orderId) {
         if(StrUtil.isBlank(orderId)){
             asyncContext.complete();
             return;
