@@ -3,8 +3,12 @@ package com.example.demo;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.example.demo.po.UserInfo;
+import com.example.demo.po.UserRoles;
+import com.example.demo.pojo.TestFun;
+import com.google.common.collect.Lists;
 
 import java.math.BigDecimal;
+import java.util.function.Supplier;
 
 
 public class TestCode {
@@ -19,6 +23,9 @@ public class TestCode {
         BigDecimal a = new BigDecimal("2");
         a = a.add(new BigDecimal("1"));
         System.out.println(a);
+
+
+
     }
 
 

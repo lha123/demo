@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Tolerate;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -20,7 +21,7 @@ import java.util.Date;
 
 
 @Data
-public class Customer<T>{
+public class Customer<T> implements Serializable {
 
     T data;
 
