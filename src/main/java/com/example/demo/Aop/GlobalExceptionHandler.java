@@ -10,10 +10,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.async.AsyncRequestTimeoutException;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -79,5 +77,14 @@ public class GlobalExceptionHandler {
     public Response exceptionHandler(Exception exception) {
         log.error("exception:", exception);
         return Response.failed(500,exception.getMessage());
+    }
+
+
+
+    @ResponseStatus(HttpStatus.NOT_MODIFIED)
+    @ExceptionHandler(AsyncRequestTimeoutException.class)
+    public String asyncRequestTimeoutHandler(AsyncRequestTimeoutException e) {
+        System.out.println("异步请求超时");
+        return "304";
     }
 }
