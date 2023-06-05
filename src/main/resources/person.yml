@@ -1,0 +1,13 @@
+person:
+  id: 222
+  name: 扛麻袋的少年
+  manager: true
+  birthday: 2020/03/27
+  map:
+    k1: v1
+    k2: v2
+  list: basketball,tennis,swim
+  address:
+    province: 山西省
+    distinct: 晋中市
+    county: 祁县
