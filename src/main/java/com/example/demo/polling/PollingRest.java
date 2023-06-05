@@ -1,14 +1,12 @@
 package com.example.demo.polling;
 
 
-import cn.hutool.core.thread.ThreadUtil;
+import jakarta.servlet.AsyncContext;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.AsyncContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @RestController
 public class PollingRest {
@@ -17,7 +15,7 @@ public class PollingRest {
 
     @SneakyThrows
     @RequestMapping(value = "/listener")
-    public void listener(HttpServletRequest request, HttpServletResponse response,String orderId,String orderInfo){
+    public void listener(HttpServletRequest request, HttpServletResponse response, String orderId, String orderInfo){
 
         String orderInfoCache = "a";
 

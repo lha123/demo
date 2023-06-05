@@ -9,21 +9,18 @@ import com.example.demo.mapper.CustomerMapper;
 import com.example.demo.mapper.MarketMapper;
 import com.example.demo.mapper.ObjectMapper;
 import com.example.demo.mapper.UserInfoMapper;
-import com.example.demo.po.*;
+import com.example.demo.po.UserInfo;
+import com.example.demo.po.UserInfoRolesVo;
+import com.example.demo.po.UserInfoTest;
 import com.example.demo.servcie.CustomerFactory;
 import com.example.demo.servcie.CustomerServcie;
 import com.example.demo.utils.QueryWrapJoinUtil;
-
 import com.example.demo.utils.QueryWrapUtil;
-import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ClassUtils;
 
 import java.util.ArrayList;
 import java.util.List;
