@@ -1,10 +1,7 @@
 package com.example.demo.servcie;
 
-import com.example.demo.po.Customer;
 import com.example.demo.po.UserInfo;
-import com.github.yulichang.base.MPJBaseMapper;
 import com.github.yulichang.base.MPJBaseService;
-import org.apache.ibatis.annotations.Mapper;
 
 
 /**
@@ -17,6 +14,8 @@ import org.apache.ibatis.annotations.Mapper;
  */
 public interface UserInfoService extends MPJBaseService<UserInfo> {
 
+
+    void show1();
 
 
 }
