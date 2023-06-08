@@ -7,6 +7,7 @@ import com.example.demo.po.TestAa;
 import com.example.demo.servcie.CustomerServcie;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.util.Objects;
 import java.util.StringJoiner;
 
 @Slf4j
@@ -31,11 +35,22 @@ public class CustomerRest {
     private TestSingleton testSingleton;
 
     private ApplicationContext context;
+    /**
+     * 获取当前请求
+     *
+     * @return request
+     */
+    public HttpServletRequest getRequest() {
+        return ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
+    }
+
 
     @SneakyThrows
     @ApiOperation(value = "添加修改公告1",notes = "添加修改公告1")
     @GetMapping("/test")
-    public TestAa test() throws InterruptedException {
+    public TestAa test(HttpServletRequest request1) throws InterruptedException {
+        HttpServletRequest request = getRequest();
+        System.out.println(getRequest());
         TestAa aa = new TestAa();
         aa.setCode(123);
         aa.setCode1(321);

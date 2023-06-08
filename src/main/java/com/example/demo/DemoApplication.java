@@ -11,6 +11,7 @@ import org.springframework.cache.annotation.EnableCaching;
 @SpringBootApplication
 @EnableBizMapping(bizPackages = {"com.example.demo"})
 @EnableCaching
+//@EnableFeignClients
 public class DemoApplication {
 
     public static void main(String[] args) {

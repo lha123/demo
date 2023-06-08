@@ -13,7 +13,7 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@MybatisPlusTest(includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,classes = {CustomerServcie.class, UserInfoService.class} ))
+@MybatisPlusTest(includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,classes = {CustomerServcie.class, UserInfoService.class}))
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class TestJunit {
 
@@ -30,6 +30,7 @@ public class TestJunit {
     @Test
     public void test1() {
         servcie.show("sdf");
+
     }
 
 }
