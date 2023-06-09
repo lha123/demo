@@ -22,8 +22,10 @@ public class RedissonRest implements InitializingBean {
     public void afterPropertiesSet() throws Exception {
         Runnable runnable = ()->{
             try {
-                String take = blockingQueue.take();
-                System.out.println("blockingQueue===>"+take);
+                while (true){
+                    String take = blockingQueue.take();
+                    System.out.println("blockingQueue===>"+take);
+                }
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
