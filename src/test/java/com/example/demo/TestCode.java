@@ -7,6 +7,8 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.example.demo.po.UserInfo;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadPoolExecutor;
 
 
@@ -28,6 +30,15 @@ public class TestCode {
 
 
         System.out.println(threadPoolExecutor);
+
+        List<UserInfo> userList = new ArrayList<>();
+        //遍历userList
+
+
+
+
+
+
 
 
 
