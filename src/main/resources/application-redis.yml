@@ -1,2 +1,13 @@
-redis:
-  name: df
+spring:
+  data:
+    redis:
+      host: 139.224.1.155
+      port: 6379
+      database: 0
+      timeout: 5s
+      lettuce:
+        pool:
+          max-active: -1
+          max-idle: 400
+          min-idle: 0
+      password: comma-redis

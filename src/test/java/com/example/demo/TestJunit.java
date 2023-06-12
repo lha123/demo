@@ -2,6 +2,7 @@ package com.example.demo;
 
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.TypeUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -45,6 +46,8 @@ public class TestJunit {
 
     @Test
     public void test1() {
+        String first = CollUtil.getFirst(StrUtil.split("123,434", ","));
+        System.out.println("df");
         iService.show("df");
 
     }
