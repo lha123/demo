@@ -37,6 +37,9 @@ public class RedisTemplateTest implements InitializingBean {
         List<UserInfo> collect = myhash.stream().map(Map.Entry::getValue).collect(Collectors.toList());
         Set<ZSetOperations.TypedTuple<UserInfo>> typedTuples = collect.stream().map(e -> ZSetOperations.TypedTuple.of(e, Double.valueOf(e.getId()))).collect(Collectors.toSet());
         redisTemplate.opsForZSet().add(zSetKey,typedTuples);
+        //用来删除redis zset key用的 更新zset 数据
+        RedisTemplate<String, String> setRedisTemplate = getRedisTemplate(String.class);
+        setRedisTemplate.opsForSet().add("客户id",zSetKey);
 
     }
 }
