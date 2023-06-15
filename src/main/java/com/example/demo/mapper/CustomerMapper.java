@@ -1,15 +1,10 @@
 package com.example.demo.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.demo.po.Aaa;
-import com.example.demo.po.Customer;
 import com.example.demo.po.UserInfo;
-import com.example.demo.po.UserRoles;
-import com.github.yulichang.base.MPJBaseMapper;
-import org.apache.ibatis.annotations.*;
-import org.apache.ibatis.cursor.Cursor;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 
 /**
@@ -23,7 +18,10 @@ import org.apache.ibatis.cursor.Cursor;
 @Mapper
 public interface CustomerMapper extends BaseMapper<UserInfo> {
 
+    @Select("select * from user_info where id = #{id}")
+    UserInfo selectByInfo(@Param("id") Integer id);
 
+    UserInfo selectByUser(@Param("id")Integer id);
 
 
 }

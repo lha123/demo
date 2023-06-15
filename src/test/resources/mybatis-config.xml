@@ -4,6 +4,17 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <!-- 核心配置元素-->
 <configuration>
+    <settings>
+        <!--    全局性开启和关闭任何缓存    -->
+        <setting name="cacheEnabled" value="false"/>
+        <!-- 延迟加载的全局开关 -->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!-- 设置为true时，允许jdbc自动生成主键 -->
+        <setting name="useGeneratedKeys" value="false"/>
+        <!-- 是否开启驼峰命名自动映射 -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
     <!--环境子元素 -->
     <environments default = "mysql">
         <environment id = "mysql">

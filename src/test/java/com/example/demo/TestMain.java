@@ -33,7 +33,7 @@ public class TestMain {
 
     public static void main(String[] args) {
         CustomerMapper mapper = openSession().getMapper(CustomerMapper.class);
-        UserInfo userInfo = mapper.selectById(12);
+        UserInfo userInfo = mapper.selectByUser(81);
         System.out.println(userInfo);
     }
 }

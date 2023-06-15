@@ -72,10 +72,11 @@ public class TestUser {
     @Test
     public void ObjectyMapper() {
         // 初始化数据库脚本
-        System.out.println(Thread.currentThread().getName());
-        testSingleton.show();
+//        System.out.println(Thread.currentThread().getName());
+//        testSingleton.show();
 
-
+        UserInfo userInfo = customerMapper.selectByUser(81);
+        System.out.println(userInfo);
 
     }
 
