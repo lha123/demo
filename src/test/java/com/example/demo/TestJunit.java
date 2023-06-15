@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.File;
@@ -24,6 +25,7 @@ import java.util.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @MybatisPlusTest
+@Commit
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class TestJunit {
 
@@ -42,6 +44,7 @@ public class TestJunit {
         map.put(first,iService);
         show2(first,iService);
     }
+
 
 
     @Test
@@ -94,7 +97,7 @@ public class TestJunit {
 
 
     @SuppressWarnings("unchecked")
-    public List<Class> getAllInterfaceAchieveClass(Class clazz) throws Throwable {
+    public static List<Class> getAllInterfaceAchieveClass(Class clazz) throws Throwable {
         ArrayList<Class> list = new ArrayList<>();
         // 判断是否是接口
         if (clazz.isInterface()) {
@@ -120,7 +123,7 @@ public class TestJunit {
 
 
 
-    public ArrayList<Class> getAllClassByPath(String packagename) throws Throwable {
+    public static ArrayList<Class> getAllClassByPath(String packagename) throws Throwable {
         ArrayList<Class> list = new ArrayList<>();
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         String path = packagename.replace('.', '/');
@@ -138,7 +141,7 @@ public class TestJunit {
 
 
 
-    private ArrayList<Class> findClass(File file, String packagename) throws ClassNotFoundException {
+    private static ArrayList<Class> findClass(File file, String packagename) throws ClassNotFoundException {
         ArrayList<Class> list = new ArrayList<>();
         if (!file.exists()) {
             return list;

@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
 public class CustomerImplTest extends ServiceImpl<CustomerMapper, UserInfo> implements CustomerServcie{
 
@@ -21,10 +19,9 @@ public class CustomerImplTest extends ServiceImpl<CustomerMapper, UserInfo> impl
 
     @Override
     public Integer show(String aa) {
-        userInfoService.show1();
-        System.out.println("aa");
-        System.out.println(customerMapper);
-        List<UserInfo> userInfos = customerMapper.selectList(null);
+        this.lambdaUpdate()
+                .set(UserInfo::getAge,null)
+                .eq(UserInfo::getId,81).update();
         return null;
     }
 }

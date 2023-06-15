@@ -1,0 +1,26 @@
+<!-- 导入mybatis dtd 文档类型声明文件 -->
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- 核心配置元素-->
+<configuration>
+    <!--环境子元素 -->
+    <environments default = "mysql">
+        <environment id = "mysql">
+            <!-- 事务管理器-->
+            <transactionManager type = "JDBC"/>
+            <!-- 数据源 -->
+            <dataSource type = "POOLED">
+                <property name = "driver" value ="com.mysql.cj.jdbc.Driver"/>
+                <property name = "url" value ="jdbc:mysql://139.224.1.155:3306/todo"/>
+                <property name = "username" value ="comma-admin"/>
+                <property name = "password" value ="qloofwYNZGnttbse"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <!-- 批量注册 -->
+        <package name="com.example.demo.mapper"/>
+    </mappers>
+</configuration>

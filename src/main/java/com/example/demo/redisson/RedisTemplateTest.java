@@ -31,6 +31,7 @@ public class RedisTemplateTest implements InitializingBean {
         RedisTemplate<String, UserInfo> redisTemplate = getRedisTemplate(UserInfo.class);
         Map<String, UserInfo> userInfoMap = userInfos.stream().collect(Collectors.toMap(e -> e.getId() + ":" + e.getName(), Function.identity()));
         redisTemplate.opsForHash().putAll("myhash",userInfoMap);
+
         String zSetKey = "*:*门店顾问*";
         HashOperations<String, String, UserInfo> hashOperations = redisTemplate.opsForHash();
         Cursor<Map.Entry<String, UserInfo>> myhash = hashOperations.scan("myhash", ScanOptions.scanOptions().match(zSetKey).build());
