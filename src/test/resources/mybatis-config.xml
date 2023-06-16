@@ -15,23 +15,23 @@
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
 
-    <!--环境子元素 -->
-    <environments default = "mysql">
-        <environment id = "mysql">
-            <!-- 事务管理器-->
-            <transactionManager type = "JDBC"/>
-            <!-- 数据源 -->
-            <dataSource type = "POOLED">
-                <property name = "driver" value ="com.mysql.cj.jdbc.Driver"/>
-                <property name = "url" value ="jdbc:mysql://139.224.1.155:3306/todo"/>
-                <property name = "username" value ="comma-admin"/>
-                <property name = "password" value ="qloofwYNZGnttbse"/>
-            </dataSource>
-        </environment>
-    </environments>
+<!--    &lt;!&ndash;环境子元素 &ndash;&gt;-->
+<!--    <environments default = "mysql">-->
+<!--        <environment id = "mysql">-->
+<!--            &lt;!&ndash; 事务管理器&ndash;&gt;-->
+<!--            <transactionManager type = "JDBC"/>-->
+<!--            &lt;!&ndash; 数据源 &ndash;&gt;-->
+<!--            <dataSource type = "POOLED">-->
+<!--                <property name = "driver" value ="com.mysql.cj.jdbc.Driver"/>-->
+<!--                <property name = "url" value ="jdbc:mysql://139.224.1.155:3306/todo"/>-->
+<!--                <property name = "username" value ="comma-admin"/>-->
+<!--                <property name = "password" value ="qloofwYNZGnttbse"/>-->
+<!--            </dataSource>-->
+<!--        </environment>-->
+<!--    </environments>-->
 
     <mappers>
         <!-- 批量注册 -->
-        <package name="com.example.demo.mapper"/>
+<!--        <mapper class="com.example.demo.mapper.CustomerMapper"/>-->
     </mappers>
 </configuration>

@@ -1,9 +1,6 @@
 package com.example.demo;
 
 import cn.hutool.core.util.TypeUtil;
-import cn.hutool.json.JSONUtil;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
 import com.example.demo.po.UserInfo;
 import lombok.SneakyThrows;
 import org.apache.ibatis.reflection.TypeParameterResolver;
@@ -15,10 +12,10 @@ import java.util.List;
 
 public class TestCode {
 
-    private List<UserInfo> list;
+    private List<UserInfo> userInfos;
 
-    public List<UserInfo> getList() {
-        return list;
+    public List<UserInfo> getUserInfos() {
+        return null;
     }
 
     @SneakyThrows
@@ -40,9 +37,7 @@ public class TestCode {
         List<UserInfo> list = new ArrayList<>(){};
         list.add(userInfo);
         list.add(userInfo1);
-        Method method  = TestCode.class.getMethod("getList",null);
-        Type returnType = TypeParameterResolver.resolveReturnType(method, TestCode.class);
-        System.out.println(typeToClass(returnType));
+
         System.out.println(TypeUtil.getClass(TypeUtil.getTypeArgument(List.class.getGenericSuperclass())));
 //        System.out.println(TypeUtil.getTypeArgument(list.getClass().getGenericSuperclass()));
 //        List<UserInfo> list1 = (List<UserInfo>) JSONUtil.toList(JSONUtil.toJsonStr(list), TypeUtil.getClass(TypeUtil.getTypeArgument(list.getClass().getGenericSuperclass())));
@@ -50,22 +45,14 @@ public class TestCode {
 //        UserInfo userInfo3 = new UserInfo();
 //        System.out.println(JSONUtil.toJsonPrettyStr(userInfo3));
 
-
-
-        List<UserInfo> list11 = JSON.parseObject(JSONUtil.toJsonStr(list), new TypeReference<List>(){});
-        System.out.println("sdf");
-
-
-
-
-
-
-
-
-
+        Method method1 = TestCode.class.getDeclaredMethod("getUserInfos");
+        Type[] paramTypes = TypeParameterResolver.resolveParamTypes(method1, TestCode.class);
+        Class<?> aClass = typeToClass(paramTypes[0]);
+        System.out.println(aClass);
 
 
     }
+
     private static Class<?> typeToClass(Type src) {
         Class<?> result = null;
         if (src instanceof Class) {
@@ -86,6 +73,9 @@ public class TestCode {
         }
         return result;
     }
+
+
+
 
 
 
