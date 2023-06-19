@@ -3,9 +3,11 @@ package com.example.demo;
 import cn.hutool.core.util.TypeUtil;
 import com.example.demo.po.UserInfo;
 import lombok.SneakyThrows;
-import org.apache.ibatis.reflection.TypeParameterResolver;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Array;
+import java.lang.reflect.GenericArrayType;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,10 +47,7 @@ public class TestCode {
 //        UserInfo userInfo3 = new UserInfo();
 //        System.out.println(JSONUtil.toJsonPrettyStr(userInfo3));
 
-        Method method1 = TestCode.class.getDeclaredMethod("getUserInfos");
-        Type[] paramTypes = TypeParameterResolver.resolveParamTypes(method1, TestCode.class);
-        Class<?> aClass = typeToClass(paramTypes[0]);
-        System.out.println(aClass);
+        System.out.println();
 
 
     }
