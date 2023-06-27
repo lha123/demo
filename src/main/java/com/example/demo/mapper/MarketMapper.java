@@ -1,6 +1,7 @@
 package com.example.demo.mapper;
 
 import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.github.yulichang.base.MPJBaseMapper;
@@ -49,5 +50,9 @@ public interface MarketMapper extends MPJBaseMapper<Object> {
     @Update("update ${table} set ${ew.getSqlSet} where ${ew.getSqlSegment}")
     int updateCondition(@Param("table") String table, @Param("ew") UpdateWrapper data);
 
+
+    default <T> T selectById(String table, Integer id, Class<T> tClass){
+        return JSONUtil.toBean(selectById(table,id),tClass);
+    };
 
 }

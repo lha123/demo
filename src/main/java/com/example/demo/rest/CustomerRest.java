@@ -1,25 +1,31 @@
 package com.example.demo.rest;
 
 
+import cn.hutool.extra.qrcode.QrCodeUtil;
+import cn.hutool.extra.qrcode.QrConfig;
 import com.example.demo.component.TestSingleton;
-import com.example.demo.mapper.ObjectMapper;
 import com.example.demo.po.TestAa;
+import com.example.demo.po.UserInfo;
 import com.example.demo.servcie.CustomerServcie;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.StringJoiner;
 
 @Slf4j
 @RestController
@@ -33,6 +39,9 @@ public class CustomerRest {
     @Autowired
     @Lazy
     private TestSingleton testSingleton;
+
+    @Autowired
+    private QrConfig qrconig;
 
     private ApplicationContext context;
     /**
@@ -80,11 +89,26 @@ public class CustomerRest {
 //        objectMapper.insert("aa",stringBuilder.toString());
     }
 
-    public static void main(String[] args) {
-        StringJoiner joiner = new StringJoiner(",","(",")");
-        joiner.add("aa");
-        joiner.add("bb");
-        System.out.println(joiner.toString());
+
+    @PostMapping(value = "/show1")
+    public void show1(@RequestBody List<Integer> list){
+
+        System.out.println();
+    }
+
+    @RequestMapping("123")
+    public void generateV3(String content,HttpServletRequest request, HttpServletResponse response) throws IOException {
+        QrCodeUtil.generate(System.currentTimeMillis()+"",qrconig,"png",response.getOutputStream());
+    }
+
+    public static void main(String[] args) throws JsonProcessingException {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        String json = "[{\"age\":10,\"name\":\"曹操\"}]";
+        List<UserInfo> userInfo = objectMapper.readValue(json, ArrayList.class);
+
+        System.out.println(userInfo);
     }
 
 }
