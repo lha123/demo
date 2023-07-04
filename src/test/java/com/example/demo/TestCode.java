@@ -1,13 +1,8 @@
 package com.example.demo;
 
-import cn.hutool.core.util.TypeUtil;
 import com.example.demo.po.UserInfo;
 import lombok.SneakyThrows;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.GenericArrayType;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,42 +30,13 @@ public class TestCode {
 //        BigDecimal a = new BigDecimal("2");
 //        a = a.add(new BigDecimal("1"));
 //        System.out.println(a);
+        List<UserInfo> list = new ArrayList<>();
 
-        List<UserInfo> list = new ArrayList<>(){};
-        list.add(userInfo);
-        list.add(userInfo1);
 
-        System.out.println(TypeUtil.getClass(TypeUtil.getTypeArgument(List.class.getGenericSuperclass())));
-//        System.out.println(TypeUtil.getTypeArgument(list.getClass().getGenericSuperclass()));
-//        List<UserInfo> list1 = (List<UserInfo>) JSONUtil.toList(JSONUtil.toJsonStr(list), TypeUtil.getClass(TypeUtil.getTypeArgument(list.getClass().getGenericSuperclass())));
-//        System.out.println(JSONUtil.toJsonStr(list));
-//        UserInfo userInfo3 = new UserInfo();
-//        System.out.println(JSONUtil.toJsonPrettyStr(userInfo3));
-
+        System.out.println(String.format("%-" + 5 + "s", "userInfo"));
         System.out.println();
 
 
-    }
-
-    private static Class<?> typeToClass(Type src) {
-        Class<?> result = null;
-        if (src instanceof Class) {
-            result = (Class<?>) src;
-        } else if (src instanceof ParameterizedType) {
-            result = (Class<?>) ((ParameterizedType) src).getRawType();
-        } else if (src instanceof GenericArrayType) {
-            Type componentType = ((GenericArrayType) src).getGenericComponentType();
-            if (componentType instanceof Class) {
-                result = Array.newInstance((Class<?>) componentType, 0).getClass();
-            } else {
-                Class<?> componentClass = typeToClass(componentType);
-                result = Array.newInstance(componentClass, 0).getClass();
-            }
-        }
-        if (result == null) {
-            result = Object.class;
-        }
-        return result;
     }
 
 

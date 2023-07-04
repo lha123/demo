@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.main;
 
 import cn.hutool.json.JSONUtil;
 import com.example.demo.design23.UserService;
@@ -22,6 +22,15 @@ public class TestMainEx extends TestMain {
     @Test
     public void testUserExt() {
         UserInfo userInfo = iService.getById(258);
+        System.out.println(JSONUtil.toJsonPrettyStr(userInfo));
+    }
+
+    @SneakyThrows
+    @Test
+    public void updateById() {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setId(1L);
+        iService.updateById(userInfo);
         System.out.println(JSONUtil.toJsonPrettyStr(userInfo));
     }
 

@@ -1,5 +1,6 @@
 package com.example.demo.redisson;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.example.demo.mapper.UserInfoMapper;
 import com.example.demo.po.UserInfo;
@@ -37,10 +38,12 @@ public class RedisTemplateTest implements InitializingBean {
         Cursor<Map.Entry<String, UserInfo>> myhash = hashOperations.scan("myhash", ScanOptions.scanOptions().match(zSetKey).build());
         List<UserInfo> collect = myhash.stream().map(Map.Entry::getValue).collect(Collectors.toList());
         Set<ZSetOperations.TypedTuple<UserInfo>> typedTuples = collect.stream().map(e -> ZSetOperations.TypedTuple.of(e, Double.valueOf(e.getId()))).collect(Collectors.toSet());
-        redisTemplate.opsForZSet().add(zSetKey,typedTuples);
-        //用来删除redis zset key用的 更新zset 数据
-        RedisTemplate<String, String> setRedisTemplate = getRedisTemplate(String.class);
-        setRedisTemplate.opsForSet().add("客户id",zSetKey);
+        if(!CollUtil.isEmpty(typedTuples)){
+            redisTemplate.opsForZSet().add(zSetKey,typedTuples);
+            //用来删除redis zset key用的 更新zset 数据
+            RedisTemplate<String, String> setRedisTemplate = getRedisTemplate(String.class);
+            setRedisTemplate.opsForSet().add("客户id",zSetKey);
+        }
 
     }
 }

@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.main;
 
 
 import cn.hutool.core.collection.CollUtil;
@@ -115,7 +115,7 @@ public abstract class TestMain {
     @SneakyThrows
     public void show3(Class<?> fieldClass, IService iService) {
         Field[] declaredFields = fieldClass.getDeclaredFields();
-        Field baseMapper = fieldClass.getSuperclass().getSuperclass().getDeclaredField("baseMapper");
+        Field baseMapper = fieldClass.getSuperclass().getDeclaredField("baseMapper");
         baseMapper.setAccessible(true);
         try {
             Object mapper = openSession().getMapper((Class) TypeUtil.getTypeArgument(fieldClass, 0));
