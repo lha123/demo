@@ -1,7 +1,6 @@
 package com.example.demo.Aop;
 
 import cn.hutool.core.util.ClassUtil;
-import cn.hutool.extra.spring.SpringUtil;
 import com.example.demo.annotation.BizImplements;
 import com.example.demo.annotation.EnableBizMapping;
 import lombok.extern.slf4j.Slf4j;
