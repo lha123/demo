@@ -1,11 +1,10 @@
 package com.example.demo.aa;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * @author ${author}
@@ -17,5 +16,10 @@ public class UserVo  {
     @ApiModelProperty(value = "用户名称")
     private String customerName;
     @ApiModelProperty(value = "用户年级")
+    @NotNull(message = "ddd")
     private Integer age;
+    @ApiModelProperty(value = "dfd")
+    @Digits(integer=3,fraction = 1,message = "整数位上限为3位，小数位上限为2位")
+    private String decimal;
+
 }

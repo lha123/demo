@@ -23,7 +23,6 @@ public class AspectDemoServiceImpl implements AspectDemoService{
         userInfo.setId(81L);
         userInfo.setName("aa");
         customerMapper.updateById(userInfo);
-        Integer s = 1/0;
         return 1123;
     }
 }
