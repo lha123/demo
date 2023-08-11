@@ -22,6 +22,10 @@ public class TestCode {
 
     @SneakyThrows
     public static void main(String[] args) {
+        System.out.println("水电费");
+        final TestCode testCode = TestCode.class.getDeclaredConstructor().newInstance();
+        System.out.println();
+
 //        UserInfo userInfo = new UserInfo();
 //        userInfo.setId(9194243645645645646L);
 //        userInfo.setName("sdf");

@@ -90,10 +90,11 @@ public class CustomerRest {
     }
 
 
-    @PostMapping(value = "/show1")
-    public void show1(@RequestBody List<Integer> list){
+    @GetMapping(value = "/show321")
+    public String show1(){
 
-        System.out.println();
+        System.out.println("show1===================>");
+        return "show1===================>";
     }
 
     @RequestMapping("123")
