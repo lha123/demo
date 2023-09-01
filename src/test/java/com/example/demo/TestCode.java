@@ -1,13 +1,12 @@
 package com.example.demo;
 
 import com.example.demo.po.UserInfo;
-import com.google.common.collect.Sets;
 import lombok.SneakyThrows;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 
 public class TestCode {
@@ -25,6 +24,7 @@ public class TestCode {
         System.out.println("水电费");
         final TestCode testCode = TestCode.class.getDeclaredConstructor().newInstance();
         System.out.println();
+        TimeUnit.SECONDS.sleep(10);
 
 //        UserInfo userInfo = new UserInfo();
 //        userInfo.setId(9194243645645645646L);
@@ -40,16 +40,19 @@ public class TestCode {
 //
 //        System.out.println(String.format("%-" + 5 + "s", "userInfo"));
 //        System.out.println();
-        Set<String> set  = Sets.newConcurrentHashSet();
-        System.out.println(set.add("a"));
-        set.remove("a");
-        System.out.println(set.add("a"));
+        show();
+    }
 
 
+    public static void show(){
+        System.out.println("dfdd");
+        System.out.println("dfdd");
+        System.out.println("dfdd");
+        show1();
+    }
 
-
-
-
+    public static void show1(){
+        System.out.println("aaaa");
     }
 
 

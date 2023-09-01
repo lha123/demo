@@ -40,6 +40,8 @@ driverClassName: asdf
 mock:
   enable: false
   url: https://mock.apifox.cn/m1/2279271-0-default
+#logging:
+#  config: classpath:
 
 
 

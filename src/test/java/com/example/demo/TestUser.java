@@ -16,6 +16,7 @@ import com.example.demo.servcie.CustomerFactory;
 import com.example.demo.servcie.CustomerServcie;
 import com.example.demo.utils.QueryWrapJoinUtil;
 import com.example.demo.utils.QueryWrapUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = DemoApplication.class)
+@Slf4j
 public class TestUser {
 
     @Autowired
@@ -47,6 +49,13 @@ public class TestUser {
     private ObjectMapper objectMapper;
     @Autowired
     private TestSingleton testSingleton;
+
+
+    @Test
+    public void testLog(){
+        log.error("\u001B[31m"+"水电费第三方");
+        System.out.println("\u001B[31m"+"水电费第三方");
+    }
 
 
 

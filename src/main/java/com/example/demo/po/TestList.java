@@ -1,8 +1,9 @@
 package com.example.demo.po;
 
-import jakarta.validation.constraints.Size;
+
 import lombok.Data;
 
+import javax.validation.constraints.Size;
 import java.util.List;
 
 

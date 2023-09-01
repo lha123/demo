@@ -4,6 +4,6 @@
 <mapper namespace="com.example.demo.mapper.CustomerMapper">
 
     <select id="selectByUser" parameterType="java.lang.Integer" resultType="com.example.demo.po.UserInfo">
-        select  * from user_info u where u.id = #{id}
+        select  * from user_info u where u.id = #{id} and name = 'aab'
     </select>
 </mapper>

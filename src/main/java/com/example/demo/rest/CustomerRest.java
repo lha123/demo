@@ -3,7 +3,9 @@ package com.example.demo.rest;
 
 import cn.hutool.extra.qrcode.QrCodeUtil;
 import cn.hutool.extra.qrcode.QrConfig;
+import cn.hutool.json.JSONUtil;
 import com.example.demo.component.TestSingleton;
+import com.example.demo.mapper.CustomerMapper;
 import com.example.demo.po.TestAa;
 import com.example.demo.po.UserInfo;
 import com.example.demo.servcie.CustomerServcie;
@@ -18,7 +20,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -39,6 +43,8 @@ public class CustomerRest {
     @Autowired
     @Lazy
     private TestSingleton testSingleton;
+    @Autowired
+    private CustomerMapper customerMapper;
 
     @Autowired
     private QrConfig qrconig;
@@ -64,37 +70,18 @@ public class CustomerRest {
         aa.setCode(123);
         aa.setCode1(321);
         return aa;
-//        customerImplTest.show("啊");
-//        customerImplTest.show("adsf");
-//        String tt = "id int PRIMARY KEY NOT NULL AUTO_INCREMENT," +
-//        " title varchar(20) DEFAULT NULL,"+
-//        " name varchar(20) DEFAULT NULL,"+
-//        " age int(11) DEFAULT NULL";
-//        objectMapper.createTable("aa",tt);
-//        TestAa testAa = new TestAa();
-//        testAa.setName("张工");
-//        testAa.setTitle("eee");
-//        testAa.setAge(12);
-//        Map<String, Object> stringObjectMap = BeanUtil.beanToMap(testAa);
-//        StringBuilder stringBuilder = new StringBuilder();
-//        stringBuilder.append("(");
-//        //Set<String> keys = this.sqlMap.keySet().stream().map(s -> "`"+s+"`").distinct().collect(Collectors.toSet());
-//        stringBuilder.append(String.join(Constants.COMMA, stringObjectMap.keySet().stream().map(s -> "`"+s+"`").collect(Collectors.toList())));
-//        stringBuilder.append(")");
-//        stringBuilder.append("values");
-//        stringBuilder.append("(");
-//        //Set<String> values = this.sqlMap.values().stream().map(s -> "\""+s+"\"").distinct().collect(Collectors.toSet());
-//        stringBuilder.append(String.join(Constants.COMMA, stringObjectMap.values().stream().map(e->StrUtil.toString(e)).map(e->"\'"+e+"\'").collect(Collectors.toList())));
-//        stringBuilder.append(")");
-//        objectMapper.insert("aa",stringBuilder.toString());
     }
 
 
     @GetMapping(value = "/show321")
-    public String show1(){
+    public String show13(){
 
-        System.out.println("show1===================>");
-        return "show1===================>";
+        log.info("erwerwe========>");
+        System.out.println("dsff");
+
+       UserInfo userInfo = customerMapper.selectByUser(81);
+        System.out.println(JSONUtil.toJsonPrettyStr(userInfo));
+        return "show1===dfdf=====eee===========>";
     }
 
     @RequestMapping("123")
