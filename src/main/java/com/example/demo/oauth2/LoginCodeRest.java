@@ -22,7 +22,6 @@ public class LoginCodeRest {
         Map<String,Object> map =new HashMap<>();
         map.put("code",code);
         map.put("grant_type","authorization_code");
-        map.put("redirect_uri","http://127.0.0.1:8089/login/oauth2/code/messaging-client-oidc");
         String result2 = HttpUtil.createPost("localhost:8089/oauth2/token")
                 .header(Header.AUTHORIZATION, "Basic bWVzc2FnaW5nLWNsaWVudDpzZWNyZXQ=")//头信息，多个头信息多次调用此方法即可
                 .form(map)//表单内容
