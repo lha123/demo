@@ -2,7 +2,7 @@ package com.example.demo.oauth2;
 
 import cn.hutool.http.Header;
 import cn.hutool.http.HttpUtil;
-import cn.hutool.json.JSONUtil;
+import cn.hutool.json.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,9 +15,9 @@ import java.util.Map;
 @RestController
 public class LoginCodeRest {
 
-
+    //http://127.0.0.1:8089/oauth2/authorize?response_type=code&client_id=messaging-client&scope=message.read
     @RequestMapping("/login/oauth2/code/messaging-client-oidc")
-    public void code(@RequestParam("code") String code){
+    public Object code(@RequestParam("code") String code){
         System.out.println("code===>"+code);
         Map<String,Object> map =new HashMap<>();
         map.put("code",code);
@@ -27,7 +27,7 @@ public class LoginCodeRest {
                 .form(map)//表单内容
                 .timeout(20000)//超时，毫秒
                 .execute().body();
-
-        System.out.println(JSONUtil.formatJsonStr(result2));
+        JSONObject object = new JSONObject(result2);
+      return object ;
     }
 }

@@ -28,6 +28,17 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: 123
+            client-secret: 21
+            redirect-uri: https://www.baidu.com
+        provider:
+          github:
+            token-uri:
 
 mybatis:
   #配置日志实现

@@ -1,16 +1,16 @@
 package com.example.demo;
 
+import cn.hutool.core.thread.ThreadUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
+
+import java.util.concurrent.ExecutorService;
+
 @Slf4j
 public class LogTest {
 
 
-    @Test
-    public void show(){
-
-        log.error("dsf");
-        System.out.println("df");
-
+    public static void main(String[] args) {
+        ExecutorService executorService = ThreadUtil.newSingleExecutor();
     }
 }
+
