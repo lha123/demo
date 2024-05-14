@@ -102,6 +102,8 @@
                 dataType: "json",
                 success: function(data){
                         alert("SUCCESS")
+                    $('#rest').remove()
+                    $('#service').remove()
                     $("input[type=reset]").trigger("click");//触发reset按钮
             }});
         });

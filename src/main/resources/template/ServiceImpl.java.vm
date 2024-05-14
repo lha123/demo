@@ -1,0 +1,18 @@
+package ${package};
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+/**
+ * @author ${author}
+ * @since ${date}
+ */
+@Slf4j
+@Service
+public class ${className} implements ${serviceName} {
+#foreach($service in ${services})
+
+    @Override
+    public ${service.vo} ${service.method}(${service.fromUpperCase} ${service.fromLowerCase}){
+        return new ${service.vo}();
+    }
+#end
+}

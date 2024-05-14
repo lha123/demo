@@ -16,11 +16,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 #end
 
-
-
-
-
-
 /**
  * @author ${author}
  * @since ${date}

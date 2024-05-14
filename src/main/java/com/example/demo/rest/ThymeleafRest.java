@@ -46,6 +46,7 @@ public class ThymeleafRest extends BaseCode{
         if(Integer.valueOf(1).equals(info.getCommitServiceMethod())){
             executeRest("Rest.java.vm",info.getRestName(), serviceInfoList,info.getServiceName());
             executeService("Service.java.vm",info.getServiceName(), serviceInfoList);
+            executeServiceImpl("ServiceImpl.java.vm",info.getServiceName()+"Impl", serviceInfoList,info.getServiceName());
             serviceInfoList.clear();
         }
     }
@@ -90,6 +91,17 @@ public class ThymeleafRest extends BaseCode{
         map.put("package","com.example.demo.aa");
         map.put("className",className);
         map.put("services",list);
+        outputFile(file,map, "template/"+templatePath,true);
+    }
+
+    public static void executeServiceImpl(String templatePath, String className, List<ServiceInfo> list,String serviceName){
+        String projectPath = System.getProperty("user.dir")+"/src/main/java/com/example/demo";
+        File file = new File(projectPath+"/aa/"+className+".java");
+        Map<String,Object> map = new ConcurrentHashMap<>();
+        map.put("package","com.example.demo.aa");
+        map.put("className",className);
+        map.put("services",list);
+        map.put("serviceName",serviceName);
         outputFile(file,map, "template/"+templatePath,true);
     }
 
