@@ -1,0 +1,51 @@
+version: '3'
+services:
+  rmqnamesrv:
+    image: apache/rocketmq:4.8.0
+    container_name: rmqnamesrv
+    ports:
+      - 9876:9876
+    environment:
+      JAVA_OPT_EXT: "-server -Xms1g -Xmx1g"
+    volumes:
+      - /Users/edy/broker.conf:/opt/rocketmq-4.8.0/conf/broker.conf
+    command: sh mqnamesrv
+    networks:
+      rmq:
+        aliases:
+          - rmqnamesrv
+  rmqbroker:
+    image: apache/rocketmq:4.8.0
+    container_name: rmqbroker
+    ports:
+      - 10911:10911
+      - 10909:10909
+    volumes:
+      - /Users/edy/broker.conf:/opt/rocketmq-4.8.0/conf/broker.conf
+    environment:
+      NAMESRV_ADDR: "rmqnamesrv:9876"
+      JAVA_OPT_EXT: "-server -Xms1g -Xmx1g -Xmn1g"
+    depends_on:
+      - rmqnamesrv
+    command: sh mqbroker -c /opt/rocketmq-4.8.0/conf/broker.conf
+    networks:
+      rmq:
+        aliases:
+          - rmqbroker
+#  rmqconsole:
+#    image: apacherocketmq/rocketmq-dashboard
+#    container_name: rmqconsole
+#    ports:
+#      - 8080:8080
+#    environment:
+#      JAVA_OPT: "${JAVA_OPT} -server -Xms528m -Xmx528m -Xmn256m"
+#      JAVA_OPTS: -Drocketmq.namesrv.addr=rmqnamesrv:9876 -Dcom.rocketmq.sendMessageWithVIPChannel=false
+#    depends_on:
+#      - rmqnamesrv
+#    networks:
+#      rmq:
+#        aliases:
+#          - rmqconsole
+networks:
+  rmq:
+    driver: bridge

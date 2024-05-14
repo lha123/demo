@@ -4,13 +4,27 @@ import cn.hutool.core.thread.ThreadUtil;
 import com.github.benmanes.caffeine.cache.*;
 import lombok.SneakyThrows;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.concurrent.TimeUnit;
 
 public class TestCache {
 
+    TransactionTemplate template;
+
     @SneakyThrows
-    public static void main(String[] args) {
+    public  void main(String[] args) {
+        TransactionStatus a = null;
+        Boolean execute = template.execute(e -> {
+            template.execute(b->{
+
+                e.setRollbackOnly();
+                return true;
+            });
+            return true;
+        });
         Cache<String, String> cache = Caffeine.newBuilder()
                 .initialCapacity(100)//初始大小
                 .maximumSize(200)//最大数量

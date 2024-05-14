@@ -20,4 +20,7 @@ public class ApiInfo {
     private String method;
     private Integer commitServiceMethod = 0;
 
+    private String restName;
+    private String serviceName;
+
 }

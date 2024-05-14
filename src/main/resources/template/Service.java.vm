@@ -1,28 +1,16 @@
 package ${package};
 
-import com.example.demo.Aop.DogService;
-import com.example.demo.annotation.BizImplements;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-
 /**
  * @author ${author}
  * @since ${date}
  */
-@RestController
-@BizImplements(DogService.class)
-@Api(value = "公告模块3", description = "公告模块3", tags = {"公告模块3"})
 public interface ${className}  {
 #foreach($service in ${services})
-    #if($service.requestMode == "GET")
-    @GetMapping("/${service.method}")
-    #else
-    @PostMapping("/${service.method}")
-    #end
-    @ApiOperation(value = "${service.title}",notes = "${service.title}")
-    ${service.vo} ${service.method}(#if($service.isValid)@Valid#end @RequestBody ${service.fromUpperCase} ${service.fromLowerCase});
+
+    /**
+    * ${service.title}
+    * @param ${service.fromLowerCase}
+    */
+    ${service.vo} ${service.method}(${service.fromUpperCase} ${service.fromLowerCase});
 #end
 }

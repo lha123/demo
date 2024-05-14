@@ -2,19 +2,22 @@ package ${package};
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+#if($BigDecimal)
 import java.math.BigDecimal;
+#end
+#if($Date)
 import java.util.Date;
+#end
 
 /**
  * @author ${author}
  * @since ${date}
  */
 @Data
-@ApiModel(value = "创建模型")
+@ApiModel(value="${className}对象")
 public class ${className}  {
 #foreach($field in ${fields})
+
     @ApiModelProperty(value = "$!field.title")
     private ${field.fieldType} ${field.field};
 #end

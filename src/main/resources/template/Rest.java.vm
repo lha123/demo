@@ -1,0 +1,34 @@
+package ${package};
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+
+/**
+ * @author ${author}
+ * @since ${date}
+ */
+@RestController
+@RequestMapping("/${className.substring(0, 1).toLowerCase()}${className.substring(1)}")
+@Api(value = "公告模块3", description = "公告模块3", tags = {"公告模块3"})
+public class ${className}  {
+
+    @Autowired
+    private ${servicesName} ${servicesName.substring(0, 1).toLowerCase()}${servicesName.substring(1)};
+
+#foreach($service in ${services})
+
+    #if($service.requestMode == "GET")
+    @GetMapping("/${service.method}")
+    #else
+    @PostMapping("/${service.method}")
+    #end
+    @ApiOperation(value = "${service.title}",notes = "${service.title}")
+    public ${service.vo} ${service.method}(#if($service.isValid)@Valid#end @RequestBody ${service.fromUpperCase} ${service.fromLowerCase}){
+        return ${servicesName.substring(0, 1).toLowerCase()}${servicesName.substring(1)}.${service.method}(${service.fromLowerCase});
+    }
+#end
+}

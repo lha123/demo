@@ -1,11 +1,11 @@
 package com.example.demo.polling;
 
 import cn.hutool.core.util.StrUtil;
-import jakarta.servlet.AsyncContext;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.servlet.AsyncContext;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;

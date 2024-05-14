@@ -22,8 +22,8 @@
                     <option value="Date">Date</option>
                     <option value="BigDecimal">BigDecimal</option>
                 </select>
-            <input autocomplete="off" type="text" name="title" placeholder="字段说明"/>
             <input autocomplete="off" type="text" name="field" placeholder="字段名称"/>
+            <input autocomplete="off" type="text" name="title" placeholder="字段说明"/>
             <input autocomplete="off" type="text" name="vailMessage" placeholder="校验内容">
             <button class="rujian">-</button>
         </dev>
@@ -39,24 +39,25 @@
                 <option value="Date">Date</option>
                 <option value="BigDecimal">BigDecimal</option>
             </select>
-            <input autocomplete="off" type="text" name="title" placeholder="字段说明"/>
             <input autocomplete="off" type="text" name="field" placeholder="字段名称"/>
+            <input autocomplete="off" type="text" name="title" placeholder="字段说明"/>
             <button class="chujian">-</button>
         </dev>
     </dev>
     <button id="chuBu">+</button>
     <br><h1>方法信息</h1>
-    <input id="title" autocomplete="off" type="text" name="title" placeholder="方法说明"/>
     <input id="method" autocomplete="off" type="text" name="method" placeholder="方法名称"/>
+    <input id="title" autocomplete="off" type="text" name="title" placeholder="方法说明"/>
     <input type="checkbox"  name="isValid" value="1" />是否验证
             <select id="requestMode" name="requestMode">
                 <option value="POST">POST</option>
                 <option value="GET">GET</option>
             </select>
-    <br><br><br><p>
+    <br><br><br><p id="webId">
         <input type="button" name="" onclick="oncli()" value="提交">
         <input type="reset" name="" value="重置">
-        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="checkbox"  name="commitServiceMethod" value="1" />是否生产缓存方法
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="checkwebId" type="checkbox"  name="commitServiceMethod" value="1" />不缓存方法了直接提交
+
     </p>
 </form>
 <script type="text/javascript">
@@ -90,6 +91,8 @@
             object["isValid"] = $('input[name="isValid"]:checked').val();
             object["method"] = $('#method').val();
             object["commitServiceMethod"] = $('input[name="commitServiceMethod"]:checked').val();
+            object["restName"] = $('#rest').val();
+            object["serviceName"] = $('#service').val();
             var stringify = JSON.stringify(object);
             $.ajax({
                 type: "post",
@@ -97,8 +100,9 @@
                 data:stringify,
                 contentType: "application/json",
                 dataType: "json",
-                success:function(result){
-
+                success: function(data){
+                        alert("SUCCESS")
+                    $("input[type=reset]").trigger("click");//触发reset按钮
             }});
         });
     }
@@ -106,7 +110,7 @@
 
     $("#ruBu").off().on("click",function (e){
         e.preventDefault();
-        var b = "<dev><br><input autocomplete=\"off\" type=\"text\" name=\"title\" placeholder='字段说明'/>\n" +
+        var b = "<dev><br>" +
             "               <select name=\"fieldType\">\n" +
             "                    <option value=\"String\">String</option>\n" +
             "                    <option value=\"Integer\">Integer</option>\n" +
@@ -114,7 +118,8 @@
             "                    <option value=\"Date\">Date</option>\n" +
             "                    <option value=\"BigDecimal\">BigDecimal</option>\n" +
             "                </select>\n" +
-            "       <input autocomplete=\"off\" type=\"text\" name=\"field\" placeholder='字段名称'/>" +
+            "       <input autocomplete=\"off\" type=\"text\" name=\"field\" placeholder='字段名称'/>\n" +
+            "       <input autocomplete=\"off\" type=\"text\" name=\"title\" placeholder='字段说明'/>\n"+
             "       <input autocomplete=\"off\" type=\"text\" name=\"vailMessage\" placeholder='校验内容'>" +
             "&nbsp<button class=\"rujian\">-</button>" +
             "</dev>"
@@ -123,7 +128,7 @@
 
     $("#chuBu").off().on("click",function (e){
         e.preventDefault();
-        var a = "<dev><br><input autocomplete=\"off\" type=\"text\" name=\"title\" placeholder='字段说明'/>\n" +
+        var a = "<dev><br>\n" +
             "               <select name=\"fieldType\">\n" +
             "                    <option value=\"String\">String</option>\n" +
             "                    <option value=\"Integer\">Integer</option>\n" +
@@ -131,12 +136,29 @@
             "                    <option value=\"Date\">Date</option>\n" +
             "                    <option value=\"BigDecimal\">BigDecimal</option>\n" +
             "                </select>\n" +
-            "           <input autocomplete=\"off\" type=\"text\" name=\"field\" placeholder='字段名称'/>" +
+            "           <input autocomplete=\"off\" type=\"text\" name=\"field\" placeholder='字段名称'/>\n" +
+            "           <input autocomplete=\"off\" type=\"text\" name=\"title\" placeholder='字段说明'/>\n"+
             "&nbsp<button class=\"chujian\">-</button>" +
             "</dev>"
         $("#chu").append(a);
 
     });
+
+
+
+    $('#checkwebId').on('click', function() {
+        if (this.checked) {
+            // checkbox 是选中的
+            var a = "<input id=\"rest\" autocomplete=\"off\" type=\"text\" name=\"restName\" placeholder=\"rest类名称\"/>\n" +
+                "    <input id=\"service\" autocomplete=\"off\" type=\"text\" name=\"serviceName\" placeholder=\"servcie名称\"/>"
+            $("#webId").append(a);
+        } else {
+            $('#rest').remove()
+            $('#service').remove()
+        }
+    });
+
+
 
     $("body").on("click",".chujian", function(e){
         e.preventDefault();

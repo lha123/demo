@@ -1,5 +1,6 @@
 package com.example.demo.rest;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.example.demo.po.pojo.ApiInfo;
 import com.example.demo.po.pojo.FromInfo;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @RestController
 public class ThymeleafRest extends BaseCode{
@@ -32,8 +34,8 @@ public class ThymeleafRest extends BaseCode{
 
     private static List<ServiceInfo> serviceInfoList = new ArrayList<>();
     public static void executeOneApi(ApiInfo info){
-        executeFrom("From.java.vm",info.getFromClass(),info.getFromList());
-        executeFrom("Vo.java.vm",info.getVoClass(),info.getVoList());
+        executeFrom("Req.java.vm",info.getFromClass(),info.getFromList());
+        executeFrom("Res.java.vm",info.getVoClass(),info.getVoList());
         ServiceInfo serviceInfo = new ServiceInfo(info.getTitle(),info.getMethod());
         serviceInfo.setRequestMode(info.getRequestMode());
         serviceInfo.setIsValid(Integer.valueOf(1).equals(info.getIsValid()));
@@ -42,7 +44,8 @@ public class ThymeleafRest extends BaseCode{
         serviceInfo.setVo(info.getVoClass());
         serviceInfoList.add(serviceInfo);
         if(Integer.valueOf(1).equals(info.getCommitServiceMethod())){
-            executeService("Service.java.vm","TestService", serviceInfoList);
+            executeRest("Rest.java.vm",info.getRestName(), serviceInfoList,info.getServiceName());
+            executeService("Service.java.vm",info.getServiceName(), serviceInfoList);
             serviceInfoList.clear();
         }
     }
@@ -55,6 +58,28 @@ public class ThymeleafRest extends BaseCode{
         map.put("package","com.example.demo.aa");
         map.put("className",className);
         map.put("fields",list);
+
+        List<String> typeList = list.stream().map(FromInfo::getFieldType)
+                .collect(Collectors.toList());
+        if(typeList.contains("Date")){
+            map.put("Date",true);
+        }
+        if(typeList.contains("BigDecimal")){
+            map.put("BigDecimal",true);
+        }
+
+        List<String> collect = list.stream().filter(e -> !StrUtil.isBlank(e.getVailMessage()))
+                .map(FromInfo::getFieldType)
+                .collect(Collectors.toList());
+        if(!CollUtil.isEmpty(collect)){
+            if(collect.contains("String")){
+                map.put("NotBlank",true);
+            }
+            List<String> notCollect = collect.stream().filter(e -> !e.equals("String")).collect(Collectors.toList());
+            if(!CollUtil.isEmpty(notCollect)){
+                map.put("NotNull",true);
+            }
+        }
         outputFile(file,map, "template/"+templatePath,true);
     }
 
@@ -65,6 +90,17 @@ public class ThymeleafRest extends BaseCode{
         map.put("package","com.example.demo.aa");
         map.put("className",className);
         map.put("services",list);
+        outputFile(file,map, "template/"+templatePath,true);
+    }
+
+    public static void executeRest(String templatePath, String className, List<ServiceInfo> list,String serviceName){
+        String projectPath = System.getProperty("user.dir")+"/src/main/java/com/example/demo";
+        File file = new File(projectPath+"/aa/"+className+".java");
+        Map<String,Object> map = new ConcurrentHashMap<>();
+        map.put("package","com.example.demo.aa");
+        map.put("className",className);
+        map.put("services",list);
+        map.put("servicesName",serviceName);
         outputFile(file,map, "template/"+templatePath,true);
     }
 

@@ -1,117 +1,89 @@
-//package com.example.demo.webSocket.annotation;
-//
-//import jakarta.websocket.OnClose;
-//import jakarta.websocket.OnMessage;
-//import jakarta.websocket.OnOpen;
-//import jakarta.websocket.Session;
-//import jakarta.websocket.server.PathParam;
-//import jakarta.websocket.server.ServerEndpoint;
-//import lombok.extern.slf4j.Slf4j;
-//import org.springframework.stereotype.Component;
-//
-//import java.util.HashMap;
-//import java.util.Map;
-//import java.util.concurrent.CopyOnWriteArraySet;
-//
-//@Component
-//@Slf4j
-//@ServerEndpoint(value = "/websocket/{userId}",configurator = WebSocketConfiguration.class)
-//public class WebSocket  {
-//
-//
-//    /**
-//     * 线程安全的无序的集合
-//     */
-//    private static final CopyOnWriteArraySet<Session> SESSIONS = new CopyOnWriteArraySet<>();
-//
-//    /**
-//     * 存储在线连接数
-//     */
-//    private static final Map<String, Session> SESSION_POOL = new HashMap<>();
-//
-//    @OnOpen
-//    public void onOpen(Session session, @PathParam(value = "userId") String userId) {
-//        try {
-//            String token = (String) session.getUserProperties().get("token");
-//            SESSIONS.add(session);
-//            SESSION_POOL.put(userId, session);
-//            log.info("【WebSocket消息】有新的连接，总数为：" + SESSIONS.size());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    @OnClose
-//    public void onClose(Session session) {
-//        try {
-//            SESSIONS.remove(session);
-//            log.info("【WebSocket消息】连接断开，总数为：" + SESSIONS.size());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    @OnMessage
-//    public void onMessage(String message) {
-//        log.info("【WebSocket消息】收到客户端消息：" + message);
-//    }
-//
-//    /**
-//     * 此为广播消息
-//     *
-//     * @param message 消息
-//     */
-//    public void sendAllMessage(String message) {
-//        log.info("【WebSocket消息】广播消息：" + message);
-//        for (Session session : SESSIONS) {
-//            try {
-//                if (session.isOpen()) {
-//                    session.getAsyncRemote().sendText(message);
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
-//
-//    /**
-//     * 此为单点消息
-//     *
-//     * @param userId  用户编号
-//     * @param message 消息
-//     */
-//    public void sendOneMessage(String userId, String message) {
-//        Session session = SESSION_POOL.get(userId);
-//        if (session != null && session.isOpen()) {
-//            try {
-//                synchronized (session) {
-//                    log.info("【WebSocket消息】单点消息：" + message);
-//                    session.getAsyncRemote().sendText(message);
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
-//
-//    /**
-//     * 此为单点消息(多人)
-//     *
-//     * @param userIds 用户编号列表
-//     * @param message 消息
-//     */
-//    public void sendMoreMessage(String[] userIds, String message) {
-//        for (String userId : userIds) {
-//            Session session = SESSION_POOL.get(userId);
-//            if (session != null && session.isOpen()) {
-//                try {
-//                    log.info("【WebSocket消息】单点消息：" + message);
-//                    session.getAsyncRemote().sendText(message);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//    }
-//}
-//
+package com.example.demo.webSocket.annotation;
+
+import io.netty.handler.codec.http.HttpHeaders;
+import io.netty.handler.timeout.IdleStateEvent;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.MultiValueMap;
+import org.yeauty.annotation.*;
+import org.yeauty.pojo.Session;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.CopyOnWriteArraySet;
+
+@Slf4j
+@ServerEndpoint(value = "/websocket/link",port = "9527")
+public class WebSocket  {
+
+
+    /**
+     * 线程安全的无序的集合
+     */
+    private static final CopyOnWriteArraySet<Session> SESSIONS = new CopyOnWriteArraySet<>();
+
+    /**
+     * 存储在线连接数
+     */
+    private static final Map<String, Session> SESSION_POOL = new HashMap<>();
+
+    @BeforeHandshake
+    public void handshake(Session session, HttpHeaders headers, @RequestParam String req, @RequestParam MultiValueMap reqMap, @PathVariable String arg, @PathVariable Map pathMap){
+        session.setSubprotocols("stomp");
+        if (!"ok".equals(req)){
+            System.out.println("Authentication failed!");
+            session.close();
+        }
+    }
+
+    @OnOpen
+    public void onOpen(Session session, HttpHeaders headers, @RequestParam String req, @RequestParam MultiValueMap reqMap, @PathVariable String arg, @PathVariable Map pathMap){
+        System.out.println("new connection");
+        System.out.println(req);
+    }
+
+    @OnClose
+    public void onClose(Session session) throws IOException {
+        System.out.println("one connection closed");
+    }
+
+    @OnError
+    public void onError(Session session, Throwable throwable) {
+        throwable.printStackTrace();
+    }
+
+    @OnMessage
+    public void onMessage(Session session, String message) {
+        System.out.println(message);
+        session.sendText("Hello Netty!");
+    }
+
+    @OnBinary
+    public void onBinary(Session session, byte[] bytes) {
+        for (byte b : bytes) {
+            System.out.println(b);
+        }
+        session.sendBinary(bytes);
+    }
+
+    @OnEvent
+    public void onEvent(Session session, Object evt) {
+        if (evt instanceof IdleStateEvent) {
+            IdleStateEvent idleStateEvent = (IdleStateEvent) evt;
+            switch (idleStateEvent.state()) {
+                case READER_IDLE:
+                    System.out.println("read idle");
+                    break;
+                case WRITER_IDLE:
+                    System.out.println("write idle");
+                    break;
+                case ALL_IDLE:
+                    System.out.println("all idle");
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+}
+

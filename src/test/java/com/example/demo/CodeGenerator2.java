@@ -36,8 +36,8 @@ public class CodeGenerator2  extends BaseCode{
 
 
     public static void executeOneApi(ApiInfo info){
-        executeFrom("From.java.vm",info.getFromClass(),info.getFromList());
-        executeFrom("Vo.java.vm",info.getVoClass(),info.getVoList());
+        executeFrom("Req.java.vm",info.getFromClass(),info.getFromList());
+        executeFrom("Res.java.vm",info.getVoClass(),info.getVoList());
         executeService("Service.java.vm",info.getServiceClass(),info.getServiceInfoList());
     }
 

@@ -44,9 +44,6 @@ mybatis:
   #配置日志实现
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-ws:
-  host: 0.0.0.0
-  port: 9994
 driverClassName: asdf
 mock:
   enable: false
