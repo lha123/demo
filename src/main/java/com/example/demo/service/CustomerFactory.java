@@ -1,4 +1,4 @@
-package com.example.demo.servcie;
+package com.example.demo.service;
 
 public interface CustomerFactory {
 

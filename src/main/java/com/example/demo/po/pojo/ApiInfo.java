@@ -8,8 +8,10 @@ import java.util.List;
 @Data
 public class ApiInfo {
 
+    private String fromPackage;
     private String fromClass;
     private String voClass;
+    private String voPackage;
     //private String serviceClass;
     private List<FromInfo> fromList;
     private List<FromInfo> voList;
@@ -22,5 +24,8 @@ public class ApiInfo {
 
     private String restName;
     private String serviceName;
+
+    private String restPackage;
+    private String servicePackage;
 
 }

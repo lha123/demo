@@ -3,7 +3,7 @@ package com.example.demo.po;
 
 import cn.hutool.extra.spring.SpringUtil;
 import com.example.demo.annotation.SerizlizerDict;
-import com.example.demo.servcie.CustomerImplTest;
+import com.example.demo.service.CustomerImplTest;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.BeanProperty;
 import com.fasterxml.jackson.databind.JsonMappingException;

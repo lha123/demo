@@ -1,6 +1,6 @@
 package com.example.demo.springEl;
 
-import com.example.demo.servcie.CustomerServcie;
+import com.example.demo.service.CustomerServcie;
 import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

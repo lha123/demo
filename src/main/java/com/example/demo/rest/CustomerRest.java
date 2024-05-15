@@ -8,7 +8,7 @@ import com.example.demo.component.TestSingleton;
 import com.example.demo.mapper.CustomerMapper;
 import com.example.demo.po.TestAa;
 import com.example.demo.po.UserInfo;
-import com.example.demo.servcie.CustomerServcie;
+import com.example.demo.service.CustomerServcie;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;

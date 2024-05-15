@@ -12,7 +12,8 @@
 <body>
 <h3 style="color: red">java-Api生成</h3>
 <form id="app">
-    <h1>入参-><input id="fromClass" autocomplete="off" type="text" name="fromClass" placeholder="入参类名称"/></h1>
+    <h1>入参-><input id="fromPackage" autocomplete="off" type="text" name="fromPackage" placeholder="入参类包路径"/>
+        <input id="fromClass" autocomplete="off" type="text" name="fromClass" placeholder="入参类名称"/></h1>
     <dev id="ru">
         <dev>
             <select name="fieldType">
@@ -29,7 +30,8 @@
         </dev>
     </dev>
     <button id="ruBu">+</button>
-    <br><h1>出参-><input id="voClass" autocomplete="off" type="text" name="voClass" placeholder="出参类名称"/></h1>
+    <br><h1>出参-><input id="voPackage" autocomplete="off" type="text" name="voPackage" placeholder="出参类包路径"/>
+                <input id="voClass" autocomplete="off" type="text" name="voClass" placeholder="出参类名称"/></h1>
     <dev id="chu">
         <dev>
             <select name="fieldType">
@@ -93,6 +95,10 @@
             object["commitServiceMethod"] = $('input[name="commitServiceMethod"]:checked').val();
             object["restName"] = $('#rest').val();
             object["serviceName"] = $('#service').val();
+            object["fromPackage"] = $('#fromPackage').val();
+            object["voPackage"] = $('#voPackage').val();
+            object["restPackage"] = $('#restPackage').val();
+            object["servicePackage"] = $('#servicePackage').val();
             var stringify = JSON.stringify(object);
             $.ajax({
                 type: "post",
@@ -102,9 +108,11 @@
                 dataType: "json",
                 success: function(data){
                         alert("SUCCESS")
-                    $('#rest').remove()
-                    $('#service').remove()
-                    $("input[type=reset]").trigger("click");//触发reset按钮
+                    // $('#restPackage').remove()
+                    // $('#servicePackage').remove()
+                    // $('#rest').remove()
+                    // $('#service').remove()
+                    // $("input[type=reset]").trigger("click");//触发reset按钮
             }});
         });
     }
@@ -151,10 +159,14 @@
     $('#checkwebId').on('click', function() {
         if (this.checked) {
             // checkbox 是选中的
-            var a = "<input id=\"rest\" autocomplete=\"off\" type=\"text\" name=\"restName\" placeholder=\"rest类名称\"/>\n" +
+            var a = "<input id=\"restPackage\" autocomplete=\"off\" type=\"text\" name=\"restPackage\" placeholder=\"rest包路径\"/>\n" +
+                "<input id=\"rest\" autocomplete=\"off\" type=\"text\" name=\"restName\" placeholder=\"rest类名称\"/>\n" +
+                "   <input id=\"servicePackage\" autocomplete=\"off\" type=\"text\" name=\"servicePackage\" placeholder=\"servcie包路径\"/>\n"+
                 "    <input id=\"service\" autocomplete=\"off\" type=\"text\" name=\"serviceName\" placeholder=\"servcie名称\"/>"
             $("#webId").append(a);
         } else {
+            $('#restPackage').remove()
+            $('#servicePackage').remove()
             $('#rest').remove()
             $('#service').remove()
         }

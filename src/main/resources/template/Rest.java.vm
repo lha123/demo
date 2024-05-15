@@ -4,7 +4,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+import ${servicePackage}.${servicesName};
+#foreach($pack in ${pojoPackage})
+import $pack
+#end
 import javax.validation.Valid;
 
 /**

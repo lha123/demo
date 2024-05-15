@@ -1,6 +1,9 @@
 package ${package};
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+#foreach($pack in ${pojoPackage})
+import $pack
+#end
 /**
  * @author ${author}
  * @since ${date}

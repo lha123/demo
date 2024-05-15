@@ -1,7 +1,7 @@
 package com.example.demo.conf;
 
 
-import com.example.demo.servcie.CustomerFactory;
+import com.example.demo.service.CustomerFactory;
 import org.springframework.beans.factory.FactoryBean;
 
 import org.springframework.beans.factory.config.ServiceLocatorFactoryBean;

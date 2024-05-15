@@ -1,5 +1,7 @@
 package ${package};
-
+#foreach($pack in ${pojoPackage})
+import $pack
+#end
 /**
  * @author ${author}
  * @since ${date}

@@ -3,7 +3,7 @@ package com.example.demo.main;
 import cn.hutool.json.JSONUtil;
 import com.example.demo.design23.UserService;
 import com.example.demo.po.UserInfo;
-import com.example.demo.servcie.CustomerServcie;
+import com.example.demo.service.CustomerServcie;
 import com.google.common.collect.Sets;
 import lombok.SneakyThrows;
 import org.junit.Before;

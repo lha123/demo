@@ -11,6 +11,7 @@ public class ServiceInfo {
     private String fromLowerCase;
     private String vo;
     private String method;
+    private String[] packages;
 
     public ServiceInfo(String title, String method) {
         this.title = title;
