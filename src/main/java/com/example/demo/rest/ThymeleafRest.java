@@ -1,10 +1,12 @@
 package com.example.demo.rest;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.example.demo.po.pojo.ApiInfo;
 import com.example.demo.po.pojo.FromInfo;
 import com.example.demo.po.pojo.ServiceInfo;
+import com.google.common.collect.Lists;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,10 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -35,16 +34,24 @@ public class ThymeleafRest extends BaseCode{
 
     private static List<ServiceInfo> serviceInfoList = new ArrayList<>();
     public static void executeOneApi(ApiInfo info){
-        executeFrom("Req.java.vm",info.getFromClass(),info.getFromList(),info.getFromPackage());
-        executeFrom("Res.java.vm",info.getVoClass(),info.getVoList(),info.getVoPackage());
+        List<String> list = Lists.newArrayList();
+        if(!StrUtil.isBlank(info.getFromClass())){
+            list.add(info.getFromPackage().concat(".").concat(info.getFromClass()).concat(";"));
+            executeFrom("Req.java.vm",info.getFromClass(),info.getFromList(),info.getFromPackage());
+        }
+        if(!StrUtil.isBlank(info.getVoClass())) {
+            list.add(info.getVoPackage().concat(".").concat(info.getVoClass()).concat(";"));
+            executeFrom("Res.java.vm", info.getVoClass(), info.getVoList(), info.getVoPackage());
+        }
         ServiceInfo serviceInfo = new ServiceInfo(info.getTitle(),info.getMethod());
         serviceInfo.setRequestMode(info.getRequestMode());
         serviceInfo.setIsValid(Integer.valueOf(1).equals(info.getIsValid()));
         serviceInfo.setFromUpperCase(info.getFromClass());
         serviceInfo.setFromLowerCase(StrUtil.lowerFirst(info.getFromClass()));
-        serviceInfo.setVo(info.getVoClass());
-        serviceInfo.setPackages(new String[]{info.getFromPackage().concat(".").concat(info.getFromClass()).concat(";"),
-                info.getVoPackage().concat(".").concat(info.getVoClass()).concat(";")});
+        serviceInfo.setVo(Optional.ofNullable(info.getVoClass()).filter(StrUtil::isNotBlank).orElse("void"));
+        if(!CollUtil.isEmpty(list)){
+            serviceInfo.setPackages(ArrayUtil.toArray(list,String.class));
+        }
         serviceInfoList.add(serviceInfo);
         if(Integer.valueOf(1).equals(info.getCommitServiceMethod())){
             executeRest("Rest.java.vm",info.getRestName(), serviceInfoList,info.getServiceName(),info.getRestPackage(),info.getServicePackage());

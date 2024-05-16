@@ -13,6 +13,6 @@ public interface ${className}  {
     * ${service.title}
     * @param ${service.fromLowerCase}
     */
-    ${service.vo} ${service.method}(${service.fromUpperCase} ${service.fromLowerCase});
+    ${service.vo} ${service.method}(#if(${service.fromUpperCase})${service.fromUpperCase} ${service.fromLowerCase}#end);
 #end
 }
