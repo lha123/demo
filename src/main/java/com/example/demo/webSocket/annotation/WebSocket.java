@@ -32,7 +32,7 @@ public class WebSocket  {
         session.setSubprotocols("stomp");
         if (!"ok".equals(req)){
             System.out.println("Authentication failed!");
-            session.close();
+            //session.close();
         }
     }
 
@@ -40,6 +40,7 @@ public class WebSocket  {
     public void onOpen(Session session, HttpHeaders headers, @RequestParam String req, @RequestParam MultiValueMap reqMap, @PathVariable String arg, @PathVariable Map pathMap){
         System.out.println("new connection");
         System.out.println(req);
+        session.sendText("你好 uniapp");
     }
 
     @OnClose

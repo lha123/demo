@@ -1,23 +1,22 @@
 package com.example.demo.Aop;
 
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSON;
 import com.example.demo.conf.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.HttpMediaTypeException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.AsyncRequestTimeoutException;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @ControllerAdvice
 @RestController
@@ -75,7 +74,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     @ResponseStatus(HttpStatus.OK)
     public Response exceptionHandler(Exception exception) {
+        log.error("requestInfo:{}", JSONUtil.toJsonPrettyStr(TreadLocalVar.get()));
         log.error("exception:", exception);
+        TreadLocalVar.remove();
         return Response.failed(500,exception.getMessage());
     }
 
