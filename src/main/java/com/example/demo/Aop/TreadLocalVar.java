@@ -2,12 +2,11 @@ package com.example.demo.Aop;
 
 
 import cn.hutool.core.collection.CollUtil;
-import com.alibaba.ttl.TransmittableThreadLocal;
 
 import java.util.Map;
 
 public class TreadLocalVar {
-    private static final ThreadLocal<Map<String,Object>> stringThreadLocal  = new TransmittableThreadLocal();
+    private static final ThreadLocal<Map<String,Object>> stringThreadLocal  = new ThreadLocal();
 
     public static void set(Map<String,Object> map){
       stringThreadLocal.set(map);
