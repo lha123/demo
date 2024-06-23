@@ -66,7 +66,6 @@ public class CustomerRest {
         HttpServletRequest request = getRequest();
         System.out.println(getRequest());
         TestAa aa = new TestAa();
-        int a = 1 / 0;
         aa.setCode(123);
         aa.setCode1(321);
         return aa;
@@ -79,9 +78,20 @@ public class CustomerRest {
         log.info("erwerwe========>");
         System.out.println("dsff");
 
-       UserInfo userInfo = customerMapper.selectByUser(81);
-        System.out.println(JSONUtil.toJsonPrettyStr(userInfo));
+        //UserInfo userInfo = customerMapper.selectByUser(81);
+        //System.out.println(JSONUtil.toJsonPrettyStr(userInfo));
         return "show1===dfdf=====eee===========>";
+    }
+
+    @GetMapping(value = "/show123")
+    public String show123(){
+
+        log.info("erwerwe========>");
+        System.out.println("dsff");
+
+        //UserInfo userInfo = customerMapper.selectByUser(81);
+        //System.out.println(JSONUtil.toJsonPrettyStr(userInfo));
+        return "show1===dfdf=====eee===========>123";
     }
 
     @RequestMapping("123")

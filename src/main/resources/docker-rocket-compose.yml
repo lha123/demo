@@ -32,20 +32,20 @@ services:
       rmq:
         aliases:
           - rmqbroker
-#  rmqconsole:
-#    image: apacherocketmq/rocketmq-dashboard
-#    container_name: rmqconsole
-#    ports:
-#      - 8080:8080
-#    environment:
-#      JAVA_OPT: "${JAVA_OPT} -server -Xms528m -Xmx528m -Xmn256m"
-#      JAVA_OPTS: -Drocketmq.namesrv.addr=rmqnamesrv:9876 -Dcom.rocketmq.sendMessageWithVIPChannel=false
-#    depends_on:
-#      - rmqnamesrv
-#    networks:
-#      rmq:
-#        aliases:
-#          - rmqconsole
+  rmqconsole:
+    image: apacherocketmq/rocketmq-dashboard
+    container_name: rmqconsole
+    ports:
+      - 8080:8080
+    environment:
+      JAVA_OPT: "${JAVA_OPT} -server -Xms528m -Xmx528m -Xmn256m"
+      JAVA_OPTS: -Drocketmq.namesrv.addr=rmqnamesrv:9876 -Dcom.rocketmq.sendMessageWithVIPChannel=false
+    depends_on:
+      - rmqnamesrv
+    networks:
+      rmq:
+        aliases:
+          - rmqconsole
 networks:
   rmq:
     driver: bridge

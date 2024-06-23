@@ -8,4 +8,8 @@ public interface CustomerServcie extends IService<UserInfo> {
 
     Integer show(String aa);
 
+    default Integer show1(){
+        return 1;
+    }
+
 }
