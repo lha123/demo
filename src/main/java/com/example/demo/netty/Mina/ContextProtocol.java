@@ -79,7 +79,7 @@ public class ContextProtocol {
      */
     private ContextProtocol(byte[] array) {
         this.length = array.length - 2;
-        this.seq = Utils.byteArray2Short(array, 0, false);
+        this.seq = UtilsService.byteArray2Short(array, 0, false);
         this.encryptFlag = Byte.toUnsignedInt(array[2]);
         this.protocolType = Byte.toUnsignedInt(array[3]);
         this.content = Arrays.copyOfRange(array, 4, this.length);
@@ -115,7 +115,7 @@ public class ContextProtocol {
     public IoBuffer convertIoBuffer() {
         ByteBuffer byteBuffer = convertByteBuffer();
         // 补充帧校验域，占2个字节
-        this.sign = Utils.calcCrc16(byteBuffer);
+        this.sign = UtilsService.calcCrc16(byteBuffer);
         byteBuffer.put(this.sign);
 
         return IoBuffer.wrap(byteBuffer);
@@ -131,14 +131,14 @@ public class ContextProtocol {
         byteBuffer.put(this.sign);
 
         byte[] array = byteBuffer.array();
-        return Utils.bytes2HexString(array, 0, array.length, false);
+        return UtilsService.bytes2HexString(array, 0, array.length, false);
     }
 
     private ByteBuffer convertByteBuffer() {
         ByteBuffer byteBuffer = ByteBuffer.allocate(this.length + 4);
         byteBuffer.put(ContextProtocol.HEADER);
         byteBuffer.put((byte) this.length);
-        byteBuffer.put(Utils.short2ByteArray(this.seq, false));
+        byteBuffer.put(UtilsService.short2ByteArray(this.seq, false));
         byteBuffer.put((byte) this.encryptFlag);
         byteBuffer.put((byte) this.protocolType);
         byteBuffer.put(this.content);

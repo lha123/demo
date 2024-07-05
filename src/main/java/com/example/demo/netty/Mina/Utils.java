@@ -1,391 +1,602 @@
 package com.example.demo.netty.Mina;
 
-import lombok.extern.slf4j.Slf4j;
+import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.HexUtil;
+import cn.hutool.core.util.StrUtil;
+import org.apache.mina.core.buffer.IoBuffer;
+import org.apache.mina.core.session.IoSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.nio.ByteBuffer;
+import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Objects;
 
-
-/**
- * 聚合工具类
- *
- * @author yuan dian
- * @date 2019/1/22
- * @time 10:08
- */
-@Slf4j
 public class Utils {
+    private static final Logger log = LoggerFactory.getLogger(UtilsService.class);
+    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    /**
-     * 从报文中取出类型为 BCD码的字段
-     */
-    public static String getBCDString(byte[] content, int start, int length) {
-        // BCD码高低位不需要翻转
-        return bytes2HexString(content, start, length, false);
+    public Utils() {
     }
 
-    /**
-     * 从报文中取出类型为 ASCII码的字段
-     */
-    public static String getAsciiString(byte[] content, int start, int length) {
-        // ASCII码高低位不需要翻转
-        return bytes2String(content, start, length, false);
+    public static byte int2byte(int s) {
+        return (byte)(s & 255);
     }
 
-    /**
-     * 从报文中取出车辆VIN码
-     *
-     * @param content 待处理的字节数组
-     * @param start   开始的字节位置
-     * @param reverse 字符串是否翻转
-     */
-    public static String getVinCode(byte[] content, int start, boolean reverse) {
-        return bytes2String(content, start, 17, reverse);
-    }
+    public static String stringToAscii(String hex) {
+        StringBuilder sb = new StringBuilder();
+        byte[] b = HexUtil.decodeHex(hex);
 
-    /**
-     * 将BCD码字符串转换为字节数组
-     */
-    public static byte[] bcdString2ByteArray(String input) {
-        // BCD码高低位不需要翻转
-        return hexStr2Bytes(input, false);
-    }
-
-    /**
-     * 将字节数组的元素转换为“十六进制的字符串形式”
-     *
-     * @param b            待处理的字节数组
-     * @param start        开始的字节位置
-     * @param length       要处理的字节数量
-     * @param littleEndian 是否小端传输
-     * @return 十六进制的字符串形式
-     */
-    public static String bytes2HexString(byte[] b, int start, int length, boolean littleEndian) {
-        StringBuilder ret = new StringBuilder();
-        // 小端传输时，数据低位在左，高位在右
-        if (littleEndian) {
-            for (int i = start + length - 1; i >= start; i--) {
-                String hex = Integer.toHexString(b[i] & 0xFF);
-                if (hex.length() == 1) {
-                    hex = '0' + hex;
-                }
-                ret.append(hex.toUpperCase());
-            }
-        } else {
-            for (int i = start; i < b.length && i < start + length; i++) {
-                String hex = Integer.toHexString(b[i] & 0xFF);
-                if (hex.length() == 1) {
-                    hex = '0' + hex;
-                }
-                ret.append(hex.toUpperCase());
-            }
+        for(int i = 0; i < b.length; ++i) {
+            sb.append((char)b[i]);
         }
 
-        return ret.toString();
+        return sb.toString();
     }
 
-    /**
-     * 从字节数组中取出字符串
-     *
-     * @param b       待处理的字节数组
-     * @param offset  开始的字节位置
-     * @param length  连续使用的字节个数
-     * @param reverse 转换的字符串是否需要翻转
-     * @return ASCII码字符串
-     */
-    public static String bytes2String(byte[] b, int offset, int length, boolean reverse) {
-        StringBuilder ret = new StringBuilder();
-        if (reverse) {
-            for (int i = offset + length - 1; i >= offset; i--) {
-                String hex = String.valueOf((char) (b[i] & 0xFF));
-                ret.append(hex.toUpperCase());
-            }
-            return ret.toString();
+    public static String Bytes2String(byte[] b, int start, int length, boolean reverse) {
+        return stringToAscii(BytesHexString(b, start, length, reverse));
+    }
+
+    public static long byteArray2int(byte[] b, int offset, boolean reverse) {
+        long value = 0L;
+
+        for(int i = 0; i < 4; ++i) {
+            int shift = reverse ? i * 8 : (3 - i) * 8;
+            value += (long)((b[i + offset] & 255) << shift);
         }
-        for (int i = offset; i < b.length && i < offset + length; i++) {
-            String hex = String.valueOf((char) (b[i] & 0xFF));
-            ret.append(hex.toUpperCase());
+
+        return value & 4294967295L;
+    }
+
+    public static long byteArray2long(byte[] b, int offset, boolean reverse) {
+        long value = 0L;
+
+        for(int i = 0; i < 8; ++i) {
+            int shift = reverse ? i * 8 : (3 - i) * 8;
+            value += (long)((b[i + offset] & 255) << shift);
         }
-        return ret.toString();
-    }
 
-    /**
-     * 将“十六进制”形式的字符串转换成对应的字节数组
-     */
-    public static byte[] hexStr2Bytes(String src, boolean littleEndian) {
-        // 对输入值进行规范化整理
-        src = src.trim().replace(" ", "").toUpperCase(Locale.US);
-
-        // 处理值初始化
-        int m;
-        int n;
-        // 计算长度
-        int iLen = src.length() / 2;
-        // 分配存储空间
-        byte[] ret = new byte[iLen];
-        for (int i = 0; i < iLen; i++) {
-            m = i * 2 + 1;
-            n = m + 1;
-            ret[littleEndian ? (iLen - i - 1) : i] =
-                    (byte) (Integer.decode("0x" + src.substring(i * 2, m) + src.substring(m, n)) & 0xFF);
-        }
-        return ret;
-    }
-
-    /**
-     * 将时间字符串转换成 CP56Time2a 格式
-     *
-     * @param time 日期时间，格式：yyyy-MM-dd HH:mm:ss
-     */
-    public static byte[] cp56Time2aToByteArray(String time) {
-        // 日期转换
-        Date date;
-        try {
-            if (Objects.nonNull(time)) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                date = sdf.parse(time);
-            } else {
-                date = new Date();
-            }
-        } catch (ParseException e) {
-            log.warn("cp56Time2aToByteArray，日期格式转换错误，取当前时间。time：{}", time);
-            date = new Date();
-        }
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-
-        byte[] cp56Time2a = new byte[7];
-        // 计算出毫秒，占两个字节，且低位在前，高位在后
-        byte[] milliseconds = short2ByteArray(calendar.get(Calendar.SECOND) * 1000, true);
-        cp56Time2a[0] = milliseconds[0];
-        cp56Time2a[1] = milliseconds[1];
-        // 计算出分钟，占一个字节
-        cp56Time2a[2] = (byte) calendar.get(Calendar.MINUTE);
-        // 计算出小时，占一个字节
-        cp56Time2a[3] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
-        // 计算出日期（不关注周几），占一个字节
-        cp56Time2a[4] = (byte) calendar.get(Calendar.DAY_OF_MONTH);
-        // 计算出月份，占一个字节
-        cp56Time2a[5] = (byte) (calendar.get(Calendar.MONTH) + 1);
-        // 计算出年份，但要减去2000（2000年 为基准年）
-        cp56Time2a[6] = (byte) (calendar.get(Calendar.YEAR) - 2000);
-        return cp56Time2a;
-    }
-
-    /**
-     * 从 CP56Time2a 格式的数据中解析出时间
-     *
-     * @return time 日期时间，格式：yyyy-MM-dd HH:mm:ss
-     */
-    public static Date byteArray2CP56Time2a(byte[] content, int offset) {
-        // 计算出年份，要加上 2000（2000年 为基准年）
-        int year = Byte.toUnsignedInt(content[offset + 6]) + 2000;
-        // 计算出月份，低4位为有效数据
-        int month = Byte.toUnsignedInt(content[offset + 5]) & 0x0F;
-        // 计算出日，低5位为有效数据（高3位代表“周几”，不需要）
-        int day = Byte.toUnsignedInt(content[offset + 4]) & 0x1F;
-        // 计算出小时，低5位为有效数据
-        int hour = Byte.toUnsignedInt(content[offset + 3]) & 0x1F;
-        // 计算出分钟，低6位为有效数据
-        int minute = Byte.toUnsignedInt(content[offset + 2]) & 0x3F;
-        // 计算出毫秒，占两个字节，除以 1000 得到 秒
-        int second = byteArray2Short(content, offset, true) / 1000;
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month - 1, day, hour, minute, second);
-        return calendar.getTime();
-    }
-
-    /**
-     * 取int型数字的2个低位字节并放入字节数组
-     *
-     * @param littleEndian 是否小端传输
-     * @return 长度为2的字节数组
-     */
-    public static byte[] short2ByteArray(int s, boolean littleEndian) {
-        byte[] src = new byte[2];
-        // 小端传输时，数据低位在左，高位在右
-        if (littleEndian) {
-            src[0] = (byte) s;
-            src[1] = (byte) (s >> 8);
-        } else {
-            src[0] = (byte) (s >> 8);
-            src[1] = (byte) s;
-        }
-        return src;
-    }
-
-    /**
-     * 将int型数字转换为长度为4的字节数组
-     *
-     * @param littleEndian 是否小端传输
-     * @return 长度为4的字节数组
-     */
-    public static byte[] int2byteArray(int s, boolean littleEndian) {
-        byte[] src = new byte[4];
-        if (littleEndian) {
-            src[3] = (byte) (s >> 24);
-            src[2] = (byte) (s >> 16);
-            src[1] = (byte) (s >> 8);
-            src[0] = (byte) s;
-        } else {
-            src[0] = (byte) (s >> 24);
-            src[1] = (byte) (s >> 16);
-            src[2] = (byte) (s >> 8);
-            src[3] = (byte) s;
-        }
-        return src;
-    }
-
-    /**
-     * 从字节数组中取出一个“用连续两个字节”表示的整数
-     *
-     * @param b            待处理的字节数组
-     * @param offset       开始的字节位置
-     * @param littleEndian 是否小端传输
-     * @return int型整数
-     */
-    public static int byteArray2Short(byte[] b, int offset, boolean littleEndian) {
-        int left;
-        int right;
-        // 小端传输时，低位在前，高位在后
-        if (littleEndian) {
-            left = b[offset + 1] & 0xFF;
-            right = b[offset] & 0xFF;
-        } else {
-            left = b[offset] & 0xFF;
-            right = b[offset + 1] & 0xFF;
-        }
-        return (left << 8) | right;
-    }
-
-    /**
-     * 从字节数组中取出一个“用连续四个字节”表示的整数，并构造成浮点数
-     *
-     * @param b            待处理的字节数组
-     * @param offset       开始的字节位置
-     * @param scale        小数位数
-     * @param littleEndian 是否小端传输
-     */
-    public static BigDecimal getBigDecimalFromByte4(byte[] b, int offset, int scale, boolean littleEndian) {
-        // 取出 四个字节表示的整数
-        long value = byteArray2Long(b, offset, 4, littleEndian);
-        // 除以倍率（10的scale次方）得到一个浮点数
-        BigDecimal pow = BigDecimal.valueOf(Math.pow(10, scale));
-        return new BigDecimal(value).divide(pow, scale, BigDecimal.ROUND_HALF_UP);
-    }
-
-    /**
-     * 从字节数组中取出一个“用连续四个字节”表示的整数，并构造成浮点数
-     *
-     * @param b            待处理的字节数组
-     * @param offset       开始的字节位置
-     * @param scale        小数位数
-     * @param littleEndian 是否小端传输
-     * @return double型数字
-     */
-    public static double intByteArray2Double(byte[] b, int offset, int scale, boolean littleEndian) {
-        // 取出 四个字节表示的整数
-        return longByteArray2double(b, offset, 4, scale, littleEndian);
-    }
-
-    /**
-     * 从字节数组中取出一个“用连续n个字节”表示的整数，并构造成浮点数
-     *
-     * @param b
-     * @param offset
-     * @param scale
-     * @param littleEndian
-     * @return
-     */
-    public static double longByteArray2double(byte[] b, int offset, int length, int scale, boolean littleEndian) {
-        long value = byteArray2Long(b, offset, length, littleEndian);
-        // 除以倍率（10的scale次方）得到一个浮点数
-        BigDecimal pow = BigDecimal.valueOf(Math.pow(10, scale));
-        return new BigDecimal(value).divide(pow, scale, BigDecimal.ROUND_HALF_UP).doubleValue();
-    }
-
-    /**
-     * 从字节数组中取出一个“用连续n个字节”表示的整数
-     *
-     * @param b            待处理的字节数组
-     * @param offset       开始的字节位置
-     * @param littleEndian 是否小端传输
-     * @return long型数字
-     */
-    public static long byteArray2Long(byte[] b, int offset, int length, boolean littleEndian) {
-        long value = 0;
-        for (int i = 0; i < length; i++) {
-            int shift = littleEndian ? i * 8 : (length - 1 - i) * 8;
-            value += (long) (b[i + offset] & 0xFF) << shift;
-        }
         return value;
     }
 
-    /**
-     * 对字符串做补齐操作
-     *
-     * @param code     原字符串
-     * @param len      补齐到的长度
-     * @param fillWord 用于补齐的字符
-     * @return 补齐后的字符串
-     */
+    public static byte[] int2byteArray(int s, boolean reverse) {
+        byte[] src = new byte[4];
+        if (reverse) {
+            src[3] = (byte)(s >> 24 & 255);
+            src[2] = (byte)(s >> 16 & 255);
+            src[1] = (byte)(s >> 8 & 255);
+            src[0] = (byte)(s & 255);
+        } else {
+            src[0] = (byte)(s >> 24 & 255);
+            src[1] = (byte)(s >> 16 & 255);
+            src[2] = (byte)(s >> 8 & 255);
+            src[3] = (byte)(s & 255);
+        }
+
+        return src;
+    }
+
+    public static byte[] long2byteArray(long s, boolean reverse) {
+        byte[] src = new byte[8];
+
+        for(int i = 0; i < 8; ++i) {
+            src[i] = (byte)((int)(s >> (reverse ? 8 * i : 8 * (8 - i - 1)) & 255L));
+        }
+
+        return src;
+    }
+
+    public static String getHexStr(byte[] msg) {
+        return HexUtil.encodeHexStr(msg, false);
+    }
+
+    public static String reverseString(String hex) {
+        String str = StrUtil.emptyToDefault(hex, "");
+        String[] cut = StrUtil.cut(str, 2);
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for(int i = cut.length - 1; i >= 0; --i) {
+            stringBuilder.append(cut[i]);
+        }
+
+        return stringBuilder.toString().toUpperCase();
+    }
+
+    public static String BytesHexString(String hexStr, int start, int length, boolean reverse) {
+        String sub = StrUtil.sub(hexStr, start * 2, (start + length) * 2);
+        return reverse ? reverseString(sub) : sub;
+    }
+
+    public static String BytesHexString(byte[] b, int start, int length, boolean reverse) {
+        byte[] bytes = subByte(b, start, length);
+        String hexStr = getHexStr(bytes);
+        return reverse ? reverseString(hexStr) : hexStr;
+    }
+
+    public static int byte2int(byte b) {
+        return b & 255;
+    }
+
+    public static byte[] subByte(byte[] b, int off, int length) {
+        if (off >= b.length) {
+            return new byte[0];
+        } else {
+            if (b.length - off < length) {
+                length = b.length - off;
+            }
+
+            byte[] b1 = new byte[length];
+            System.arraycopy(b, off, b1, 0, length);
+            return b1;
+        }
+    }
+
+    public static String getGunCode(byte[] msg, int start) {
+        return BytesHexString((byte[])msg, 6 + start, 8, false);
+    }
+
+    public static String getPileNumber(String gunCode) {
+        return StrUtil.sub(gunCode, 0, 14);
+    }
+
+    public static int getGunNum(String gunCode) {
+        return Convert.toInt(gunCode.substring(gunCode.length() - 2));
+    }
+
+    public static int byteArray2short(byte[] b, int offset, boolean reverse) {
+        int value = 0;
+
+        for(int i = 0; i < 2; ++i) {
+            int shift = reverse ? i * 8 : (1 - i) * 8;
+            value += (b[i + offset] & 255) << shift;
+        }
+
+        return value;
+    }
+
+    public static int byteArray2short2(byte[] b, int offset, boolean reverse) {
+        int value = 0;
+
+        for(int i = 0; i < 3; ++i) {
+            int shift = reverse ? i * 8 : (1 - i) * 8;
+            value += (b[i + offset] & 255) << shift;
+        }
+
+        return value;
+    }
+
+    public static byte[] short2byteArray(int s, boolean reverse) {
+        byte[] src = new byte[2];
+        if (reverse) {
+            src[1] = (byte)(s >> 8 & 255);
+            src[0] = (byte)(s & 255);
+        } else {
+            src[0] = (byte)(s >> 8 & 255);
+            src[1] = (byte)(s & 255);
+        }
+
+        return src;
+    }
+
+    public static double byteArray2double(byte[] b, int offset, int scale, boolean reverse) {
+        int value = byteArray2short(b, offset, reverse);
+        return (new BigDecimal(value)).divide(new BigDecimal(Math.pow(10.0, (double)scale))).setScale(scale, 4).doubleValue();
+    }
+
+    public static double longbyteArray2double(byte[] b, int offset, int scale, boolean reverse) {
+        long value = byteArray2int(b, offset, reverse);
+        return (new BigDecimal(value)).divide(new BigDecimal(Math.pow(10.0, (double)scale))).setScale(scale, 4).doubleValue();
+    }
+
+    public static byte[] double2byteArray(double d, int scale, boolean reverse) {
+        short value = (short)((int)(d * Math.pow(10.0, (double)scale)));
+        return short2byteArray(value, reverse);
+    }
+
+    public static byte[] double2longbyteArray(double d, int scale, boolean reverse) {
+        int value = (int)(d * Math.pow(10.0, (double)scale));
+        log.info("value {}", value);
+        return int2byteArray(value, reverse);
+    }
+
+    public static void main(String[] args) {
+        String hexStr1 = getHexStr("SALMN1D43CA371750".getBytes());
+        byte[] bytes1 = hexStr2Bytes(hexStr1, false);
+        System.out.println(hexStr1);
+        System.out.println(Bytes2String(bytes1, 0, bytes1.length, false));
+        double pow = Math.pow(10.0, 4.0);
+        System.out.println(pow);
+        int value = (int)(15.400000000000002 * Math.pow(10.0, 4.0));
+        System.out.println(value);
+        System.out.println(getHexStr(new byte[]{int2byte(-2)}));
+        String hexStr = getHexStr(new byte[]{int2byte(-1)});
+        System.out.println(hexStr);
+        byte[] bytes = hexStr2Bytes(hexStr, false);
+        System.out.println(int2byte(bytes[0]));
+    }
+
+    public static String bytes2String(byte[] b, int start, int length, boolean reverse) {
+        StringBuilder ret = new StringBuilder();
+        int i;
+        String hex;
+        if (reverse) {
+            for(i = start + length - 1; i >= start; --i) {
+                hex = String.valueOf((char)(b[i] & 255));
+                ret.append(hex.toUpperCase());
+            }
+
+            return ret.toString();
+        } else {
+            for(i = start; i < b.length && i < start + length; ++i) {
+                hex = String.valueOf((char)(b[i] & 255));
+                ret.append(hex.toUpperCase());
+            }
+
+            return ret.toString();
+        }
+    }
+
+    public static byte[] string2Bytes(String str, boolean reverse) {
+        byte[] bytes = str.getBytes();
+        if (!reverse) {
+            return bytes;
+        } else {
+            byte[] reverseBytes = new byte[bytes.length];
+
+            for(int i = 0; i < bytes.length; ++i) {
+                reverseBytes[i] = bytes[bytes.length - 1 - i];
+            }
+
+            return reverseBytes;
+        }
+    }
+
+    public static byte[] hexStr2Bytes(String src, boolean reverse) {
+        src = src.trim().replace(" ", "").toUpperCase(Locale.US);
+        int m = 0;
+        int n = 0;
+        int iLen = src.length() / 2;
+        byte[] ret = new byte[iLen];
+
+        for(int i = 0; i < iLen; ++i) {
+             m = i * 2 + 1;
+             n = m + 1;
+            ret[reverse ? iLen - i - 1 : i] = (byte)(Integer.decode("0x" + src.substring(i * 2, m) + src.substring(m, n)) & 255);
+        }
+
+        return ret;
+    }
+
+    public static String bytesHexString(byte[] b, int start, int length, boolean reverse) {
+        StringBuilder ret = new StringBuilder();
+        int i;
+        String hex;
+        if (reverse) {
+            for(i = start + length - 1; i >= start; --i) {
+                hex = Integer.toHexString(b[i] & 255);
+                if (hex.length() == 1) {
+                    hex = '0' + hex;
+                }
+
+                ret.append(hex.toUpperCase());
+            }
+
+            return ret.toString();
+        } else {
+            for(i = start; i < b.length && i < start + length; ++i) {
+                hex = Integer.toHexString(b[i] & 255);
+                if (hex.length() == 1) {
+                    hex = '0' + hex;
+                }
+
+                ret.append(hex.toUpperCase());
+            }
+
+            return ret.toString();
+        }
+    }
+
+    public static String tailbytesHexString(byte[] b, int length) {
+        StringBuilder ret = new StringBuilder();
+
+        for(int i = b.length - 1; i >= b.length - length; --i) {
+            String hex = Integer.toHexString(b[i] & 255);
+            if (hex.length() == 1) {
+                hex = '0' + hex;
+            }
+
+            ret.append(hex.toUpperCase());
+        }
+
+        return ret.toString();
+    }
+
+    public static String tailbytesHexString(byte[] b, int index, int length) {
+        StringBuilder ret = new StringBuilder();
+        int startIndex = b.length - index;
+
+        for(int i = startIndex - 1; i >= startIndex - length; --i) {
+            String hex = Integer.toHexString(b[i] & 255);
+            if (hex.length() == 1) {
+                hex = '0' + hex;
+            }
+
+            ret.append(hex.toUpperCase());
+        }
+
+        return ret.toString();
+    }
+
+    public static boolean isNotEmpty(String str) {
+        return str != null && str.length() > 0;
+    }
+
+    public static Date byteArray2CP56Time2a(byte[] content, int p) {
+        String year = "20" + formatDateStr(content[p + 6] & 255);
+        String month = formatDateStr(content[p + 5] & 255);
+        String weekAndDay = getFillCode(Integer.toBinaryString(content[p + 4] & 255), 8, "0");
+        String day = weekAndDay.substring(weekAndDay.length() - 5, weekAndDay.length());
+        String hour = formatDateStr(content[p + 3] & 255);
+        String minute = formatDateStr(content[p + 2] & 255);
+        int sec = byteArray2short(content, p, true) / 1000;
+        String second = formatDateStr(sec);
+        Date date = null;
+
+        try {
+            date = sdf.parse(year + "-" + month + "-" + Integer.parseInt(day, 2) + " " + hour + ":" + minute + ":" + second);
+        } catch (ParseException var12) {
+            ParseException pe = var12;
+            pe.printStackTrace();
+        }
+
+        return date;
+    }
+
+    public static byte[] String2Bytes(String str, boolean reverse) {
+        byte[] bytes = str.getBytes();
+        if (!reverse) {
+            return bytes;
+        } else {
+            byte[] reverseBytes = new byte[bytes.length];
+
+            for(int i = 0; i < bytes.length; ++i) {
+                reverseBytes[i] = bytes[bytes.length - 1 - i];
+            }
+
+            return reverseBytes;
+        }
+    }
+
+    public static int[] halfByte2int(byte b) {
+        String bstr = Integer.toBinaryString(b & 255);
+        String str = getFillCode(bstr, 8, "0");
+        String len = bstr.substring(str.length() - 7, bstr.length());
+        String continuedSign = bstr.substring(0, 1);
+        return new int[]{Integer.parseInt(continuedSign), Integer.parseInt(len)};
+    }
+
+    public static byte[] cp56Time2a2byteArray(String time) {
+        Date date = new Date();
+
+        try {
+            if (isNotEmpty(time)) {
+                date = sdf.parse(time);
+            }
+        } catch (ParseException var5) {
+            ParseException e = var5;
+            e.printStackTrace();
+        }
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        byte[] CP56Time2a = new byte[7];
+        byte[] seconds = short2byteArray(calendar.get(13) * 1000, true);
+        CP56Time2a[0] = seconds[0];
+        CP56Time2a[1] = seconds[1];
+        CP56Time2a[2] = (byte)calendar.get(12);
+        CP56Time2a[3] = (byte)calendar.get(11);
+        CP56Time2a[4] = (byte)calendar.get(5);
+        CP56Time2a[5] = (byte)(calendar.get(2) + 1);
+        CP56Time2a[6] = (byte)(calendar.get(1) % 100);
+        return CP56Time2a;
+    }
+
+    public static String formatDateStr(int i) {
+        String hexStr = String.valueOf(i);
+        if (hexStr.length() == 1) {
+            hexStr = "0" + hexStr;
+        }
+
+        return hexStr;
+    }
+
+    public static Date byteArray2Time(byte[] content, int i, boolean b) {
+        String year = bytesHexString(content, i + 5, 2, true);
+        String month = bytesHexString(content, i + 4, 1, true);
+        String day = bytesHexString(content, i + 3, 1, true);
+        String hour = bytesHexString(content, i + 2, 1, true);
+        String minute = bytesHexString(content, i + 1, 1, true);
+        String second = bytesHexString(content, i, 1, true);
+        Date date = null;
+
+        try {
+            date = sdf.parse(year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second);
+        } catch (ParseException var11) {
+            ParseException pe = var11;
+            pe.printStackTrace();
+        }
+
+        return date;
+    }
+
+    public static byte[] getCurrentTimeBytes() {
+        Calendar current = Calendar.getInstance();
+        int millsecond = current.get(13) * 1000;
+        int min = current.get(12);
+        int hour = current.get(11);
+        String dayOfWeek = getFillCode(Integer.toBinaryString(current.get(7) - 1), 8, "0");
+        String dayOfMonth = getFillCode(Integer.toBinaryString(current.get(5)), 8, "0");
+        int day = Integer.parseInt(dayOfWeek.substring(5, 8) + dayOfMonth.substring(3, 8), 2);
+        int month = current.get(2) + 1;
+        int year = Integer.parseInt(String.valueOf(current.get(1)).substring(2));
+        ByteBuffer out = ByteBuffer.allocate(1024);
+        out.put(short2byteArray(millsecond, true));
+        out.put((byte)(min & 255));
+        out.put((byte)(hour & 255));
+        out.put((byte)(day & 255));
+        out.put((byte)(month & 255));
+        out.put((byte)(year & 255));
+        out.flip();
+        byte[] octets = new byte[out.remaining()];
+        out.get(octets);
+        return octets;
+    }
+
     public static String getFillCode(String code, int len, String fillWord) {
-        code = code == null ? "" : code;
         if (len > code.length()) {
             StringBuilder sb = new StringBuilder();
-            for (int i = code.length(); i < len; i++) {
+
+            for(int i = code.length(); i < len; ++i) {
                 sb.append(fillWord);
             }
+
             sb.append(code);
             code = sb.toString();
         }
+
         return code;
     }
 
-    /**
-     * 计算出两个时间之间的分钟差
-     *
-     * @param stateTime 开始时间
-     * @param endTime   结束时间
-     * @return 分钟差
-     */
-    public static long diffMinute(Date stateTime, Date endTime) {
-        long stateTimeLong = stateTime.getTime();
-        long endTimeLong = endTime.getTime();
-        return (endTimeLong - stateTimeLong) / (60 * 1000);
-    }
-
-    /**
-     * 对字符串转成的 ASCII码 前面补0
-     */
     public static byte[] getFillByteArray(byte[] array, int len) {
         if (len > array.length) {
             byte[] fillArray = new byte[len];
             System.arraycopy(array, 0, fillArray, 0, array.length);
             return fillArray;
+        } else {
+            return array;
         }
-        return array;
     }
 
-    /**
-     * 业务CRC16
-     */
+    public static int[] getBinaryArray(int b) {
+        int[] barray = new int[8];
+        String bstr = getFillCode(Integer.toBinaryString(b), 8, "0");
+        barray[7] = Integer.parseInt(bstr.substring(0, 1));
+        barray[6] = Integer.parseInt(bstr.substring(1, 2));
+        barray[5] = Integer.parseInt(bstr.substring(2, 3));
+        barray[4] = Integer.parseInt(bstr.substring(3, 4));
+        barray[3] = Integer.parseInt(bstr.substring(4, 5));
+        barray[2] = Integer.parseInt(bstr.substring(5, 6));
+        barray[1] = Integer.parseInt(bstr.substring(6, 7));
+        barray[0] = Integer.parseInt(bstr.substring(7, 8));
+        return barray;
+    }
+
+    public static synchronized String getFlowId(String uid) {
+        String time = (new SimpleDateFormat("yyyyMMddHHmmssSSS")).format(new Date());
+        return time + uid;
+    }
+
+    public static long getMinuteDiff(Date createTime) {
+        if (createTime != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(createTime);
+            Calendar calendar2 = Calendar.getInstance();
+            calendar2.setTime(new Date());
+            long timeTwo = calendar2.getTimeInMillis();
+            long timeOne = calendar.getTimeInMillis();
+            return (timeTwo - timeOne) / 60000L;
+        } else {
+            return 0L;
+        }
+    }
+
+    public static long getMinuteDiff(Time start, Time end) {
+        if (start != null && end != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(start);
+            Calendar calendar2 = Calendar.getInstance();
+            calendar2.setTime(end);
+            long timeTwo = calendar2.getTimeInMillis();
+            long timeOne = calendar.getTimeInMillis();
+            long diff = (timeTwo - timeOne) / 60000L;
+            return diff < 0L ? diff + 1440L : diff;
+        } else {
+            return 0L;
+        }
+    }
+
+    public static long getHourDiff(Date time) {
+        if (time != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(time);
+            Calendar calendar2 = Calendar.getInstance();
+            calendar2.setTime(new Date());
+            long timeTwo = calendar2.getTimeInMillis();
+            long timeOne = calendar.getTimeInMillis();
+            return (timeTwo - timeOne) / 3600000L;
+        } else {
+            return 0L;
+        }
+    }
+
     public static byte[] calcCrc16(ByteBuffer out) {
         out.flip();
         byte[] octets = new byte[out.remaining()];
         out.get(octets);
         int cal = CRC16.calcCrc16(octets, 2, octets.length - 2);
-        // 校验域占两个字节，BIN码，需要小端传输
-        byte[] array = short2ByteArray(cal, true);
+        byte[] array = short2byteArray(cal, true);
         out.limit(octets.length + 2);
         return array;
+    }
+
+    public static String getCurrentTime() {
+        return sdf.format(new Date());
+    }
+
+    public static void downMessage(IoSession session, byte[] countBytes) {
+        ByteBuffer out = ByteBuffer.allocate(6);
+        out.put(new byte[]{104, 4});
+        out.put(new byte[]{1, 0});
+        out.put(countBytes);
+        out.flip();
+        byte[] octets = new byte[out.remaining()];
+        out.get(octets);
+        IoBuffer o = IoBuffer.wrap(octets);
+        session.write(o);
+    }
+
+    public static synchronized String getFlowNum(String terminalId) {
+        String time = (new SimpleDateFormat("yyyyMMddHHmmssSS")).format(new Date());
+        String flowId;
+        if (time.length() == 17) {
+            flowId = terminalId + time.substring(0, time.length() - 1);
+        } else {
+            flowId = terminalId + time;
+        }
+
+        return flowId;
+    }
+
+    public static String date2String(Date date) {
+        return sdf.format(date);
+    }
+
+    public static byte[] getCurrentCP56TimeBytes() {
+        Date date = new Date();
+        return cp56Time2a2byteArray(sdf.format(date));
+    }
+
+    public static long sumTime(Date stateTime, Date endTime) {
+        long stateTimeLong = stateTime.getTime();
+        long endTimeLong = endTime.getTime();
+        long minute = (endTimeLong - stateTimeLong) / 60000L;
+        return minute;
     }
 
 }

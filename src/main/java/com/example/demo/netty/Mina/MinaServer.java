@@ -7,12 +7,16 @@ import org.apache.mina.filter.executor.ExecutorFilter;
 import org.apache.mina.filter.logging.LoggingFilter;
 import org.apache.mina.transport.socket.SocketAcceptor;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
 
 public class MinaServer {
+
+    private static final Logger log = LoggerFactory.getLogger(MinaServer.class);
 
     public static void main(String[] args) {
         SocketAcceptor acceptor = new NioSocketAcceptor();
@@ -38,6 +42,7 @@ public class MinaServer {
         // 绑定端口
         try {
             acceptor.bind(new InetSocketAddress(5005));
+            log.info("mina监听:{}",5005);
         } catch (IOException e) {
           e.printStackTrace();
         }
