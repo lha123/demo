@@ -12,6 +12,7 @@ import org.apache.ibatis.type.MappedTypes;
 import org.springframework.core.GenericTypeResolver;
 
 import java.lang.reflect.Type;
+import java.util.List;
 
 /**
  * Jackson 实现 JSON 字段类型处理器
@@ -31,7 +32,6 @@ public class JacksonArrayTypeHandler extends AbstractJsonTypeHandler<Object> {
             log.trace("JacksonTypeHandler(" + type + ")");
         }
         Assert.notNull(type, "Type argument cannot be null");
-
         this.type = type;
     }
 

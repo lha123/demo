@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface QueryMatching {
 
-    String alias() default "t";
+    Class<?> alias() default Void.class;
 
     String matching() default "";
 
@@ -22,5 +22,6 @@ public @interface QueryMatching {
 
     JoinInfo join() default @JoinInfo;
 
-    
+
+
 }

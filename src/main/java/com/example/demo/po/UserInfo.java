@@ -1,28 +1,33 @@
 package com.example.demo.po;
 
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import javax.validation.constraints.NotBlank;
+import lombok.experimental.FieldNameConstants;
 
 
 @Data
-@TableName(autoResultMap = true)
-public class UserInfo extends Model<UserInfo> {
+@TableName(value = "t_user")
+@FieldNameConstants
+public class UserInfo {
 
 
-    private Long id;
+    @TableId(type = IdType.AUTO)
+    private Integer id;
 
-    @NotBlank
+    @TableField("`name`")
     private String name;
 
     private Integer age;
 
     private String email;
 
-    private Integer aaT;
+    private Integer roleId;
+
 
 
 

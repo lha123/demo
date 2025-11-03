@@ -2,8 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.CustomerMapper">
+    <update id="updateUser">
+        UPDATE t_user SET `name` = #{name} WHERE `id` = #{id};
+    </update>
 
     <select id="selectByUser" parameterType="java.lang.Integer" resultType="com.example.demo.po.UserInfo">
-        select  * from user_info u where u.id = #{id} and name = 'aab'
+        select  * from t_user u where u.id = #{id}
     </select>
 </mapper>

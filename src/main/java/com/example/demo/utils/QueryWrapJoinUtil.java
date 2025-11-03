@@ -90,6 +90,7 @@ public class QueryWrapJoinUtil  {
 //    }
 
 
+
     private static <T,R> MPJLambdaWrapper<R> getJoinPredicate(T paramClass,Class<?> sourceClass,Class<?> returnClass) {
         MPJLambdaWrapper<R> wrapper = MPJWrappers.lambdaJoin();
         List<Field> fieldList = getFields(paramClass.getClass());
@@ -116,7 +117,7 @@ public class QueryWrapJoinUtil  {
                     continue;
                 }
                 // where
-                String fieldName = StrUtil.format("{}{}", annotation.alias().concat("."),StrUtil.toUnderlineCase(ReflectUtil.getFieldName(field)));
+                String fieldName = StrUtil.format("{}{}", StrUtil.lowerFirst(annotation.alias().getSimpleName()).concat("."),StrUtil.toUnderlineCase(ReflectUtil.getFieldName(field)));
                 String matching = annotation.matching();
                 switch (annotation.type()){
                     case eq:

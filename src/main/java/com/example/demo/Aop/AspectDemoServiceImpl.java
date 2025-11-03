@@ -17,12 +17,9 @@ public class AspectDemoServiceImpl implements AspectDemoService{
 
     @Override
     @Transactional
-    @AspectDemoTest(value = "liu")
+    //@AspectDemoTest(value = "liu")
     public Integer show(String a) {
-        UserInfo userInfo = new UserInfo();
-        userInfo.setId(81L);
-        userInfo.setName("aa");
-        customerMapper.updateById(userInfo);
+        int ag = 1/0;
         return 1123;
     }
 }

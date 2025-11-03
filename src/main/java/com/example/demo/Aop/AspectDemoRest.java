@@ -26,5 +26,14 @@ public class AspectDemoRest {
         System.out.println("adf");
         Integer show = demoService.show("111");
         return Lists.newArrayList("aaa","bbb");
+
+    }
+
+    @PostMapping("/show4")
+    // 定义一个POST请求，请求路径为/show4
+    public List<String> show3() {
+        // 定义一个返回类型为List<String>的方法
+        return Lists.newArrayList("aaa", "bbb");
+        // 返回一个包含两个字符串的List
     }
 }

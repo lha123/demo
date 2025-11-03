@@ -1,0 +1,31 @@
+version: "3"
+services:
+  skywalking-oap:
+    image: apache/skywalking-oap-server:8.5.0
+    container_name: skywalking-oap
+    ports:
+      - "12800:12800"
+      - "11800:11800"
+    networks:
+      - skywalking-network
+    depends_on:
+      - skywalking-elasticsearch
+    environment:
+      - SW_STORAGE=elasticsearch
+      - TZ=Asia/Shanghai
+      - SW_STORAGE_ES_CLUSTER_NODES=106.14.210.146:9200
+  skywalking-ui:
+    image: apache/skywalking-ui:8.5.0
+    container_name: skywalking-ui
+    ports:
+      - "18080:8080"
+    networks:
+      - skywalking-network
+    environment:
+      - SW_OAP_ADDRESS=http://127.0.0.1:12800
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./ui-config:/app/config
+networks:
+  skywalking-network:
+    driver: bridge

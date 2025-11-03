@@ -1,11 +1,16 @@
 server:
   port: 8089
+  max-http-header-size: 1024000
+#logging:
+#  level:
+#    org.springframework: DEBUG
+
 spring:
   datasource:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://139.224.1.155:3306/todo?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&autoReconnect=true&failOverReadOnly=false&testOnBorrow=true&validationQuery=select 1
-      username: comma-admin
-      password: qloofwYNZGnttbse
+      url: jdbc:mysql://81.69.195.111:23306/demo?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&autoReconnect=true&failOverReadOnly=false&testOnBorrow=true&validationQuery=select 1
+      username: root
+      password: bmV2eih*N3b2hlcmUK
       min-idle: 20
       max-active: 2000
   profiles:
@@ -50,8 +55,31 @@ mock:
   url: https://mock.apifox.cn/m1/2279271-0-default
 #logging:
 #  config: classpath:
+knife4j:
+  enable: true
+  # 生产环境建议关闭（禁用Swagger资源）
+  production: false
 
 
+log:
+  binlog:
+    hosts:
+      - name: demo
+        host: 81.69.195.111
+        port: 23306
+        username: root
+        password: bmV2eih*N3b2hlcmUK
+        timeOffset: 1000
+        filter:
+          # 全部填 *，指定某个数据库所有表填写 db_name.*
+          includes: demo.*
+          #  - dows.log_ddl_demo
+          # 不做排除 填写空 "" ,excludes 规则优先级高于 includes
+          excludes: ""
+          #  - dows.log_ddl_demo
+
+#ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '123456';
+#FLUSH PRIVILEGES;
 
 
 

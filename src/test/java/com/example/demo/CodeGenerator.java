@@ -3,8 +3,11 @@ package com.example.demo;
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
 import com.baomidou.mybatisplus.generator.config.builder.CustomFile;
+import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.DbColumnType;
 import com.baomidou.mybatisplus.generator.engine.VelocityTemplateEngine;
+import com.example.demo.annotation.YkcMybatisRepo;
+import com.example.demo.annotation.YkcMybatisRepoImpl;
 import com.google.common.collect.Lists;
 import org.checkerframework.checker.units.qual.C;
 
@@ -18,15 +21,16 @@ public class CodeGenerator {
      * 数据源配置
      */
     private static final DataSourceConfig.Builder DATA_SOURCE_CONFIG = new DataSourceConfig
-            .Builder("jdbc:mysql://139.224.1.155:3306/todo", "comma-admin", "qloofwYNZGnttbse");
+            .Builder("jdbc:mysql://81.69.195.111:23306/demo", "root", "bmV2eih*N3b2hlcmUK");
 
     public static void main(String[] args) {
         FastAutoGenerator.create(DATA_SOURCE_CONFIG)
                 .globalConfig(builder -> {
                     builder.author("liuhonger") // 设置作者
+                            .disableOpenDir()
                             .enableSwagger() // 开启 swagger 模式
-                            .fileOverride() // 覆盖已生成文件
-                            .outputDir(System.getProperty("user.dir") + "/src/main/java/"); // 指定输出目录
+                            .outputDir(System.getProperty("user.dir") + "/src/main/java/")
+                            .dateType(DateType.ONLY_DATE); // 设置日期类型为 Date
                 })
                 .dataSourceConfig(builder -> builder.typeConvertHandler((globalConfig, typeRegistry, metaInfo) -> {
                     int typeCode = metaInfo.getJdbcType().TYPE_CODE;
@@ -43,8 +47,28 @@ public class CodeGenerator {
 
                 })
                 .strategyConfig(builder -> {
-                    builder.addInclude("aa"); // 设置需要生成的表名
-                }).execute();
+                    builder.addInclude("t_user") // 设置需要生成的表名
+                            .addTablePrefix("t_")
+                            .entityBuilder()
+                            .enableFileOverride()
+                            .enableLombok() // 启用 Lombok
+                            .enableChainModel() // 启用链式模型（@Accessors(chain = true)）
+                            .serviceBuilder()
+                            .enableFileOverride()
+                            .superServiceClass(YkcMybatisRepo.class)
+                            .superServiceImplClass(YkcMybatisRepoImpl.class)
+                            .formatServiceFileName("%sRepo")
+                            .formatServiceImplFileName("%sRepoImp")
+                            .controllerBuilder()
+                            .enableFileOverride()
+                            .enableRestStyle(); // 启用 REST 风格
+                })
+                .templateConfig(builder -> {
+                    // 如果使用了自定义模板，指定路径
+                    builder.serviceImpl("/template2/serviceImpl.java.vm");
+                    builder.entity("/template2/entity.java.vm");
+                })
+                .execute();
     }
 
 

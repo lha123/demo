@@ -31,7 +31,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring.cloud-version}</version>
+                <version>2021.0.3</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -115,26 +115,20 @@
             <artifactId>transmittable-thread-local</artifactId>
             <version>2.2.0</version>
         </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-boot-starter</artifactId>
-            <version>3.0.0</version>
-        </dependency>
+
+
+        <!-- knife4j -->
+        <!-- 在公共模块可不加knife4j-spring-ui -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-ui</artifactId>
-            <version>2.0.9</version>
+            <version>3.0.3</version>
         </dependency>
+
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-boot-starter</artifactId>
             <version>3.0.3</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>knife4j-spring-ui</artifactId>
-                    <groupId>com.github.xiaoymin</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
@@ -263,7 +257,7 @@
         <dependency>
             <groupId>com.github.yulichang</groupId>
             <artifactId>mybatis-plus-join-boot-starter</artifactId>
-            <version>1.4.10</version>
+            <version>1.5.4</version>
         </dependency>
 
 <!--        <dependency>-->
@@ -298,6 +292,12 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.shyiko</groupId>
+            <artifactId>mysql-binlog-connector-java</artifactId>
+            <version>0.21.0</version>
         </dependency>
 
         <dependency>
@@ -342,14 +342,26 @@
         </dependency>
 
         <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.9.7</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.apache.mina</groupId>
             <artifactId>mina-core</artifactId>
             <version>2.0.7</version>
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-sleuth</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>1.18.36</version>
         </dependency>
 
         <!--        <dependency>-->
@@ -380,6 +392,7 @@
                     <include>**/*.yml</include>
                     <include>**/*.html</include>
                     <include>**/*.vm</include>
+                    <include>**/*.csv</include>
                 </includes>
                 <filtering>false</filtering>
             </resource>
@@ -464,6 +477,14 @@
                         <version>1.15</version>
                     </dependency>
                 </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>16</source>
+                    <target>16</target>
+                </configuration>
             </plugin>
         </plugins>
 

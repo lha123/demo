@@ -15,4 +15,5 @@ public @interface ChooseMapper {
     Class<?> mapperClass() default Void.class;
 
     Class<?> selectAsClass() default Void.class;
+
 }

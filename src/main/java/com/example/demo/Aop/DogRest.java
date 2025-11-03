@@ -6,15 +6,14 @@ import com.example.demo.po.DogShow1;
 import com.example.demo.po.TestAa;
 import com.example.demo.po.UserInfo;
 import com.google.common.collect.Lists;
-import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@BizImplements(DogService.class)
-@Api(value = "公告模块2", description = "公告模块2", tags = {"公告模块2"})
+@BizImplements(DogServiceImpl.class)
+//@Api(value = "公告模块2", description = "公告模块2", tags = {"公告模块2"})
 public interface DogRest extends DogApi{
 
     @GetMapping("/show2")

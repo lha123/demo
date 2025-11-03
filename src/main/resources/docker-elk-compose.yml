@@ -1,0 +1,56 @@
+version: '3'
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.0
+    container_name: elasticsearch-7.10.0
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms4048m -Xmx4048m
+      - indices.breaker.total.limit=80%
+      - indices.fielddata.cache.size=10%
+      - indices.breaker.fielddata.limit=60%
+      - indices.breaker.request.limit=40%
+      - index.highlight.max_analyzed_offset=2000000
+      - indices.breaker.total.use_real_memory=false
+      - cluster.routing.allocation.disk.watermark.low=85%
+      - cluster.routing.allocation.disk.watermark.high=90%
+      - cluster.routing.allocation.disk.watermark.flood_stage=95%
+      #- xpack.security.enabled=true  # 启用安全功能
+      - ELASTIC_PASSWORD=elastic123  # 设置 elastic 用户的密码
+    volumes:
+      - esdata1:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - elk
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.10.0
+    container_name: kibana-7.10.0
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - I18N_LOCALE=zh-CN
+      - monitoring.ui.container.elasticsearch.enabled=true
+      - ELASTICSEARCH_USERNAME=elastic
+      - ELASTICSEARCH_PASSWORD=elastic123  # 与 KIBANA_PASSWORD 一致
+      - elasticsearch.maxSockets=1000  # 默认40，减少并发连接
+      - elasticsearch.requestTimeout=60000  # 超时从30s改为60s
+    ports:
+      - "5601:5601"
+    networks:
+      - elk
+
+networks:
+  elk:
+    driver: bridge
+
+volumes:
+  esdata1:
+    driver: local
+
+
+#    PUT /_settings
+#    {
+#      "index.blocks.read_only_allow_delete": null
+#    }
+

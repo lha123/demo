@@ -1,20 +1,37 @@
 package com.example.demo.Aop;
 
-import org.hibernate.validator.constraints.Length;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.demo.po.TestAa;
+import com.example.demo.po.UserInfoRolesVo;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+
 @RestController
+@Slf4j
 @RequestMapping(value = "/car")
-public class CarRest implements CarApi{
-    @Override
-    public String show1(List<String> a) {
-        System.out.println("aa");
+public class CarRest {
+
+    @Autowired
+    private DogServiceApi dogServiceApi;
+
+
+    @GetMapping(value = "/show")
+    public String show1(HttpServletRequest request) {
         return "111";
     }
+
+    @PostMapping(value = "/show2")
+    public List<UserInfoRolesVo> show2(@RequestBody TestAa testAa) {
+
+        dogServiceApi.show(testAa);
+
+        return null;
+    }
+
+
+
 }

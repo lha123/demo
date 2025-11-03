@@ -29,7 +29,7 @@ public class TestMainEx extends TestMain {
     @Test
     public void updateById() {
         UserInfo userInfo = new UserInfo();
-        userInfo.setId(1L);
+        userInfo.setId(1);
         iService.updateById(userInfo);
         System.out.println(JSONUtil.toJsonPrettyStr(userInfo));
     }
