@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
 import com.baomidou.mybatisplus.generator.config.builder.CustomFile;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.DbColumnType;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.sql.Types;
 
@@ -44,6 +45,8 @@ public class Main {
                 .strategyConfig(builder -> {
                     builder.addInclude("t_user") // 设置需要生成的表名
                             .addTablePrefix("t_")
+                            .mapperBuilder()
+                            .mapperAnnotation(Mapper.class)
                             .entityBuilder()
                             .enableFileOverride()
                             .enableLombok() // 启用 Lombok

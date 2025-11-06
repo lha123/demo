@@ -1,5 +1,7 @@
 package com.example.demo;
 
+
+
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
 import com.baomidou.mybatisplus.generator.config.builder.CustomFile;
@@ -7,10 +9,9 @@ import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.DbColumnType;
 import com.example.demo.annotation.YkcMybatisRepo;
 import com.example.demo.annotation.YkcMybatisRepoImpl;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.sql.Types;
-import java.util.HashMap;
-import java.util.Map;
 
 public class CodeGenerator {
 
@@ -40,44 +41,59 @@ public class CodeGenerator {
                 }))
                 .packageConfig(builder -> {
                     builder.parent("com.example.demo") // 设置父包名
-                            .moduleName("aa")
-                            .service("repository") // 设置 Service 包名
-                            .serviceImpl("repository.impl"); // 设置 Service Impl 包名
+                            .moduleName("aa");
 
                 })
                 .strategyConfig(builder -> {
                     builder.addInclude("t_user") // 设置需要生成的表名
                             .addTablePrefix("t_")
+                            .mapperBuilder()
+                            .mapperAnnotation(Mapper.class)
                             .entityBuilder()
                             .enableFileOverride()
                             .enableLombok() // 启用 Lombok
                             .enableChainModel() // 启用链式模型（@Accessors(chain = true)）
-                            .serviceBuilder()
+                            .repoBuilder()
                             .enableFileOverride()
-                            .superServiceClass(YkcMybatisRepo.class)
-                            .superServiceImplClass(YkcMybatisRepoImpl.class)
-                            .formatServiceFileName("%sRepo")
-                            .formatServiceImplFileName("%sRepoImp")
+                            .repoBuilder()
+                            .enableFileOverride()
+                            .superRepoClass(YkcMybatisRepo.class)
+                            .superRepoImplClass(YkcMybatisRepoImpl.class)
                             .controllerBuilder()
                             .enableFileOverride()
                             .enableRestStyle(); // 启用 REST 风格
                 })
                 .templateConfig(builder -> {
                     // 如果使用了自定义模板，指定路径
-                    builder.serviceImpl("/template2/repoImpl.java.vm");
-                    builder.entity("/template2/entity.java.vm");
 
                 })
                 .injectionConfig(builder->{
                     builder.customFile(new CustomFile.Builder()
-                            .fileName("DTO.java")
-                            .templatePath("/templates/dto.java.vm")
+                            .fileName("AddDTO.java")
+                            .templatePath("/templates/addDTO.java.vm")
+                            .packageName("dto").build());
+                    builder.customFile(new CustomFile.Builder()
+                            .fileName("UpdateDTO.java")
+                            .templatePath("/templates/updateDTO.java.vm")
+                            .packageName("dto").build());
+                    builder.customFile(new CustomFile.Builder()
+                            .fileName("DetailVO.java")
+                            .templatePath("/templates/detailVO.java.vm")
+                            .packageName("dto").build());
+
+                    builder.customFile(new CustomFile.Builder()
+                            .fileName("PageDTO.java")
+                            .templatePath("/templates/pageDTO.java.vm")
+                            .packageName("dto").build());
+
+                    builder.customFile(new CustomFile.Builder()
+                            .fileName("PageVO.java")
+                            .templatePath("/templates/pageVO.java.vm")
                             .packageName("dto").build());
 
                 })
                 .execute();
     }
-
 
 
 }

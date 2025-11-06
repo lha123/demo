@@ -52,7 +52,7 @@ public class ${table.controllerName} {
 
         @PostMapping("/get${entity}DetailById")
         @ApiOperation(value = "${entity}-修改", notes = "${entity}-修改")
-        public ResponseEntity<${entity}DetailVO> get${entity}ById(Serializable id) {
+        public ResponseEntity<${entity}DetailVO> get${entity}DetailById(Serializable id) {
             return ResponseEntity.success(${serviceNameLowerCase}.get${entity}DetailById(id));
         }
 
