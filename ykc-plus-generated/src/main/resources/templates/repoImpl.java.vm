@@ -1,0 +1,29 @@
+package ${package.RepoImpl};
+
+import ${package.Entity}.${entity};
+import ${package.Mapper}.${table.mapperName};
+import ${package.Repo}.${table.repoName};
+import ${superRepoImplClassPackage};
+import org.springframework.stereotype.Repository;
+import lombok.RequiredArgsConstructor;
+
+/**
+ * <p>
+ * $!{table.comment} 服务实现类
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Repository
+@RequiredArgsConstructor
+#if(${kotlin})
+open class ${table.repoImplName} : ${superRepoImplClass}<${table.mapperName}, ${entity}>(), ${table.repoName} {
+
+}
+#else
+public class ${table.repoImplName} extends ${superRepoImplClass}<${table.mapperName}, ${entity}> implements ${table.repoName} {
+
+         private final ${table.mapperName} ${mapperNameLowerCase};
+}
+#end

@@ -1,0 +1,36 @@
+package ${cfg.param_package};
+
+#if(${swagger2})
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+#end
+#if(${entityLombokModel})
+import lombok.Data;
+#end
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
+
+/**
+ * <p>
+ * $!{table.comment}-创建模型
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Data
+@ApiModel(value = "$!{table.comment}-创建模型")
+public class ${entity}AddParam implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+#foreach($field in ${table.fields})
+#if(${field.keyFlag}|| ${field.propertyName}=="createDate"||${field.propertyName}=="createId"||${field.propertyName}=="updateDate"||${field.propertyName}=="updateId")
+#else
+    @ApiModelProperty(value = "$!field.comment")
+    private ${field.propertyType} ${field.propertyName};
+
+#end
+#end
+}

@@ -1,0 +1,107 @@
+package ${package.ServiceImpl};
+
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ${cfg.param_package}.*;
+import ${package.Entity}.${entity};
+import ${package.Mapper}.${table.mapperName};
+import ${package.Service}.${table.serviceName};
+import ${cfg.queryParamPath};
+import ${cfg.queryVoPath};
+import ${superServiceImplClassPackage};
+import ${cfg.paging};
+import java.io.Serializable;
+
+/**
+ * <p>
+ * $!{table.comment} 服务实现类
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Slf4j
+@Service
+@org.apache.dubbo.config.annotation.DubboService
+@Transactional(rollbackFor = Exception.class)
+#if(${kotlin})
+open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperName}, ${entity}>(), ${table.serviceName} {
+
+}
+#else
+public class ${table.serviceImplName} extends BaseServiceImpl<${table.mapperName}, ${entity}> implements ${table.serviceName} {
+
+    @Autowired
+    private ${table.mapperName} ${cfg.mapperObjectName};
+#if(${cfg.generatorStrategy})
+
+    @Override
+    public void create(Long currentUserId, ${entity}CreateParam createParam) {
+        DateTime now = DateUtil.date();
+
+        ${entity} entity = new ${entity}();
+#foreach($field in ${table.fields})#if(!${field.keyFlag})
+#if(${field.propertyType.equals("boolean")})
+#set($getprefix="is")
+#else
+#set($getprefix="get")
+#end
+#if(${field.propertyName}=="createDate")
+        entity.set${field.capitalName}(now);
+#elseif(${field.propertyName}=="createId")
+        entity.set${field.capitalName}(currentUserId);
+#elseif(${field.propertyName}=="updateDate")
+#elseif(${field.propertyName}=="updateId")
+#else
+        entity.set${field.capitalName}(createParam.${getprefix}${field.capitalName}());
+#end
+#end#end
+        this.save(entity);
+    }
+
+    @Override
+    public void update(Long currentUserId, ${entity}UpdateParam updateParam) {
+        DateTime now = DateUtil.date();
+
+        ${entity} entity = this.getById(updateParam.getId());
+#foreach($field in ${table.fields})#if(!${field.keyFlag})
+#if(${field.propertyType.equals("boolean")})
+#set($getprefix="is")
+#else
+#set($getprefix="get")
+#end
+#if(${field.propertyName}=="createDate")
+#elseif(${field.propertyName}=="createId")
+#elseif(${field.propertyName}=="updateDate")
+        entity.set${field.capitalName}(now);
+#elseif(${field.propertyName}=="updateId")
+        entity.set${field.capitalName}(currentUserId);
+#else
+        entity.set${field.capitalName}(updateParam.${getprefix}${field.capitalName}());
+#end
+#end#end
+        this.updateById(entity);
+    }
+
+    @Override
+    public ${entity}QueryVo get${entity}ById(Serializable id) {
+        return ${cfg.mapperObjectName}.get${entity}ById(id);
+    }
+
+    @Override
+    public Paging<${entity}QueryVo> get${entity}PageList(${entity}QueryParam ${cfg.entityObjectName}QueryParam) {
+        Page page = setPageParam(${cfg.entityObjectName}QueryParam,OrderItem.desc("id"));
+        IPage<${entity}QueryVo> iPage = ${cfg.mapperObjectName}.get${entity}PageList(page,${cfg.entityObjectName}QueryParam);
+        return new Paging<>(iPage);
+    }
+#end
+
+}
+#end

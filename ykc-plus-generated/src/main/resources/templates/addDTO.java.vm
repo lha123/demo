@@ -1,0 +1,30 @@
+package ${package.Dto};
+
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
+
+/**
+ * <p>
+ * $!{table.comment}-创建模型
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Data
+@ApiModel(value = "${entity}AddDTO-创建模型")
+public class ${entity}AddDTO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+#foreach($field in ${table.fields})
+    @ApiModelProperty(value = "$!field.comment")
+    private ${field.propertyType} ${field.propertyName};
+
+#end
+}

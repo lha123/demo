@@ -1,0 +1,88 @@
+package ${cfg.projectPackage}.rest.controller.${package.ModuleName};
+
+import ${package.Entity}.${entity};
+import ${cfg.projectPackage}.${package.ModuleName}.service.${entity}Service;
+import ${cfg.param_package}.*;
+
+import ${cfg.queryVoPath};
+#if(${superControllerClassPackage})
+import ${superControllerClassPackage};
+#end
+import ${cfg.projectPackage}.rest.api.ApiResult;
+    #if(${swagger2})
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+#end
+import lombok.extern.slf4j.Slf4j;
+
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+#if(${restControllerStyle})
+import org.springframework.web.bind.annotation.RestController;
+#else
+import org.springframework.stereotype.Controller;
+#end
+
+import javax.validation.Valid;
+
+import ${cfg.paging};
+import ${cfg.idParamPath};
+
+/**
+ * <p>
+ * $!{table.comment} 前端控制器
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Slf4j
+#if(${restControllerStyle})
+@RestController
+#else
+@Controller
+#end
+@RequestMapping("/${cfg.entityObjectName}")
+@Api(value = "${table.comment}模块", tags = {"${table.comment}模块"})
+#if(${kotlin})
+class ${table.controllerName}#if(${superControllerClass}) : ${superControllerClass}()#end
+
+#else
+#if(${superControllerClass})
+public class ${table.controllerName} extends ${superControllerClass} {
+#else
+public class ${table.controllerName} {
+#end
+
+    @DubboReference
+    private ${table.serviceName} ${cfg.serviceObjectName};
+
+#if(${cfg.generatorStrategy})
+
+    @PostMapping("/create")
+    @ApiOperation(value = "$!{table.comment}-添加", notes = "$!{table.comment}-添加")
+    public ApiResult create${entity}(@Valid @RequestBody ${entity}CreateParam createParam) throws Exception {
+        ${cfg.serviceObjectName}.create(getCurrentUserId(), createParam);
+        return ApiResult.ok();
+    }
+
+    @PostMapping("/update")
+    @ApiOperation(value = "$!{table.comment}-修改", notes = "$!{table.comment}-修改")
+    public ApiResult<Boolean> update${entity}(@Valid @RequestBody ${entity}UpdateParam updateParam) throws Exception {
+        ${cfg.serviceObjectName}.update(getCurrentUserId(), updateParam);
+        return ApiResult.ok();
+    }
+
+    @PostMapping("/getPageList")
+    @ApiOperation(value = "$!{table.comment}-分页列表", notes = "$!{table.comment}-分页列表")
+    public ApiResult<Paging<${entity}QueryVo>> get${entity}PageList(@Valid @RequestBody(required = false) ${entity}QueryParam ${cfg.entityObjectName}QueryParam) throws Exception {
+        Paging<${entity}QueryVo> paging = ${cfg.entityObjectName}Service.get${entity}PageList(${cfg.entityObjectName}QueryParam);
+        return ApiResult.ok(paging);
+    }
+#end
+
+}
+
+#end

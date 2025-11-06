@@ -1,0 +1,67 @@
+package ${package.Controller};
+
+
+import lombok.RequiredArgsConstructor;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.*;
+import ${package.Dto}.*;
+import javax.validation.Valid;
+import java.io.Serializable;
+import java.util.List;
+import ${package.Service}.${table.serviceName};
+
+/**
+ * <p>
+ * ${entity} 前端控制器
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+#if(${restControllerStyle})
+@RestController
+@RequiredArgsConstructor
+#else
+@Controller
+#end
+@RequestMapping("#if(${package.ModuleName})/${package.ModuleName}#end/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end")
+#if(${kotlin})
+class ${table.controllerName}#if(${superControllerClass}) : ${superControllerClass}()#end
+
+#else
+#if(${superControllerClass})
+public class ${table.controllerName} extends ${superControllerClass} {
+#else
+public class ${table.controllerName} {
+
+        private final ${table.serviceName} ${serviceNameLowerCase};
+
+        @PostMapping("/add${entity}")
+        @ApiOperation(value = "${entity}-添加", notes = "${entity}-添加")
+        public ResponseEntity add${entity}(@Valid @RequestBody ${entity}AddDTO add${entity}DTO) {
+            ${serviceNameLowerCase}.add${entity}(add${entity}DTO);
+            return ResponseEntity.success();
+        }
+
+        @PostMapping("/update${entity}")
+        @ApiOperation(value = "${entity}-修改", notes = "${entity}-修改")
+        public ResponseEntity update${entity}(@Valid @RequestBody ${entity}UpdateDTO update${entity}DTO) {
+            ${serviceNameLowerCase}.update${entity}(update${entity}DTO);
+            return ResponseEntity.success();
+        }
+
+        @PostMapping("/get${entity}DetailById")
+        @ApiOperation(value = "${entity}-修改", notes = "${entity}-修改")
+        public ResponseEntity<${entity}DetailVO> get${entity}ById(Serializable id) {
+            return ResponseEntity.success(${serviceNameLowerCase}.get${entity}DetailById(id));
+        }
+
+        @PostMapping("/getPageList")
+        @ApiOperation(value = "${entity}-分页列表", notes = "${entity}-分页列表")
+        public ResponseEntity<PageReturn<${entity}PageVO>> get${entity}PageList(@RequestBody ${entity}PageDTO ${entity}PageDTO) {
+            PageReturn<${entity}PageVO> paging = ${serviceNameLowerCase}.get${entity}PageList(${entity}PageDTO);
+            return ResponseEntity.success(paging);
+        }
+#end
+}
+#end

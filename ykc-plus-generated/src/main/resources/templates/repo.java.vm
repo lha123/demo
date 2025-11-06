@@ -1,0 +1,20 @@
+package ${package.Repo};
+
+import ${package.Entity}.${entity};
+import ${superRepoClassPackage};
+
+/**
+ * <p>
+ * $!{table.comment} 服务类
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+#if(${kotlin})
+interface ${table.repoName} : ${superRepoClass}<${entity}>
+#else
+public interface ${table.repoName} extends ${superRepoClass}<${entity}> {
+
+}
+#end

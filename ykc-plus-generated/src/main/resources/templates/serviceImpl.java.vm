@@ -1,0 +1,55 @@
+package ${package.ServiceImpl};
+
+import ${package.Service}.${table.serviceName};
+import ${package.Repo}.${table.repoName};
+import ${package.Dto}.*;
+import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import java.io.Serializable;
+
+/**
+ * <p>
+ * $!{table.comment} 服务实现类
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Slf4j
+@Service
+@RequiredArgsConstructor
+#if(${kotlin})
+open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperName}, ${entity}>(), ${table.serviceName} {
+
+}
+#else
+public class ${table.serviceImplName} implements ${table.serviceName} {
+
+        private final ${table.repoName} ${repoNameLowerCase};
+
+        @Override
+        public void add${entity}(${entity}AddDTO add${entity}DTO) {
+
+        }
+
+        @Override
+        public void update${entity}(${entity}UpdateDTO update${entity}DTO){
+
+        }
+
+        @Override
+        public ${entity}DetailVO get${entity}DetailById(Serializable id){
+
+            return new ${entity}DetailVO();
+        }
+
+
+        @Override
+        public PageReturn<${entity}PageVO> get${entity}PageList(${entity}PageDTO ${entity}PageDTO){
+
+            return new PageReturn();
+        }
+
+}
+#end

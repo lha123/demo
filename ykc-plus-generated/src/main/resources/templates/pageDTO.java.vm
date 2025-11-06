@@ -1,0 +1,23 @@
+package ${package.Dto};
+
+import io.swagger.annotations.ApiModel;
+import lombok.Data;
+
+
+/**
+ * <p>
+ * $!{table.comment} 查询参数对象
+ * </p>
+ *
+ * @author ${author}
+ * @date ${date}
+ */
+@Data
+@ApiModel(value="${entity}PageDTO对象", description="${entity}PageDTO查询参数")
+#if(${cfg.pageListOrder})
+public class ${entity}PageDTO {
+#else
+public class ${entity}PageDTO {
+#end
+    private static final long serialVersionUID = 1L;
+}

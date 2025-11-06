@@ -214,6 +214,14 @@
             <version>3.5.3.1</version>
         </dependency>
 
+<!--        <dependency>-->
+<!--            <groupId>com.baomidou</groupId>-->
+<!--            <artifactId>ykc-plus-generator</artifactId>-->
+<!--            <version>0.0.1-SNAPSHOT</version>-->
+<!--            <scope>system</scope>-->
+<!--            <systemPath>/Users/lha/test/demo/ykc-plus-generator/target/ykc-plus-generator-0.0.1-SNAPSHOT.jar</systemPath>-->
+<!--        </dependency>-->
+
         <dependency>
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity-engine-core</artifactId>
