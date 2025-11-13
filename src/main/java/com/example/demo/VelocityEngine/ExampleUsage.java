@@ -10,6 +10,7 @@ public class ExampleUsage {
         VelocityTemplateWriter writer = new VelocityTemplateWriter();
         writer.setFilePath("/Users/lha/test/demo/src/main/java/com/example/demo/aa/AddUser.java");
         //writer.initFile(); // 清空或创建文件
+
         VelocityContext context1 = new VelocityContext();
         context1.put("fields", Lists.newArrayList(new FromInfo("年纪信息","Integer","age","年纪不能为空!")));
         writer.appendToFile("template/AddReq.java.vm", context1);
