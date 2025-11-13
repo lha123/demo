@@ -8,9 +8,9 @@ server:
 spring:
   datasource:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://81.69.195.111:23306/demo?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&autoReconnect=true&failOverReadOnly=false&testOnBorrow=true&validationQuery=select 1
+      url: jdbc:mysql://127.0.0.1:3306/demo?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&autoReconnect=true&failOverReadOnly=false&testOnBorrow=true&validationQuery=select 1
       username: root
-      password: bmV2eih*N3b2hlcmUK
+      password: 123456
       min-idle: 20
       max-active: 2000
   profiles:
@@ -65,10 +65,10 @@ log:
   binlog:
     hosts:
       - name: demo
-        host: 81.69.195.111
-        port: 23306
+        host: 127.0.0.1
+        port: 3306
         username: root
-        password: bmV2eih*N3b2hlcmUK
+        password: 123456
         timeOffset: 1000
         filter:
           # 全部填 *，指定某个数据库所有表填写 db_name.*

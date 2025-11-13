@@ -4,17 +4,21 @@ package com.example.demo.rest;
 import cn.hutool.extra.qrcode.QrCodeUtil;
 import cn.hutool.extra.qrcode.QrConfig;
 import cn.hutool.json.JSONUtil;
+import com.example.demo.VelocityEngine.VelocityTemplateWriter;
 import com.example.demo.component.TestSingleton;
 import com.example.demo.mapper.CustomerMapper;
 import com.example.demo.po.TestAa;
 import com.example.demo.po.UserInfo;
+import com.example.demo.po.pojo.FromInfo;
 import com.example.demo.service.CustomerServcie;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.velocity.VelocityContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Lazy;
@@ -88,6 +92,13 @@ public class CustomerRest {
 
         log.info("erwerwe========>");
         System.out.println("dsff");
+
+        VelocityTemplateWriter writer = new VelocityTemplateWriter();
+        writer.setFilePath("/Users/lha/test/demo/src/main/java/com/example/demo/aa/AddUser.java");
+        //writer.initFile(); // 清空或创建文件
+        VelocityContext context1 = new VelocityContext();
+        //context1.put("fields", Lists.newArrayList(new FromInfo("年纪信息","Integer","age","年纪不能为空!")));
+        writer.appendToFile("template/Req.java.vm", context1);
 
         //UserInfo userInfo = customerMapper.selectByUser(81);
         //System.out.println(JSONUtil.toJsonPrettyStr(userInfo));

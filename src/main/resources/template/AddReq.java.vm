@@ -1,0 +1,12 @@
+#foreach($field in ${fields})
+
+#if(${field.vailMessage} != "null")
+    #if($field.fieldType == "String")
+    @NotBlank(message = "${field.vailMessage}")
+    #else
+    @NotNull(message = "${field.vailMessage}")
+    #end
+#end
+    @ApiModelProperty(value = "$!field.title")
+    private ${field.fieldType} ${field.field};
+#end
