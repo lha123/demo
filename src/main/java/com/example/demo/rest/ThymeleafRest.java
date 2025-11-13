@@ -7,6 +7,7 @@ import com.example.demo.po.pojo.ApiInfo;
 import com.example.demo.po.pojo.FromInfo;
 import com.example.demo.po.pojo.ServiceInfo;
 import com.google.common.collect.Lists;
+import org.apache.velocity.VelocityContext;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -92,7 +93,7 @@ public class ThymeleafRest extends BaseCode{
                 map.put("NotNull",true);
             }
         }
-        outputFile(file,map, "template/"+templatePath,true);
+        outputFile(file,map, "template/"+templatePath,false);
     }
 
     public static void executeService(String templatePath, String className, List<ServiceInfo> list,String servicePackage){
@@ -104,12 +105,14 @@ public class ThymeleafRest extends BaseCode{
         map.put("services",list);
         List<String> pojoPackage = list.stream().map(ServiceInfo::getPackages).flatMap(Arrays::stream).collect(Collectors.toList());
         map.put("pojoPackage",pojoPackage);
+        map.put("addTemplate","template/add"+templatePath);
+        map.put("context",new VelocityContext(map));
         outputFile(file,map, "template/"+templatePath,true);
     }
 
     public static void executeServiceImpl(String templatePath, String className, List<ServiceInfo> list,String serviceName,String servicePackage){
         String projectPath = System.getProperty("user.dir")+"/src/main/java/"+servicePackage.replaceAll("\\.","/");
-        File file = new File(projectPath+"/"+className+".java");
+        File file = new File(projectPath+"/impl/"+className+".java");
         Map<String,Object> map = new ConcurrentHashMap<>();
         map.put("package",servicePackage);
         map.put("className",className);
@@ -117,6 +120,8 @@ public class ThymeleafRest extends BaseCode{
         map.put("serviceName",serviceName);
         List<String> pojoPackage = list.stream().map(ServiceInfo::getPackages).flatMap(Arrays::stream).collect(Collectors.toList());
         map.put("pojoPackage",pojoPackage);
+        map.put("addTemplate","template/add"+templatePath);
+        map.put("context",new VelocityContext(map));
         outputFile(file,map, "template/"+templatePath,true);
     }
 
@@ -131,6 +136,8 @@ public class ThymeleafRest extends BaseCode{
         map.put("servicePackage",servicePackage);
         List<String> pojoPackage = list.stream().map(ServiceInfo::getPackages).flatMap(Arrays::stream).collect(Collectors.toList());
         map.put("pojoPackage",pojoPackage);
+        map.put("addTemplate","template/add"+templatePath);
+        map.put("context",new VelocityContext(map));
         outputFile(file,map, "template/"+templatePath,true);
     }
 

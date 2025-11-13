@@ -1,0 +1,16 @@
+#foreach($service in ${services})
+
+        #if($service.requestMode == "GET")
+        @GetMapping("/${service.method}")
+        #else
+        @PostMapping("/${service.method}")
+        #end
+        @ApiOperation(value = "${service.title}",notes = "${service.title}")
+        public ${service.vo} ${service.method}(#if($service.isValid)@Valid #end#if(${service.fromUpperCase})@RequestBody ${service.fromUpperCase} ${service.fromLowerCase}#end){
+        #if(${service.vo} == "void")
+            ${servicesName.substring(0, 1).toLowerCase()}${servicesName.substring(1)}.${service.method}(${service.fromLowerCase});
+        #else
+           return ${servicesName.substring(0, 1).toLowerCase()}${servicesName.substring(1)}.${service.method}(${service.fromLowerCase});
+        #end
+        }
+#end

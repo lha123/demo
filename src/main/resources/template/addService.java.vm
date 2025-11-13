@@ -1,0 +1,8 @@
+#foreach($service in ${services})
+
+     /**
+     * ${service.title}
+     * @param ${service.fromLowerCase}
+     */
+     ${service.vo} ${service.method}(#if(${service.fromUpperCase})${service.fromUpperCase} ${service.fromLowerCase}#end);
+#end

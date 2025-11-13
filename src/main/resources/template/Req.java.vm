@@ -24,6 +24,7 @@ import java.util.Date;
 @ApiModel(value="${className}对象")
 public class ${className}  {
 #foreach($field in ${fields})
+
 #if(${field.vailMessage} != "null")
     #if($field.fieldType == "String")
     @NotBlank(message = "${field.vailMessage}")

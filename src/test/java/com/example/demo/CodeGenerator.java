@@ -19,7 +19,7 @@ public class CodeGenerator {
      * 数据源配置
      */
     private static final DataSourceConfig.Builder DATA_SOURCE_CONFIG = new DataSourceConfig
-            .Builder("jdbc:mysql://81.69.195.111:23306/demo", "root", "bmV2eih*N3b2hlcmUK");
+            .Builder("jdbc:mysql://localhost:3306/demo", "root", "123456");
 
     public static void main(String[] args) {
         FastAutoGenerator.create(DATA_SOURCE_CONFIG)

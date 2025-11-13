@@ -1,0 +1,13 @@
+#foreach($service in ${services})
+
+        @Override
+        public ${service.vo} ${service.method}(#if(${service.fromUpperCase})${service.fromUpperCase} ${service.fromLowerCase}#end){
+        #if(${service.vo} == "void")
+
+        #else
+            ${service.vo} ${service.vo.substring(0, 1).toLowerCase()}${service.vo.substring(1)} = new ${service.vo}();
+
+            return ${service.vo.substring(0, 1).toLowerCase()}${service.vo.substring(1)};
+        #end
+        }
+#end

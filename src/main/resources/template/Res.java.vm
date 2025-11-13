@@ -17,6 +17,7 @@ import java.util.Date;
 @ApiModel(value="${className}对象")
 public class ${className}  {
 #foreach($field in ${fields})
+
     @ApiModelProperty(value = "$!field.title")
     private ${field.fieldType} ${field.field};
 #end
