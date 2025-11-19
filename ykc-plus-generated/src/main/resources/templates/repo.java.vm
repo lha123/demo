@@ -1,7 +1,8 @@
-package ${package.Repo};
+package ${package.Repo_PACK};
 
-import ${package.Entity}.${entity};
-import ${superRepoClassPackage};
+import ${package.Entity_PACK}.${entity};
+## import ${superRepoClassPackage};
+import com.ykc.framework.mybatis.YkcMybatisRepo;
 
 /**
  * <p>

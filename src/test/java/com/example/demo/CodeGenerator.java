@@ -2,7 +2,6 @@ package com.example.demo;
 
 
 
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
 import com.baomidou.mybatisplus.generator.config.builder.CustomFile;
@@ -10,48 +9,25 @@ import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.DbColumnType;
 import com.example.demo.annotation.YkcMybatisRepo;
 import com.example.demo.annotation.YkcMybatisRepoImpl;
-import lombok.AllArgsConstructor;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.sql.Types;
 
 public class CodeGenerator {
 
-    @AllArgsConstructor
-    enum PathEnum {
-
-        OMP_RESOURCE("omp_resource","omp-station",new String[]{"omp-station-core","omp-station-infrastructure","omp-station-server","omp-station-service"}),
-
-
-        OMP_TRADING("omp_trading","omp-order",new String[]{"omp-order-core","omp-order-service"}),
-
-
-
-        ;
-
-        private String module;
-        private String path;
-        private String[] test;
-
-
-    }
-
     /**
      * 数据源配置
      */
     private static final DataSourceConfig.Builder DATA_SOURCE_CONFIG = new DataSourceConfig
-            .Builder("jdbc:mysql://ttctest.mysql.polardb.rds.aliyuncs.com:3306/omp_resource", "superuser", "Evchong1qazxsw2");
+            .Builder("jdbc:mysql://localhost:3306/demo", "root", "123456");
 
     public static void main(String[] args) {
-        PathEnum s =  PathEnum.OMP_RESOURCE;
-        String path = StrUtil.format("/Users/lha/charging-luoshu/charging-luoshu/{}/{}",s.module,s.path);
-
         FastAutoGenerator.create(DATA_SOURCE_CONFIG)
                 .globalConfig(builder -> {
                     builder.author("liuhonger") // 设置作者
                             .disableOpenDir()
                             .enableSwagger() // 开启 swagger 模式
-                            .outputDir(path)
+                            .outputDir(System.getProperty("user.dir") + "/src/main/java/")
                             .dateType(DateType.ONLY_DATE); // 设置日期类型为 Date
                 })
                 .dataSourceConfig(builder -> builder.typeConvertHandler((globalConfig, typeRegistry, metaInfo) -> {
@@ -64,18 +40,13 @@ public class CodeGenerator {
 
                 }))
                 .packageConfig(builder -> {
-                    builder.parent(s.test[1]+".src.main.java.com.omp.station") // 设置父包名
-                            .entity("")
-                            .controller("")
-                            .service("")
-                            .serviceImpl("")
-                            .repo("repository") // 设置 Service 包名
-                            .repoImpl("repository.impl"); // 设置 Service Impl 包名;
+                    builder.parent("com.example.demo") // 设置父包名
+                            .moduleName("aa");
 
                 })
                 .strategyConfig(builder -> {
-                    builder.addInclude("t_station_charge_vip_price_history") // 设置需要生成的表名
-                            .addTablePrefix("t_station")
+                    builder.addInclude("t_user") // 设置需要生成的表名
+                            .addTablePrefix("t_")
                             .mapperBuilder()
                             .mapperAnnotation(Mapper.class)
                             .entityBuilder()

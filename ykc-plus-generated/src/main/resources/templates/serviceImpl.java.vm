@@ -1,8 +1,8 @@
-package ${package.ServiceImpl};
+package ${package.ServiceImpl_PACK};
 
-import ${package.Service}.${table.serviceName};
-import ${package.Repo}.${table.repoName};
-import ${package.Dto}.*;
+import ${package.Service_PACK}.${table.serviceName};
+import ${package.Repo_PACK}.${table.repoName};
+import ${package.Dto_PACK}.*;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

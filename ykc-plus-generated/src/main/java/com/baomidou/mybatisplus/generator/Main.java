@@ -38,8 +38,8 @@ public class Main {
                 .packageConfig(builder -> {
                     builder.parent("com.baomidou.demo") // 设置父包名
                             .moduleName("aa")
-                            .repo("repository") // 设置 Service 包名
-                            .repoImpl("repository.impl"); // 设置 Service Impl 包名
+                            .repo("","repository") // 设置 Service 包名
+                            .repoImpl("","repository.impl"); // 设置 Service Impl 包名
 
                 })
                 .strategyConfig(builder -> {

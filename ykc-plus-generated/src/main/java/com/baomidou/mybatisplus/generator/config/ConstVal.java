@@ -30,14 +30,22 @@ public interface ConstVal {
     String MODULE_NAME = "ModuleName";
 
     String ENTITY = "Entity";
+    String ENTITY_PACK = "Entity_PACK";
     String DTO = "Dto";
+    String DTO_PACK = "Dto_PACK";
     String REPO = "Repo";
+    String REPO_PACK = "Repo_PACK";
     String REPO_IMPL = "RepoImpl";
+    String REPO_IMPL_PACK = "RepoImpl_PACK";
     String SERVICE = "Service";
+    String SERVICE_PACK = "Service_PACK";
     String SERVICE_IMPL = "ServiceImpl";
+    String SERVICE_IMPL_PACK = "ServiceImpl_PACK";
     String MAPPER = "Mapper";
+    String MAPPER_PACK = "Mapper_PACK";
     String XML = "Xml";
     String CONTROLLER = "Controller";
+    String CONTROLLER_PACK = "Controller_PACK";
     String PARENT = "Parent";
 
     String JAVA_TMPDIR = "java.io.tmpdir";

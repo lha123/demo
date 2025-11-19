@@ -1,9 +1,9 @@
-package ${package.Service};
+package ${package.Service_PACK};
 
 
 import com.ykc.framework.common.entity.PageReturn;
 import java.io.Serializable;
-import ${package.Dto}.*;
+import ${package.Dto_PACK}.*;
 /**
  * <p>
  * $!{table.comment} 服务类

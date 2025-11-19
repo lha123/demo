@@ -83,6 +83,8 @@ public class Service implements ITemplate {
      */
     private boolean fileOverride;
 
+    private boolean notCreate;
+
     @NotNull
     public ConverterFileName getConverterServiceFileName() {
         return converterServiceFileName;
@@ -95,6 +97,10 @@ public class Service implements ITemplate {
 
     public boolean isFileOverride() {
         return fileOverride;
+    }
+
+    public boolean isNotCreate() {
+        return notCreate;
     }
 
     @Override
@@ -222,6 +228,11 @@ public class Service implements ITemplate {
          */
         public Builder enableFileOverride() {
             this.service.fileOverride = true;
+            return this;
+        }
+
+        public Builder enableNotCreate() {
+            this.service.notCreate = true;
             return this;
         }
 

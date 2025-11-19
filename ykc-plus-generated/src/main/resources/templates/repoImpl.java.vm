@@ -1,9 +1,10 @@
-package ${package.RepoImpl};
+package ${package.RepoImpl_PACK};
 
-import ${package.Entity}.${entity};
-import ${package.Mapper}.${table.mapperName};
-import ${package.Repo}.${table.repoName};
-import ${superRepoImplClassPackage};
+import ${package.Entity_PACK}.${entity};
+import ${package.Mapper_PACK}.${table.mapperName};
+import ${package.Repo_PACK}.${table.repoName};
+## import ${superRepoImplClassPackage};
+import com.ykc.framework.mybatis.YkcMybatisRepoImpl;
 import org.springframework.stereotype.Repository;
 import lombok.RequiredArgsConstructor;
 

@@ -37,7 +37,7 @@ public class PackageConfig {
     /**
      * 父包名。如果为空，将下面子包名必须写全部， 否则就只需写子包名
      */
-    private String parent = "com.baomidou";
+    private String parent = "";
 
     /**
      * 父包模块名
@@ -48,35 +48,42 @@ public class PackageConfig {
      * Entity包名
      */
     private String entity = "entity";
+    private String entityPackage = "entity";
 
 
     private String dto = "dto";
+    private String dtoPackage = "dto";
 
 
     /**
      * Repo包名
      */
     private String repo = "repo";
+    private String repoPackage = "repo";
 
     /**
      * Repo Impl包名
      */
     private String repoImpl = "repo.impl";
+    private String repoImplPackage = "repo.impl";
 
     /**
      * Service包名
      */
     private String service = "service";
+    private String servicePackage = "service";
 
     /**
      * Service Impl包名
      */
     private String serviceImpl = "service.impl";
+    private String serviceImplPackage = "service.impl";
 
     /**
      * Mapper包名
      */
     private String mapper = "mapper";
+    private String mapperPackage = "mapper";
 
     /**
      * Mapper XML包名
@@ -87,6 +94,7 @@ public class PackageConfig {
      * Controller包名
      */
     private String controller = "controller";
+    private String controllerPackage = "controller";
 
     /**
      * 路径配置信息
@@ -143,6 +151,14 @@ public class PackageConfig {
             packageInfo.put(ConstVal.SERVICE_IMPL, this.joinPackage(this.getServiceImpl()));
             packageInfo.put(ConstVal.CONTROLLER, this.joinPackage(this.getController()));
             packageInfo.put(ConstVal.PARENT, this.getParent());
+            packageInfo.put(ConstVal.ENTITY_PACK, this.joinPackage(this.getEntityPackage()));
+            packageInfo.put(ConstVal.MAPPER_PACK, this.joinPackage(this.getMapperPackage()));
+            packageInfo.put(ConstVal.DTO_PACK, this.joinPackage(this.getDtoPackage()));
+            packageInfo.put(ConstVal.REPO_PACK, this.joinPackage(this.getRepoPackage()));
+            packageInfo.put(ConstVal.REPO_IMPL_PACK, this.joinPackage(this.getRepoImplPackage()));
+            packageInfo.put(ConstVal.SERVICE_PACK, this.joinPackage(this.getServicePackage()));
+            packageInfo.put(ConstVal.SERVICE_IMPL_PACK, this.joinPackage(this.getServiceImplPackage()));
+            packageInfo.put(ConstVal.CONTROLLER_PACK, this.joinPackage(this.getControllerPackage()));
         }
         return Collections.unmodifiableMap(this.packageInfo);
     }
@@ -198,6 +214,38 @@ public class PackageConfig {
         return controller;
     }
 
+    public String getEntityPackage() {
+        return entityPackage;
+    }
+
+    public String getDtoPackage() {
+        return dtoPackage;
+    }
+
+    public String getRepoPackage() {
+        return repoPackage;
+    }
+
+    public String getRepoImplPackage() {
+        return repoImplPackage;
+    }
+
+    public String getServicePackage() {
+        return servicePackage;
+    }
+
+    public String getServiceImplPackage() {
+        return serviceImplPackage;
+    }
+
+    public String getMapperPackage() {
+        return mapperPackage;
+    }
+
+    public String getControllerPackage() {
+        return controllerPackage;
+    }
+
     public Map<OutputFile, String> getPathInfo() {
         return pathInfo;
     }
@@ -250,8 +298,9 @@ public class PackageConfig {
          * @param entity 实体包名
          * @return this
          */
-        public Builder entity(@NotNull String entity) {
+        public Builder entity(@NotNull String entity,String entityPackage) {
             this.packageConfig.entity = entity;
+            this.packageConfig.entityPackage = entityPackage;
             return this;
         }
 
@@ -262,8 +311,9 @@ public class PackageConfig {
          * @param repo service包名
          * @return this
          */
-        public Builder repo(@NotNull String repo) {
+        public Builder repo(@NotNull String repo,String repoPackage) {
             this.packageConfig.repo = repo;
+            this.packageConfig.repoPackage = repoPackage;
             return this;
         }
 
@@ -273,8 +323,9 @@ public class PackageConfig {
          * @param repoImpl service实现类包名
          * @return this
          */
-        public Builder repoImpl(@NotNull String repoImpl) {
+        public Builder repoImpl(@NotNull String repoImpl,String repoImplPackage) {
             this.packageConfig.repoImpl = repoImpl;
+            this.packageConfig.repoImplPackage = repoImplPackage;
             return this;
         }
 
@@ -284,8 +335,9 @@ public class PackageConfig {
          * @param service service包名
          * @return this
          */
-        public Builder service(@NotNull String service) {
+        public Builder service(@NotNull String service,String servicePackage) {
             this.packageConfig.service = service;
+            this.packageConfig.servicePackage = servicePackage;
             return this;
         }
 
@@ -295,8 +347,9 @@ public class PackageConfig {
          * @param serviceImpl service实现类包名
          * @return this
          */
-        public Builder serviceImpl(@NotNull String serviceImpl) {
+        public Builder serviceImpl(@NotNull String serviceImpl,String serviceImplPackage) {
             this.packageConfig.serviceImpl = serviceImpl;
+            this.packageConfig.serviceImplPackage = serviceImplPackage;
             return this;
         }
 
@@ -306,8 +359,9 @@ public class PackageConfig {
          * @param mapper mapper包名
          * @return this
          */
-        public Builder mapper(@NotNull String mapper) {
+        public Builder mapper(@NotNull String mapper, @NotNull String mapperPackage) {
             this.packageConfig.mapper = mapper;
+            this.packageConfig.mapperPackage = mapperPackage;
             return this;
         }
 
@@ -328,8 +382,9 @@ public class PackageConfig {
          * @param controller 控制器包名
          * @return this
          */
-        public Builder controller(@NotNull String controller) {
+        public Builder controller(@NotNull String controller,String controllerPackage) {
             this.packageConfig.controller = controller;
+            this.packageConfig.controllerPackage = controllerPackage;
             return this;
         }
 

@@ -19,7 +19,9 @@ import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.builder.ConfigBuilder;
+import com.baomidou.mybatisplus.generator.config.builder.Controller;
 import com.baomidou.mybatisplus.generator.config.builder.CustomFile;
+import com.baomidou.mybatisplus.generator.config.builder.Service;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.util.FileUtils;
 import com.baomidou.mybatisplus.generator.util.RuntimeUtils;
@@ -165,7 +167,8 @@ public abstract class AbstractTemplateEngine {
         if (StringUtils.isNotBlank(tableInfo.getServiceName()) && StringUtils.isNotBlank(servicePath)) {
             getTemplateFilePath(TemplateConfig::getService).ifPresent(service -> {
                 String serviceFile = String.format((servicePath + File.separator + tableInfo.getServiceName() + suffixJavaOrKt()), entityName);
-                outputFile(new File(serviceFile), objectMap, service, getConfigBuilder().getStrategyConfig().service().isFileOverride());
+                Service serviced = getConfigBuilder().getStrategyConfig().service();
+                outputFile(new File(serviceFile), objectMap, service, serviced.isFileOverride(),serviced.isNotCreate());
             });
         }
         // MpServiceImpl.java
@@ -173,7 +176,8 @@ public abstract class AbstractTemplateEngine {
         if (StringUtils.isNotBlank(tableInfo.getServiceImplName()) && StringUtils.isNotBlank(serviceImplPath)) {
             getTemplateFilePath(TemplateConfig::getServiceImpl).ifPresent(serviceImpl -> {
                 String implFile = String.format((serviceImplPath + File.separator + tableInfo.getServiceImplName() + suffixJavaOrKt()), entityName);
-                outputFile(new File(implFile), objectMap, serviceImpl, getConfigBuilder().getStrategyConfig().service().isFileOverride());
+                Service serviced = getConfigBuilder().getStrategyConfig().service();
+                outputFile(new File(implFile), objectMap, serviceImpl, serviced.isFileOverride(),serviced.isNotCreate());
             });
         }
     }
@@ -192,7 +196,8 @@ public abstract class AbstractTemplateEngine {
             getTemplateFilePath(TemplateConfig::getController).ifPresent(controller -> {
                 String entityName = tableInfo.getEntityName();
                 String controllerFile = String.format((controllerPath + File.separator + tableInfo.getControllerName() + suffixJavaOrKt()), entityName);
-                outputFile(new File(controllerFile), objectMap, controller, getConfigBuilder().getStrategyConfig().controller().isFileOverride());
+                Controller controllerd = getConfigBuilder().getStrategyConfig().controller();
+                outputFile(new File(controllerFile), objectMap, controller, controllerd.isFileOverride(),controllerd.isNotCreate());
             });
         }
     }
@@ -207,6 +212,25 @@ public abstract class AbstractTemplateEngine {
      * @since 3.5.2
      */
     protected void outputFile(@NotNull File file, @NotNull Map<String, Object> objectMap, @NotNull String templatePath, boolean fileOverride) {
+        if (isCreate(file, fileOverride)) {
+            try {
+                // 全局判断【默认】
+                boolean exist = file.exists();
+                if (!exist) {
+                    File parentFile = file.getParentFile();
+                    FileUtils.forceMkdir(parentFile);
+                }
+                writer(objectMap, templatePath, file);
+            } catch (Exception exception) {
+                throw new RuntimeException(exception);
+            }
+        }
+    }
+
+    protected void outputFile(@NotNull File file, @NotNull Map<String, Object> objectMap, @NotNull String templatePath, boolean fileOverride,boolean notCreate) {
+        if(notCreate){
+            return;
+        }
         if (isCreate(file, fileOverride)) {
             try {
                 // 全局判断【默认】

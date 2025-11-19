@@ -78,6 +78,8 @@ public class Controller implements ITemplate {
      */
     private boolean fileOverride;
 
+    private boolean notCreate;
+
     public boolean isRestStyle() {
         return restStyle;
     }
@@ -98,6 +100,10 @@ public class Controller implements ITemplate {
 
     public boolean isFileOverride() {
         return fileOverride;
+    }
+
+    public boolean isNotCreate() {
+        return notCreate;
     }
 
     @Override
@@ -205,6 +211,11 @@ public class Controller implements ITemplate {
          */
         public Builder enableFileOverride() {
             this.controller.fileOverride = true;
+            return this;
+        }
+
+        public Builder enableNotCreate() {
+            this.controller.notCreate = true;
             return this;
         }
 

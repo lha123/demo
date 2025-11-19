@@ -1,6 +1,6 @@
-package ${package.Mapper};
+package ${package.Mapper_PACK};
 
-import ${package.Entity}.${entity};
+import ${package.Entity_PACK}.${entity};
 import ${superMapperClassPackage};
 #if(${mapperAnnotationClass})
 import ${mapperAnnotationClass.name};

@@ -1,10 +1,10 @@
-package ${package.Controller};
+package ${package.Controller_PACK};
 
 
 import lombok.RequiredArgsConstructor;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
-import ${package.Dto}.*;
+import ${package.Dto_PACK}.*;
 import javax.validation.Valid;
 import java.io.Serializable;
 import java.util.List;
