@@ -19,21 +19,21 @@ public class CodeGenerator_ykc {
     @AllArgsConstructor
     enum PathEnum {
 
-        OMP_STATION("omp-resource","com.omp.station","omp-station",
+        OMP_STATION("omp-resource","omp-station","com.omp.station",
                 new String[]{"omp-station-core","omp-station-infrastructure","omp-station-server","omp-station-service"},
                 new String[]{
-                         ".price.domain.entity"
-                        ,".price.infrastructure.repository"
-                        ,".price.infrastructure.repository.impl"
-                        ,".price.infrastructure.repository.impl.mybatis"
-                        ,".price.intf.web"
-                        ,".price.service"
-                        ,".price.service.impl"
-                        ,".price.domain.dto"
+                         ".station.domain.entity"
+                        ,".station.infrastructure.repository"
+                        ,".station.infrastructure.repository.impl"
+                        ,".station.infrastructure.repository.impl.mybatis"
+                        ,".station.intf.web"
+                        ,".station.service"
+                        ,".station.service.impl"
+                        ,".station.domain.dto"
                 }),
 
 
-        OMP_ORDER("omp-trading","com.omp.order","omp-order",
+        OMP_ORDER("omp-trading","omp-order","com.omp.order",
                 new String[]{"omp-order-core","omp-order-infrastructure","omp-order-server","omp-order-service"},
                 new String[]{
                         ".order.domain.entity"
@@ -51,8 +51,8 @@ public class CodeGenerator_ykc {
         ;
 
         private String module;
-        private String packagePath;
         private String pathModule;
+        private String packagePath;
         private String[] filePath;
         private String[] packPath;
 
@@ -122,11 +122,11 @@ public class CodeGenerator_ykc {
                             .superRepoImplClass(YkcMybatisRepoImpl.class)
                             // 是否创建 service serviceimpl controller
                             .controllerBuilder()
-//                            .enableNotCreate()
+                            .enableNotCreate()
                             .enableFileOverride()
                             .enableRestStyle() // 启用 REST 风格
                             .serviceBuilder()
-//                            .enableNotCreate()
+                            .enableNotCreate()
                             .enableFileOverride();
 
                 })
