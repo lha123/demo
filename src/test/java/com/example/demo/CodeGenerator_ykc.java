@@ -4,6 +4,7 @@ package com.example.demo;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
+import com.baomidou.mybatisplus.generator.config.builder.CustomFile;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.DbColumnType;
 import com.example.demo.annotation.YkcMybatisRepo;
@@ -28,6 +29,7 @@ public class CodeGenerator_ykc {
                         ,".price.intf.web"
                         ,".price.service"
                         ,".price.service.impl"
+                        ,".price.domain.dto"
                 }),
 
 
@@ -41,6 +43,7 @@ public class CodeGenerator_ykc {
                         ,".order.intf.web"
                         ,".order.service"
                         ,".order.service.impl"
+                        ,".order.domain.dto"
                 }),
 
 
@@ -64,7 +67,7 @@ public class CodeGenerator_ykc {
             .Builder("jdbc:mysql://ttctest.mysql.polardb.rds.aliyuncs.com:3306/omp_resource", "superuser", "Evchong1qazxsw2");
 
     public static void main(String[] args) {
-        PathEnum s =  PathEnum.OMP_STATION;
+        PathEnum s =  PathEnum.OMP_ORDER;
         String[] filePath = s.filePath;
         String[] packPath = s.packPath;
 
@@ -90,11 +93,12 @@ public class CodeGenerator_ykc {
                 }))
                 .packageConfig(builder -> {
                     builder // 设置文件 （路径——包名）
-                            .controller(filePath[2]+".src.main.java.",s.packagePath+packPath[4])
-                            .service(filePath[3]+".src.main.java.",s.packagePath+packPath[5])
-                            .serviceImpl(filePath[3]+".src.main.java.",s.packagePath+packPath[6])
+                            .controller(filePath[2]+".src.main.java."+s.packagePath+packPath[4],s.packagePath+packPath[4])
+                            .service(filePath[3]+".src.main.java."+s.packagePath+packPath[5],s.packagePath+packPath[5])
+                            .serviceImpl(filePath[3]+".src.main.java."+s.packagePath+packPath[6],s.packagePath+packPath[6])
 
                             .entity(filePath[0]+".src.main.java."+s.packagePath+packPath[0],s.packagePath+packPath[0])
+                            .dto(s.packagePath+packPath[7])
                             .repo(filePath[0]+".src.main.java."+s.packagePath+packPath[1],s.packagePath+packPath[1])
                             .repoImpl(filePath[1]+".src.main.java."+s.packagePath+packPath[2],s.packagePath+packPath[2])
                             .mapper(filePath[1]+".src.main.java."+s.packagePath+packPath[3],s.packagePath+packPath[3])
@@ -116,44 +120,47 @@ public class CodeGenerator_ykc {
                             .enableFileOverride()
                             .superRepoClass(YkcMybatisRepo.class)
                             .superRepoImplClass(YkcMybatisRepoImpl.class)
-
-                            .serviceBuilder()
-                            .enableNotCreate()
-                            .enableFileOverride()
+                            // 是否创建 service serviceimpl controller
                             .controllerBuilder()
-                            .enableNotCreate()
+//                            .enableNotCreate()
                             .enableFileOverride()
-                            .enableRestStyle(); // 启用 REST 风格
+                            .enableRestStyle() // 启用 REST 风格
+                            .serviceBuilder()
+//                            .enableNotCreate()
+                            .enableFileOverride();
+
                 })
                 .templateConfig(builder -> {
                     // 如果使用了自定义模板，指定路径
 
                 })
-//                .injectionConfig(builder->{
-//                    builder.customFile(new CustomFile.Builder()
-//                            .fileName("AddDTO.java")
-//                            .templatePath("/templates/addDTO.java.vm")
-//                            .packageName("dto").build());
-//                    builder.customFile(new CustomFile.Builder()
-//                            .fileName("UpdateDTO.java")
-//                            .templatePath("/templates/updateDTO.java.vm")
-//                            .packageName("dto").build());
-//                    builder.customFile(new CustomFile.Builder()
-//                            .fileName("DetailVO.java")
-//                            .templatePath("/templates/detailVO.java.vm")
-//                            .packageName("dto").build());
-//
-//                    builder.customFile(new CustomFile.Builder()
-//                            .fileName("PageDTO.java")
-//                            .templatePath("/templates/pageDTO.java.vm")
-//                            .packageName("dto").build());
-//
-//                    builder.customFile(new CustomFile.Builder()
-//                            .fileName("PageVO.java")
-//                            .templatePath("/templates/pageVO.java.vm")
-//                            .packageName("dto").build());
-//
-//                })
+                .injectionConfig(builder->{
+                    builder.customFile(new CustomFile.Builder()
+                            .fileName("AddDTO.java")
+                            .templatePath("/templates/addDTO.java.vm")
+                            .filePath(filePath[0]+".src.main.java."+s.packagePath+packPath[7]).build());
+
+                    builder.customFile(new CustomFile.Builder()
+                            .fileName("UpdateDTO.java")
+                            .templatePath("/templates/updateDTO.java.vm")
+                            .filePath(filePath[0]+".src.main.java."+s.packagePath+packPath[7]).build());
+
+                    builder.customFile(new CustomFile.Builder()
+                            .fileName("DetailVO.java")
+                            .templatePath("/templates/detailVO.java.vm")
+                            .filePath(filePath[0]+".src.main.java."+s.packagePath+packPath[7]).build());
+
+                    builder.customFile(new CustomFile.Builder()
+                            .fileName("PageDTO.java")
+                            .templatePath("/templates/pageDTO.java.vm")
+                            .filePath(filePath[0]+".src.main.java."+s.packagePath+packPath[7]).build());
+
+                    builder.customFile(new CustomFile.Builder()
+                            .fileName("PageVO.java")
+                            .templatePath("/templates/pageVO.java.vm")
+                            .filePath(filePath[0]+".src.main.java."+s.packagePath+packPath[7]).build());
+
+                })
                 .execute();
     }
 

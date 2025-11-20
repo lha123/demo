@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import ${package.Dto_PACK}.*;
 import javax.validation.Valid;
 import java.io.Serializable;
-import java.util.List;
-import ${package.Service}.${table.serviceName};
+import com.ykc.framework.common.entity.PageReturn;
+import com.ykc.framework.common.entity.ResponseEntity;
+import ${package.Service_PACK}.${table.serviceName};
 
 /**
  * <p>
@@ -51,7 +52,7 @@ public class ${table.controllerName} {
         }
 
         @PostMapping("/get${entity}DetailById")
-        @ApiOperation(value = "${entity}-修改", notes = "${entity}-修改")
+        @ApiOperation(value = "${entity}-详情", notes = "${entity}-详情")
         public ResponseEntity<${entity}DetailVO> get${entity}DetailById(Serializable id) {
             return ResponseEntity.success(${serviceNameLowerCase}.get${entity}DetailById(id));
         }

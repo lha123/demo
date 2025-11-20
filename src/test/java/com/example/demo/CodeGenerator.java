@@ -59,7 +59,11 @@ public class CodeGenerator {
                             .enableFileOverride()
                             .superRepoClass(YkcMybatisRepo.class)
                             .superRepoImplClass(YkcMybatisRepoImpl.class)
+                            .serviceBuilder()
+//                            .enableNotCreate()
+                            .enableFileOverride()
                             .controllerBuilder()
+//                            .enableNotCreate()
                             .enableFileOverride()
                             .enableRestStyle(); // 启用 REST 风格
                 })

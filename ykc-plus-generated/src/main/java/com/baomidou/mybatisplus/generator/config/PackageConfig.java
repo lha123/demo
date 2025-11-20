@@ -151,6 +151,7 @@ public class PackageConfig {
             packageInfo.put(ConstVal.SERVICE_IMPL, this.joinPackage(this.getServiceImpl()));
             packageInfo.put(ConstVal.CONTROLLER, this.joinPackage(this.getController()));
             packageInfo.put(ConstVal.PARENT, this.getParent());
+
             packageInfo.put(ConstVal.ENTITY_PACK, this.joinPackage(this.getEntityPackage()));
             packageInfo.put(ConstVal.MAPPER_PACK, this.joinPackage(this.getMapperPackage()));
             packageInfo.put(ConstVal.DTO_PACK, this.joinPackage(this.getDtoPackage()));
@@ -301,6 +302,11 @@ public class PackageConfig {
         public Builder entity(@NotNull String entity,String entityPackage) {
             this.packageConfig.entity = entity;
             this.packageConfig.entityPackage = entityPackage;
+            return this;
+        }
+
+        public Builder dto(String dtoPackage) {
+            this.packageConfig.dtoPackage = dtoPackage;
             return this;
         }
 
