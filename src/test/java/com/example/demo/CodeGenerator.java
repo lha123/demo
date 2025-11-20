@@ -79,7 +79,7 @@ public class CodeGenerator {
                     builder.customFile(new CustomFile.Builder()
                             .fileName("UpdateDTO.java")
                             .templatePath("/templates/updateDTO.java.vm")
-                            .filePath("dto").build());
+                            .filePath("com.example.demo.aa.dto").build());
                     builder.customFile(new CustomFile.Builder()
                             .fileName("DetailVO.java")
                             .templatePath("/templates/detailVO.java.vm")
