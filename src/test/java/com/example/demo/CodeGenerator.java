@@ -75,25 +75,25 @@ public class CodeGenerator {
                     builder.customFile(new CustomFile.Builder()
                             .fileName("AddDTO.java")
                             .templatePath("/templates/addDTO.java.vm")
-                            .packageName("dto").build());
+                            .filePath("com.example.demo.aa.dto").build());
                     builder.customFile(new CustomFile.Builder()
                             .fileName("UpdateDTO.java")
                             .templatePath("/templates/updateDTO.java.vm")
-                            .packageName("dto").build());
+                            .filePath("dto").build());
                     builder.customFile(new CustomFile.Builder()
                             .fileName("DetailVO.java")
                             .templatePath("/templates/detailVO.java.vm")
-                            .packageName("dto").build());
+                            .filePath("com.example.demo.aa.dto").build());
 
                     builder.customFile(new CustomFile.Builder()
                             .fileName("PageDTO.java")
                             .templatePath("/templates/pageDTO.java.vm")
-                            .packageName("dto").build());
+                            .filePath("com.example.demo.aa.dto").build());
 
                     builder.customFile(new CustomFile.Builder()
                             .fileName("PageVO.java")
                             .templatePath("/templates/pageVO.java.vm")
-                            .packageName("dto").build());
+                            .filePath("com.example.demo.aa.dto").build());
 
                 })
                 .execute();

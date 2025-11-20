@@ -20,7 +20,6 @@ import java.util.List;
         @JoinMapping(joinClass = UserRoles.class,joinAlias = "r",
                 thisField = UserRoles.Fields.id,joinField = UserInfo.Fields.roleId)
 })
-
 public class UserInfoTest {
 
     @QueryMatching(type = TypeEnums.eq)
