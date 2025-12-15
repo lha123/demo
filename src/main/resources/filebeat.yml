@@ -295,13 +295,21 @@ setup.ilm.enabled: false
 
 # ================================= Processors =================================
 processors:
-  # - add_host_metadata:
-  #when.not.contains.tags: forwarded
-  #- add_cloud_metadata: ~
-  #- add_docker_metadata: ~
-  #- add_kubernetes_metadata: ~
+  - dissect:
+      tokenizer: "%{log_time} %{} %{} %{log_timestamp} %{log_level} %{} %{rest}"
+      field: "message"
+      target_prefix: ""
+  - timestamp:
+      field: "log_time"
+      layouts:
+        - '2025-12-12T23:02:22.035246488+08:00'
+      timezone: "Asia/Shanghai"
+      ignore_failure: true
   - drop_fields:
       fields:
+        - log_timestamp
+        - log_level
+        - rest
         - agent.ephemeral_id
         - agent.hostname
         - agent.id
