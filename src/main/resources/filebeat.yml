@@ -299,12 +299,6 @@ processors:
       tokenizer: "%{log_time} %{} %{} %{log_timestamp} %{log_level} %{} %{rest}"
       field: "message"
       target_prefix: ""
-  - timestamp:
-      field: "log_time"
-      layouts:
-        - '2025-12-12T23:02:22.035246488+08:00'
-      timezone: "Asia/Shanghai"
-      ignore_failure: true
   - drop_fields:
       fields:
         - log_timestamp
