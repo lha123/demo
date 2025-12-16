@@ -35,29 +35,33 @@ public class MybatisLogPlusInterceptor implements Interceptor {
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
         StackTraceElement[] stackTrace = new RuntimeException().getStackTrace();
-        CompletableFuture.runAsync(()->{
-            Object[] args = invocation.getArgs();
-            MappedStatement ms = (MappedStatement) args[0];
-            Object parameter = args[1];
+        try {
+            return invocation.proceed();
+        }finally {
+            CompletableFuture.runAsync(()->{
+                Object[] args = invocation.getArgs();
+                MappedStatement ms = (MappedStatement) args[0];
+                Object parameter = args[1];
 
-            // 获取SQL信息
-            BoundSql boundSql = ms.getBoundSql(parameter);
-            String sql = boundSql.getSql();
-            String tableName = parseTableName(sql, ms.getSqlCommandType());
-            SqlPrintConfig.SqlParameter sqlParameter = SqlPrintConfig.replaceParametersExc(boundSql, ms);
-            StrJoiner builder = new StrJoiner("\n");
-            builder.append(ms.getId());
-            for (StackTraceElement stackTraceElement : stackTrace) {
-                String className = stackTraceElement.getClassName();
-                if(!className.contains("MybatisLogPlusInterceptor")){
-                    if((className.contains("com.example.demo") && !className.contains("$"))){
-                        builder.append(StrFormatter.format("{}.{}({})",className,stackTraceElement.getMethodName(),stackTraceElement.getFileName()+":"+stackTraceElement.getLineNumber()));
+                // 获取SQL信息
+                BoundSql boundSql = ms.getBoundSql(parameter);
+                String sql = boundSql.getSql();
+                String tableName = parseTableName(sql, ms.getSqlCommandType());
+                SqlPrintConfig.SqlParameter sqlParameter = SqlPrintConfig.replaceParametersExc(boundSql, ms);
+                StrJoiner builder = new StrJoiner("\n");
+                builder.append(ms.getId());
+                for (StackTraceElement stackTraceElement : stackTrace) {
+                    String className = stackTraceElement.getClassName();
+                    if(!className.contains("MybatisLogPlusInterceptor")){
+                        if((className.contains("com.example.demo") && !className.contains("$"))){
+                            builder.append(StrFormatter.format("{}.{}({})",className,stackTraceElement.getMethodName(),stackTraceElement.getFileName()+":"+stackTraceElement.getLineNumber()));
+                        }
                     }
                 }
-            }
-            log.info("\nsql-->{}:{} \nStackTrace-->{}",tableName+"_"+sqlParameter.getId(),sqlParameter.getSql(),builder);
-        });
-        return invocation.proceed();
+                log.info("\nsql-->{}:{} \nStackTrace-->{}",tableName+"_"+sqlParameter.getId(),sqlParameter.getSql(),builder);
+            });
+        }
+
     }
 
 
