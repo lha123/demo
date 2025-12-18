@@ -12,7 +12,7 @@ import java.util.concurrent.Executor;
 import java.util.function.Supplier;
 
 @Component
-public class MdcPropagationUtil {
+public class MdcThreadUtil {
 
     /**
      * 包装Runnable传递MDC

@@ -2,6 +2,7 @@ package com.example.demo.conf;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
@@ -27,5 +28,10 @@ public class JacksonConfig implements WebMvcConfigurer {
 //        // 设置格式化内容
 //        converter.setObjectMapper(objectMapper);
 //        converters.add(0, converter);
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new SleuthInterceptor()).addPathPatterns("/**");
     }
 }
